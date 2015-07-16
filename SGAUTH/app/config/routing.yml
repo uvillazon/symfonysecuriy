@@ -1,0 +1,11 @@
+elfec_sgauth:
+    resource: "@ElfecSgauthBundle/Resources/config/routing.yml"
+    prefix:   /backend
+
+front-end:
+    pattern:  /
+    defaults: { _controller: ElfecSgauthBundle:Default:index }
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /doc/api
