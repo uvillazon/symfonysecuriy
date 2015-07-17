@@ -9,3 +9,8 @@ front-end:
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc/api
+
+token:
+    type:     rest
+    prefix:   /login
+    resource: Elfec\SgauthBundle\Controller\TokenController

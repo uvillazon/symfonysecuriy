@@ -1,0 +1,25 @@
+services:
+#    servicios para usuarios
+    sgauthbundle.usuarios_service:
+        class: Elfec\SgauthBundle\Services\UsuariosService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+#    servicios para usuarios
+    sgauthbundle.perfiles_service:
+        class: Elfec\SgauthBundle\Services\PerfilesService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+#    servicios para usuarios
+    sgauthbundle.aplicaciones_service:
+        class: Elfec\SgauthBundle\Services\AplicacionesService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+#    servicios para usuarios
+    sgauthbundle.MenuOpciones_service:
+        class: Elfec\SgauthBundle\Services\MenuOpcionesService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+#    servicios para autenticacion
+    sgauthbundle.autenticacion_service:
+        class: Elfec\SgauthBundle\Services\AutenticacionService
+        arguments: ["@doctrine.orm.entity_manager"]

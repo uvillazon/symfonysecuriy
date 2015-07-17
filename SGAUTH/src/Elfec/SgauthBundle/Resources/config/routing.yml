@@ -1,0 +1,19 @@
+usuarios:
+    type:     rest
+    prefix:   /usuarios
+    resource: Elfec\SgauthBundle\Controller\UsuariosController
+
+perfiles:
+    type:     rest
+    prefix:   /perfiles
+    resource: Elfec\SgauthBundle\Controller\PerfilesController
+
+aplicaciones:
+    type:     rest
+    prefix:   /aplicaciones
+    resource: Elfec\SgauthBundle\Controller\AplicacionesController
+
+opciones:
+    type:     rest
+    prefix:   /opciones
+    resource: Elfec\SgauthBundle\Controller\MenuOpcionesController
