@@ -16,8 +16,9 @@ class menuOpcionesModel
     public $iconcls;
     public $href;
     public $id;
+    public $tooltip;
     /**
-     * @var  \Elfec\SgauthBundle\Model\menuOpcionesModel $submenu
+     * @var  array $submenu
      */
     public $submenu;
 }

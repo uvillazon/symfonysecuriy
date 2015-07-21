@@ -1,0 +1,19 @@
+{% extends '::base.html.twig' %}
+{%  block title %} Sistema de Autenticacion{% endblock %}
+{% block stylesheets %}
+
+    {{ parent() }}
+    <!-- link href="{{ asset('bundles/cognitivetest/css/main.css') }}" rel="stylesheet" / -->
+    <link href="{{ asset('bundles/cognitivetest/css/BoxSelect.css') }}" rel="stylesheet" />
+    <link href="{{ asset('bundles/cognitivetest/css/icon.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href={{ asset('extjs/resources/css/ext-all.css') }}>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script type="text/javascript" src={{ asset('extjs/ext-debug.js') }}></script>
+    <script type="text/javascript" src={{ asset('app2323.js') }}></script>
+
+{% endblock %}

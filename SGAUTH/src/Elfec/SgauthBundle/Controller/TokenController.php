@@ -45,4 +45,34 @@ class TokenController extends BaseController
 //        $result = $servicio->generarTokenPorUsuarioApp($paginacion , $array);
 //        return $result;
     }
+
+    /**
+     * Obtencion de Token como parametros se tiene que enviar
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Obtener Token",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     */
+    public function postTokenAction(Request $request)
+    {
+        $servicio= $this->get('sgauthbundle.autenticacion_service');
+        $array = $request->query;
+        $array1 = $request->request->all();
+        $array->set("codigoApp",$array1["codigoApp"]);
+        $array->set("usuario",$array1['username']);
+        $array->set("password",$array1['password']);
+
+//        $array= $request->request->all();
+//        var_dump($array);
+        $header = $request->headers;
+        $result = $servicio->generarTokenPorUsuarioApp($array,$header);
+        return $result;
+    }
 }

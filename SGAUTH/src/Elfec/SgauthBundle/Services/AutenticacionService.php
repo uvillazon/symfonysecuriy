@@ -22,34 +22,11 @@ use Firebase\JWT\JWT;
 class AutenticacionService
 {
     protected $em;
+    private $usrArray = array();
     public function __construct(\Doctrine\ORM\EntityManager $em){
 
         $this->em = $em;
     }
-
-    /**
-     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
-     * @param array $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
-     */
-    public function obtenerAplicacionesPaginados($paginacion,$array){
-
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
-        $repo = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
-        $query = $repo->createQueryBuilder('app');
-        $query = $repo->filtrarDatos($query,$array);
-        if(!is_null($paginacion->contiene)){
-            $query = $repo->consultaContiene($query,["nombre","descripcion","codigo"],$paginacion->contiene);
-        }
-        $result->total=$repo->total($query);
-        if(!$paginacion->isEmpty()){
-            $query = $repo->obtenerElementosPaginados($query,$paginacion);
-        }
-        $result->rows = $query->getQuery()->getResult();
-        $result->success = true;
-        return $result;
-    }
-
     public function generarTokenPorUsuarioApp($data,$header){
 
 
@@ -91,6 +68,18 @@ class AutenticacionService
         return $result;
     }
 
+    private function sortArray( $data, $field ) {
+        $field = (array) $field;
+        uasort( $data, function($a, $b) use($field) {
+            $retval = 0;
+            foreach( $field as $fieldname ) {
+                if( $retval == 0 ) $retval = strnatcmp( $a[$fieldname], $b[$fieldname] );
+            }
+            return $retval;
+        } );
+        return $data;
+    }
+
     /**
      * @param $idPerfil
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
@@ -105,22 +94,97 @@ class AutenticacionService
          */
         $rows =array();
         foreach ($opciones as $opcion ) {
-//            var_dump($opcion);
+            $perfil = $opcion->getIdPerfil();
             $row = [
-                "estado"=>$opcion->getIdOpc()->getEstado(),
-                "perfil"=>$opcion->getIdOpc()->getOpcion()
+                "opcion"=>$opcion->getIdOpc()->getOpcion(),
+                "id"=>$opcion->getIdOpc()->getIdOpc(),
+                "url" => $opcion->getIdOpc()->getLink(),
+                "tooltip" => $opcion->getIdOpc()->getTooltip(),
+                "icono" => $opcion->getIdOpc()->getIcono(),
+                "estado" => $opcion->getIdOpc()->getEstado(),
+                "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
+                "estilo"=> $opcion->getIdOpc()->getEstilo(),
+                "orden" => $opcion->getIdOpc()->getOrden()
 
             ];
             array_push($rows,$row);
         }
+        $arrayPerfil = array(
+            "iderfil" => $perfil->getIdPerfil(),
+            "perfil" => $perfil->getNombre(),
+            "rol" => $perfil->getRolBd(),
+            "descripcion" => $perfil->getDescripcion(),
+            "estado" => $perfil->getEstado()
+        );
+        $this->usrArray["perfil"] = $arrayPerfil;
+        $rows = $this->sortArray($rows,'orden');
+        $menus = $this->obtenerMenuFormado($rows);
+        $connect = JWT::encode(JWT::encode($this->usrArray,$key),$key);
+        $token = [
+            "exp" => time() + 1,
+            "menu" => $menus,
+            "aplicacion" =>[
+                "bd" => $app->getBdPrinc(),
+                "port" => $app->getBdPort(),
+                "drive" => $app->getBdPrinc(),
+                "host" => $app->getBdHost(),
+                "url" => $app->getAppHost(),
+                "codigoApp" => $app->getCodigo(),
 
-//        $token = array(
-//
-//        );
-//        $jwt = \JWT::encode($token, $key);
-        $jwt = JWT::encode($rows, $key);
+            ],
+            "app" => $connect
+
+        ];
+        $jwt = JWT::encode($token, $key);
 
         return $jwt;
+    }
+
+    /**
+     * @param $array
+     * @return array
+     */
+    private function obtenerMenuFormado($array){
+        $result = array();
+//        $result = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
+        foreach ( $array as $menu ) {
+            if($menu['estado']== 'ACTIVO' && $menu['padre'] == null){
+                $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
+                $opcion->href = $menu['url'];
+                $opcion->titulo = $menu['opcion'];
+                $opcion->iconcls = $menu['icono'];
+                $opcion->id = $menu['id'];
+                $opcion->tooltip = $menu['tooltip'];
+                $subMenus = $this->buscarHijos($array,$menu['id']);
+                if(count($subMenus)> 0){
+                    $opcion->submenu= $subMenus;
+                }
+                array_push($result,$opcion);
+            }
+        }
+        return $result;
+    }
+
+    private function buscarHijos($array,$idPadre){
+        $result = array();
+//        var_dump($idPadre);
+        foreach ($array as $menu ) {
+            if($menu['estado'] == 'ACTIVO' && $menu['padre']==$idPadre){
+                $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
+                $opcion->href = $menu['url'];
+                $opcion->titulo = $menu['opcion'];
+                $opcion->iconcls = $menu['icono'];
+                $opcion->id = $menu['id'];
+                $opcion->tooltip = $menu['tooltip'];
+                $subMenus = $this->buscarHijos($array,$menu['id']);
+                if(count($subMenus)> 0){
+                    $opcion->submenu= $subMenus;
+                }
+
+                array_push($result,$opcion);
+            }
+        }
+        return $result;
     }
 
     /**
@@ -151,6 +215,13 @@ class AutenticacionService
                 else{
                     if($usrApp->getEstado()=="ACTIVO"){
                         $result = $usrApp->getIdPerfil()->getIdPerfil();
+                        $usrArray = array(
+                            "usuario" => $usr->getLogin(),
+                            "nombre" => $usr->getNombre(),
+                            "estado" => $usr->getEstado(),
+                            "email" => $usr->getEmail()
+                        );
+                        $this->usrArray["usuario"] = $usrArray;
                     }
                     else{
                         $result = sprintf("el usuario: %s esta INACTIVO",$usuario);
@@ -185,6 +256,8 @@ class AutenticacionService
             $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
             $conn->connect();
             $conn->close();
+            $this->usrArray["dbConnect"] = $connectionParams;
+//            array_push($this->usrArray,$connectionParams);
             $result=1;
         }
         catch(Exception $ex){
