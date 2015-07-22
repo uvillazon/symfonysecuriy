@@ -88,7 +88,7 @@ EOF
         }
         $kernel = $this->getContainer()->get('kernel');
 
-        // Define Root Path to App folder
+        // Define Root Path to app folder
         $transPaths = array($kernel->getRootDir().'/Resources/');
         $currentName = 'app folder';
 

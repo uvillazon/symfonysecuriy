@@ -33,7 +33,7 @@ class menuOpciones
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=100, nullable=false)
+     * @ORM\Column(name="link", type="string", length=100, nullable=true)
      */
     private $link;
 

@@ -51,4 +51,28 @@ class MenuOpcionesController extends BaseController
         $result = $servicio->obtenerOpcionesaginados($paginacion , $array);
         return $result;
     }
+
+    /**
+     * Obtener Opciones de  Menu Segun Perfil de Usuario
+     * RespuestaSP {success : true , data : lista de objetos , msg : mensaje de Error o Exito}
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Obtener Opciones de Menu Por usuario",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     */
+    public function getOpcionesAction(Request $request)
+    {
+        $usuario = 1;
+        $codigoApp =2;
+        $servicio= $this->get('sgauthbundle.MenuOpciones_service');
+        $result = $servicio->obtenerOpcionesPorUsuario($usuario, $codigoApp);
+        return $result;
+    }
 }

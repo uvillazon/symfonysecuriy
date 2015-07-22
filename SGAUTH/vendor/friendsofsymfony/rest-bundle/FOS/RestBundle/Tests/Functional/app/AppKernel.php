@@ -40,7 +40,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Kernel;
 
 /**
- * App Test Kernel for functional tests.
+ * app Test Kernel for functional tests.
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */

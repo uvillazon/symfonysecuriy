@@ -61,4 +61,49 @@ class MenuOpcionesService
         $result->success = true;
         return $result;
     }
+
+    public function obtenerOpcionesPorUsuario($usuario , $codigoApp){
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        $repUsr = $this->em->getRepository('ElfecSgauthBundle:appUsr');
+        /**
+         * @var \Elfec\SgauthBundle\Entity\appUsr $usu
+         */
+        $usu  = $repUsr->findOneBy(array("usuario" => $usuario , "aplicacion" => $codigoApp));
+        if(is_null($usu)){
+            $result->success=false;
+            $result->msg="No existe el Usuario en la aplicacion";
+        }
+        else{
+            $idPerfil = $usu->getIdPerfil()->getIdPerfil();
+//            var_dump($usu);
+            $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
+            $opciones = $repoUsr->findBy(array('perfil'=>$idPerfil));
+            /**
+             * @var perfilesOpciones $opcion
+             */
+            $rows =array();
+            foreach ($opciones as $opcion ) {
+                $perfil = $opcion->getIdPerfil();
+                $row = [
+                    "opcion"=>$opcion->getIdOpc()->getOpcion(),
+                    "id"=>$opcion->getIdOpc()->getIdOpc(),
+                    "url" => $opcion->getIdOpc()->getLink(),
+                    "tooltip" => $opcion->getIdOpc()->getTooltip(),
+                    "icono" => $opcion->getIdOpc()->getIcono(),
+                    "estado" => $opcion->getIdOpc()->getEstado(),
+                    "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
+                    "estilo"=> $opcion->getIdOpc()->getEstilo(),
+                    "orden" => $opcion->getIdOpc()->getOrden()
+
+                ];
+                array_push($rows,$row);
+            }
+            $result->data = $rows;
+            $result->success= true;
+        }
+
+        return $result;
+
+
+    }
 }
