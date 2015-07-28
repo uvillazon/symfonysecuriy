@@ -82,6 +82,13 @@ class appUsr
      */
     private $idPerfil;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_perfil", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $perfil;
+
 
 
     /**
@@ -220,5 +227,35 @@ class appUsr
     public function getIdPerfil()
     {
         return $this->idPerfil;
+    }
+
+
+    /**
+     * Get usuario id
+     *
+     * @return string
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+    /**
+     * Get aplicacion id
+     *
+     * @return string
+     */
+    public function getAplicacion()
+    {
+        return $this->aplicacion;
+    }
+
+    /**
+     * Get perfil
+     *
+     * @return string
+     */
+    public function getPerfil()
+    {
+        return $this->perfil;
     }
 }

@@ -77,28 +77,9 @@ class MenuOpcionesService
             $idPerfil = $usu->getIdPerfil()->getIdPerfil();
 //            var_dump($usu);
             $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
-            $opciones = $repoUsr->findBy(array('perfil'=>$idPerfil));
-            /**
-             * @var perfilesOpciones $opcion
-             */
-            $rows =array();
-            foreach ($opciones as $opcion ) {
-                $perfil = $opcion->getIdPerfil();
-                $row = [
-                    "opcion"=>$opcion->getIdOpc()->getOpcion(),
-                    "id"=>$opcion->getIdOpc()->getIdOpc(),
-                    "url" => $opcion->getIdOpc()->getLink(),
-                    "tooltip" => $opcion->getIdOpc()->getTooltip(),
-                    "icono" => $opcion->getIdOpc()->getIcono(),
-                    "estado" => $opcion->getIdOpc()->getEstado(),
-                    "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
-                    "estilo"=> $opcion->getIdOpc()->getEstilo(),
-                    "orden" => $opcion->getIdOpc()->getOrden()
+            $menus = $repoUsr->obtenerOpcionesMenuPorPerfil($idPerfil);
 
-                ];
-                array_push($rows,$row);
-            }
-            $result->data = $rows;
+            $result->data = $menus;
             $result->success= true;
         }
 

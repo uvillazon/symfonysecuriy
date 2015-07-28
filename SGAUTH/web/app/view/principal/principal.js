@@ -55,10 +55,9 @@
             autoHeigth: true,
             enableTabScroll: true,
             itemId: 'maintab', /* necesito para encontrar la referencia en el controller principal*/
-            plain: true,
+            plain: false,
             maxTabWidth: 230,
             border: false,
-
             tabBar: {
                 border: true
             },

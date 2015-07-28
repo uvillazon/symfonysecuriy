@@ -6,6 +6,10 @@ front-end:
     pattern:  /
     defaults: { _controller: ElfecSgauthBundle:Default:index }
 
+front-end-logon:
+    pattern : /logon
+    defaults: { _controller: ElfecSgauthBundle:Default:logon }
+
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /doc/api

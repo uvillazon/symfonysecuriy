@@ -110,4 +110,22 @@ class BaseRepository extends EntityRepository
     public function buscarPorCriterio($query ,$criterio){
         $query->addCriteria($criterio);
     }
+
+    /**
+     * Ordena un array por el campo mencionado
+     * @param array $data
+     * @param strign $field
+     * @return array
+     */
+    public function sortArray( $data, $field ) {
+        $field = (array) $field;
+        uasort( $data, function($a, $b) use($field) {
+            $retval = 0;
+            foreach( $field as $fieldname ) {
+                if( $retval == 0 ) $retval = strnatcmp( $a[$fieldname], $b[$fieldname] );
+            }
+            return $retval;
+        } );
+        return $data;
+    }
 }

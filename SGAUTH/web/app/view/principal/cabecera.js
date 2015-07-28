@@ -24,11 +24,17 @@ Ext.define("app.view.principal.cabecera", {
         //    height: 60,
         //    width: 400,
         //});
+        me.cmp_logo = Ext.create('Ext.Component',{
+            region : 'west',
+            height : 60,
+            width : 400,
+
+        });
         me.cabecera_top = Ext.create('Ext.Component', {
             xtype: 'box',
             id: 'header',
             region: 'north',
-            html: '<h1> Sistema de Manteminiento</h1>',
+            html: '<h1> Sistema de Autenticación</h1>',
             height: 30,
             //width : 500,
         });
@@ -53,18 +59,18 @@ Ext.define("app.view.principal.cabecera", {
             layout: 'border',
             items: [me.cabecera_top, me.panel_menubar]
         });
-        me.items = [ me.panel_bar];
+        me.items = [ me.cmp_logo,me.panel_bar];
 
 
-        //Ext.Ajax.request({
-        //    //url: "MenuJs.js",
-        //    url: "MenuOpciones/ObtenerMenuOpciones",
-        //    method: 'POST',
-        //    //url:'http://localhost:89/demo/extjs/crysfel-Bleextop-7fdca2b/index.php/desktop/config',
-        //    scope: this,
-        //    success: this.buildDesktop,
-        //    failure: this.onError
-        //});
+        Ext.Ajax.request({
+            //url: "MenuJs.js",
+            url: Constantes.HOST+"opciones/opciones",
+            method: 'GET',
+            //url:'http://localhost:89/demo/extjs/crysfel-Bleextop-7fdca2b/index.php/desktop/config',
+            scope: this,
+            success: this.buildDesktop,
+            failure: this.onError
+        });
         ////me.CargarBandejaEntrada();
         me.callParent();
     },
@@ -76,15 +82,17 @@ Ext.define("app.view.principal.cabecera", {
     },
     buildDesktop: function (data) {
         var me = this;
+        //console.dir(data);
         //alert('este ok');
         var data1 = Ext.decode(data.responseText);
         me.configuracion = data1;
-        Constantes.LiSTAS = data1.Listas;
-        Constantes.USUARIO = data1.Usuario;
+        //Constantes.LiSTAS = data1.Listas;
+        //Constantes.USUARIO = data1.Usuario;
         //me.Usuario = data1.Usuario.Nombre;
-        me.CrearMenu(me.tb, data1.Opciones);
-        me.CrearCabeceraLogin(me.tb, data1.Usuario);
-        me.VerificarCaducidad(data1.Usuario.Caducidad);
+        console.dir(data1.data);
+        me.CrearMenu(me.tb, data1.data);
+        //me.CrearCabeceraLogin(me.tb, data1.Usuario);
+        //me.VerificarCaducidad(data1.Usuario.Caducidad);
     },
     VerificarCaducidad: function (caducidad) {
         var me = this;
@@ -132,13 +140,14 @@ Ext.define("app.view.principal.cabecera", {
         var me = this;
         //alert(me.tabPanel.getId());
         Ext.each(data, function (menu) {
-            if (menu.menus) {
+            console.dir(menu);
+            if (menu.submenu) {
                 var subMenu = Ext.create('Ext.menu.Menu');
                 //alert(menu.text);
                 tb.add({
-                    text: menu.text,
-                    iconCls: menu.iconCls,
-                    titulo: menu.text,
+                    text: menu.titulo,
+                    iconCls: menu.iconcls,
+                    titulo: menu.titulo,
                     menu: subMenu,
                     tooltip: menu.tooltip,
                     estilo: menu.estilo,
@@ -148,13 +157,13 @@ Ext.define("app.view.principal.cabecera", {
                     handler: me.CargarClase
                 });
 
-                me.CrearMenu(subMenu, menu.menus);
+                me.CrearMenu(subMenu, menu.submenu);
             }
             else {
                 tb.add({
-                    text: menu.text,
-                    titulo: menu.text,
-                    iconCls: menu.iconCls,
+                    text: menu.titulo,
+                    titulo: menu.titulo,
+                    iconCls: menu.iconcls,
                     menu: subMenu,
                     tooltip: menu.tooltip,
                     estilo: menu.estilo,
@@ -167,7 +176,6 @@ Ext.define("app.view.principal.cabecera", {
         });
     },
     CargarClase: function (menu) {
-        Funciones.checkTimeout();
         var me = this;
 
         if (menu.datos.clase) {

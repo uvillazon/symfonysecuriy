@@ -68,7 +68,7 @@ class TokenController extends BaseController
         $array->set("codigoApp",$array1["codigoApp"]);
         $array->set("usuario",$array1['username']);
         $array->set("password",$array1['password']);
-
+//        var_dump($array);
 //        $array= $request->request->all();
 //        var_dump($array);
         $header = $request->headers;

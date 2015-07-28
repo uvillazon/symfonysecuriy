@@ -18,11 +18,11 @@ use Elfec\SgauthBundle\Entity\perfilesOpciones;
 use Elfec\SgauthBundle\Entity\usuarios;
 use Exception;
 use Firebase\JWT\JWT;
-
 class AutenticacionService
 {
     protected $em;
     private $usrArray = array();
+    private $idUsr = 0;
     public function __construct(\Doctrine\ORM\EntityManager $em){
 
         $this->em = $em;
@@ -68,17 +68,7 @@ class AutenticacionService
         return $result;
     }
 
-    private function sortArray( $data, $field ) {
-        $field = (array) $field;
-        uasort( $data, function($a, $b) use($field) {
-            $retval = 0;
-            foreach( $field as $fieldname ) {
-                if( $retval == 0 ) $retval = strnatcmp( $a[$fieldname], $b[$fieldname] );
-            }
-            return $retval;
-        } );
-        return $data;
-    }
+
 
     /**
      * @param $idPerfil
@@ -88,103 +78,34 @@ class AutenticacionService
     private function obtenerTokenPerfil($idPerfil,$app){
         $key = $app->getSecretKey();
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
-        $opciones = $repoUsr->findBy(array('perfil'=>$idPerfil));
+        $menus = $repoUsr->obtenerOpcionesMenuPorPerfil($idPerfil);
+        $repoUsr = $this->em->getRepository('ElfecSgauthBundle:appUsr');
         /**
-         * @var perfilesOpciones $opcion
+         * @var appUsr $usr
          */
-        $rows =array();
-        foreach ($opciones as $opcion ) {
-            $perfil = $opcion->getIdPerfil();
-            $row = [
-                "opcion"=>$opcion->getIdOpc()->getOpcion(),
-                "id"=>$opcion->getIdOpc()->getIdOpc(),
-                "url" => $opcion->getIdOpc()->getLink(),
-                "tooltip" => $opcion->getIdOpc()->getTooltip(),
-                "icono" => $opcion->getIdOpc()->getIcono(),
-                "estado" => $opcion->getIdOpc()->getEstado(),
-                "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
-                "estilo"=> $opcion->getIdOpc()->getEstilo(),
-                "orden" => $opcion->getIdOpc()->getOrden()
-
-            ];
-            array_push($rows,$row);
-        }
-        $arrayPerfil = array(
-            "iderfil" => $perfil->getIdPerfil(),
-            "perfil" => $perfil->getNombre(),
-            "rol" => $perfil->getRolBd(),
-            "descripcion" => $perfil->getDescripcion(),
-            "estado" => $perfil->getEstado()
-        );
-        $this->usrArray["perfil"] = $arrayPerfil;
-        $rows = $this->sortArray($rows,'orden');
-        $menus = $this->obtenerMenuFormado($rows);
-        $connect = JWT::encode(JWT::encode($this->usrArray,$key),$key);
+        $usr = $repoUsr->findOneBy(array('perfil'=> $idPerfil , 'usuario' => $this->idUsr));
+        $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"],$key),$key);
         $token = [
-            "exp" => time() + 1,
+            "exp" => time() + 216000,
             "menu" => $menus,
-            "aplicacion" =>[
-                "bd" => $app->getBdPrinc(),
-                "port" => $app->getBdPort(),
-                "drive" => $app->getBdPrinc(),
-                "host" => $app->getBdHost(),
-                "url" => $app->getAppHost(),
-                "codigoApp" => $app->getCodigo(),
-
+            "usuario" =>[
+                "login" => $usr->getIdUsuario()->getLogin() ,
+                "nombre" => $usr->getIdUsuario()->getNombre(),
+                "perfil" => $usr->getIdPerfil()->getNombre(),
+                "id_perfil" => $usr->getIdPerfil()->getIdPerfil(),
+                "id_usuario" => $usr->getIdUsuario()->getIdUsuario(),
+                "email" => $usr->getIdUsuario()->getEmail(),
+                "estado" => $usr->getIdUsuario()->getEstado(),
+                "aplicacion" => $usr->getIdAplic()->getNombre(),
+                "codigoApp" => $usr->getIdAplic()->getCodigo(),
+                "id_aplic" => $usr->getIdAplic()->getIdAplic()
             ],
-            "app" => $connect
+            "key" => $connect
 
         ];
         $jwt = JWT::encode($token, $key);
 
         return $jwt;
-    }
-
-    /**
-     * @param $array
-     * @return array
-     */
-    private function obtenerMenuFormado($array){
-        $result = array();
-//        $result = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
-        foreach ( $array as $menu ) {
-            if($menu['estado']== 'ACTIVO' && $menu['padre'] == null){
-                $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
-                $opcion->href = $menu['url'];
-                $opcion->titulo = $menu['opcion'];
-                $opcion->iconcls = $menu['icono'];
-                $opcion->id = $menu['id'];
-                $opcion->tooltip = $menu['tooltip'];
-                $subMenus = $this->buscarHijos($array,$menu['id']);
-                if(count($subMenus)> 0){
-                    $opcion->submenu= $subMenus;
-                }
-                array_push($result,$opcion);
-            }
-        }
-        return $result;
-    }
-
-    private function buscarHijos($array,$idPadre){
-        $result = array();
-//        var_dump($idPadre);
-        foreach ($array as $menu ) {
-            if($menu['estado'] == 'ACTIVO' && $menu['padre']==$idPadre){
-                $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
-                $opcion->href = $menu['url'];
-                $opcion->titulo = $menu['opcion'];
-                $opcion->iconcls = $menu['icono'];
-                $opcion->id = $menu['id'];
-                $opcion->tooltip = $menu['tooltip'];
-                $subMenus = $this->buscarHijos($array,$menu['id']);
-                if(count($subMenus)> 0){
-                    $opcion->submenu= $subMenus;
-                }
-
-                array_push($result,$opcion);
-            }
-        }
-        return $result;
     }
 
     /**
@@ -221,6 +142,7 @@ class AutenticacionService
                             "estado" => $usr->getEstado(),
                             "email" => $usr->getEmail()
                         );
+                        $this->idUsr = $usr->getIdUsuario();
                         $this->usrArray["usuario"] = $usrArray;
                     }
                     else{
