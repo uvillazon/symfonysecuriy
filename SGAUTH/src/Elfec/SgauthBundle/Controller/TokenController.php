@@ -47,7 +47,10 @@ class TokenController extends BaseController
     }
 
     /**
-     * Obtencion de Token como parametros se tiene que enviar
+     * Obtencion de Token como parametros se tiene que enviar {codigoApp : codigo de aplicacion
+     * username : usuario
+     * password : password}
+     * }
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener Token",

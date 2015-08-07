@@ -7,7 +7,7 @@
  * Variables Globales Comunes 
  *
  **/
-Ext.define("app.config.constantes", {
+Ext.define("App.Config.Constantes", {
     alternateClassName  : ["Constantes","Lista"],
     singleton           : true,
     /* Aqui Defino todas mis contanstantes */
@@ -25,6 +25,7 @@ Ext.define("app.config.constantes", {
     ICONO_PRINT : 'printer',
     LiSTAS: null,
     USUARIO :  null,
+    MENU : null,
     URLLISTAS: 'Listas/ObtenerTodasLasListas',
     URLIMAGEN: "Imagenes/VerImagen?",
     UND_EJEC_MANT: 2,
@@ -48,5 +49,12 @@ Ext.define("app.config.constantes", {
     },
     VerPrueba: function () {
         Ext.Msg.alert("Entrooo");
+    },
+    CargarLocalStorage : function(){
+        this.USUARIO = JSON.parse( window.localStorage["usuario"]);
+        this.MENU = JSON.parse( window.localStorage["menu"]);
+        //console.dir((this.MENU));
+        //console.dir(storedNames);
+        //console.dir(storedNames);
     }
 });

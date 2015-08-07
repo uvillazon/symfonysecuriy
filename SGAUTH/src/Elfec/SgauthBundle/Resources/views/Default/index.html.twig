@@ -1,26 +1,5 @@
 {% extends 'ElfecSgauthBundle::base.html.twig' %}
 
 {% block body -%}
-    <script type="text/javascript">
 
-        Ext.Loader.setConfig({ enabled: true });
-        Ext.Loader.setPath('app', 'app');
-        Ext.Loader.setPath("Extensible","app/extensible");
-        Ext.require([
-            'app.*'
-        ]);
-
-        Ext.application({
-            name: 'App',
-            appFolder: 'App',
-//            controllers: ['app.Controller.Main'],
-
-            launch: function () {
-                Ext.tip.QuickTipManager.init();
-                var panel = Ext.create('app.view.principal.principal', {
-                    //            renderTo: 'contenido'
-                });
-            }
-        });
-    </script>
 {% endblock -%}

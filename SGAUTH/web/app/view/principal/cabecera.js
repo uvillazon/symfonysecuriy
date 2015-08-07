@@ -10,12 +10,13 @@
  *
  **/
 
-Ext.define("app.view.principal.cabecera", {
+Ext.define("App.View.Principal.Cabecera", {
     extend: "Ext.panel.Panel",
     height: 60,
     region: 'north',
     layout: 'border',
     tabPanel: null,
+    app : null,
     initComponent: function () {
         var me = this;
         //me.flash = Ext.create('Ext.flash.Component', {
@@ -24,10 +25,11 @@ Ext.define("app.view.principal.cabecera", {
         //    height: 60,
         //    width: 400,
         //});
-        me.cmp_logo = Ext.create('Ext.Component',{
+        me.cmp_logo = Ext.create('Ext.Img',{
+            src: 'Content/images/seguridad-logo.png',
             region : 'west',
             height : 60,
-            width : 400,
+            width : 90,
 
         });
         me.cabecera_top = Ext.create('Ext.Component', {
@@ -62,28 +64,32 @@ Ext.define("app.view.principal.cabecera", {
         me.items = [ me.cmp_logo,me.panel_bar];
 
 
-        Ext.Ajax.request({
-            //url: "MenuJs.js",
-            url: Constantes.HOST+"opciones/opciones",
-            method: 'GET',
-            //url:'http://localhost:89/demo/extjs/crysfel-Bleextop-7fdca2b/index.php/desktop/config',
-            scope: this,
-            success: this.buildDesktop,
-            failure: this.onError
-        });
+        //Ext.Ajax.request({
+        //    //url: "MenuJs.js",
+        //    url: Constantes.HOST+"opciones/opciones",
+        //    method: 'GET',
+        //    //url:'http://localhost:89/demo/extjs/crysfel-Bleextop-7fdca2b/index.php/desktop/config',
+        //    scope: this,
+        //    success: this.buildDesktop,
+        //    failure: this.onError
+        //});
+        me.crearMenuOpciones();
+        me.CrearCabeceraLogin(me.tb,Constantes.USUARIO);
         ////me.CargarBandejaEntrada();
         me.callParent();
     },
-    onError: function (data) {
-        //alert('este'); return Json(new { success = true, msg = encript.valor });
-        alert("Error al Recuperar los Datos de las Opciones del Menu.");
-        document.location = Constantes.HOST + 'Account/LogOn';
-
+    crearMenuOpciones : function(){
+        var me = this;
+        if(Constantes.MENU == null){
+            alert("Error al Recuperar los Datos de las Opciones del Menu.");
+            document.location = '/login';
+        }
+        else{
+            me.CrearMenu(me.tb, Constantes.MENU);
+        }
     },
     buildDesktop: function (data) {
         var me = this;
-        //console.dir(data);
-        //alert('este ok');
         var data1 = Ext.decode(data.responseText);
         me.configuracion = data1;
         //Constantes.LiSTAS = data1.Listas;
@@ -106,7 +112,7 @@ Ext.define("app.view.principal.cabecera", {
     },
     CrearCabeceraLogin: function (tb, data) {
         var me = this;
-        var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.UsuarioDB + '</span>';
+        var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.perfil + ' : ' + data.login + '</span>';
         //var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.Nombre + ' / ' + data.UsuarioDB + '</span>';
         //var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.Nombre + ' Inicio :  ' + data.FechaSesion + ' Fin : ' + data.FechaCaducidadSession + ' </span>';
         tb.add("->");
@@ -115,7 +121,7 @@ Ext.define("app.view.principal.cabecera", {
             iconCls: "key",
             tooltip: "Cambiar Contraseña",
             scope: me,
-            handler: me.VentanCambioContrasena
+            //handler: me.VentanCambioContrasena
         }, {
             text: "Salir(Esc)",
             iconCls: "exclamation",
@@ -129,7 +135,9 @@ Ext.define("app.view.principal.cabecera", {
     SalirSession: function () {
         Ext.Msg.confirm("Confirmar", "Esta seguro salir de la aplicación?", function (btn) {
             if (btn === "yes") {
-                document.location = Constantes.HOST + 'Account/LogOff';
+                window.localStorage.clear();
+                document.location = '/logon';
+
             }
         });
         //Ext.Msg.alert("Aviso", "Falta Implementar Opcion Salir");
@@ -140,7 +148,6 @@ Ext.define("app.view.principal.cabecera", {
         var me = this;
         //alert(me.tabPanel.getId());
         Ext.each(data, function (menu) {
-            console.dir(menu);
             if (menu.submenu) {
                 var subMenu = Ext.create('Ext.menu.Menu');
                 //alert(menu.text);
@@ -154,7 +161,7 @@ Ext.define("app.view.principal.cabecera", {
                     controller: menu.estilo,
                     datos: menu,
                     scope: me,
-                    handler: me.CargarClase
+                    handler: me.CargarControlador
                 });
 
                 me.CrearMenu(subMenu, menu.submenu);
@@ -170,15 +177,40 @@ Ext.define("app.view.principal.cabecera", {
                     controller: menu.estilo,
                     datos: menu,
                     scope: me,
-                    handler: me.CargarClase
+                    handler: me.CargarControlador
                 });
             }
         });
     },
+    CargarControlador : function(menu){
+        var me = this;
+        if (menu.datos.href) {
+            controller = me.app.controllers.get(menu.datos.id);
+            if(!controller){
+                controller = Ext.create(me.app.getModuleClassName(menu.datos.href, 'controller'), {
+                    //permissions	: info.data,
+                    application	: me.app,
+                    id			: menu.datos.id
+                });
+                me.app.controllers.add(controller);
+                controller.tabPanel = me.tabPanel;
+                controller.datosTab= menu.datos;
+                controller.init(me.app);
+                controller.onLaunch(me.app);
+                controller.show();
+            }
+            else{
+                controller.show();
+                console.dir(controller);
+            }
+        }
+
+    },
     CargarClase: function (menu) {
         var me = this;
-
-        if (menu.datos.clase) {
+        //console.dir(menu);
+        console.dir(menu.datos);
+        if (menu.datos.href) {
             //alert(menu.estilo);
             if (menu.datos.estilo == null) {
                 var open = !Ext.getCmp(menu.text);

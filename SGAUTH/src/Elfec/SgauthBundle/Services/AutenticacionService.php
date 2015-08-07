@@ -73,7 +73,7 @@ class AutenticacionService
     /**
      * @param $idPerfil
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
-     * @return string
+     * @return array
      */
     private function obtenerTokenPerfil($idPerfil,$app){
         $key = $app->getSecretKey();
@@ -85,27 +85,32 @@ class AutenticacionService
          */
         $usr = $repoUsr->findOneBy(array('perfil'=> $idPerfil , 'usuario' => $this->idUsr));
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"],$key),$key);
+        $usuario = array(
+            "login" => $usr->getIdUsuario()->getLogin() ,
+            "nombre" => $usr->getIdUsuario()->getNombre(),
+            "perfil" => $usr->getIdPerfil()->getNombre(),
+            "id_perfil" => $usr->getIdPerfil()->getIdPerfil(),
+            "id_usuario" => $usr->getIdUsuario()->getIdUsuario(),
+            "email" => $usr->getIdUsuario()->getEmail(),
+            "estado" => $usr->getIdUsuario()->getEstado(),
+            "aplicacion" => $usr->getIdAplic()->getNombre(),
+            "codigoApp" => $usr->getIdAplic()->getCodigo(),
+            "id_aplic" => $usr->getIdAplic()->getIdAplic()
+        );
         $token = [
-            "exp" => time() + 216000,
+            "exp" => time() + 120,
             "menu" => $menus,
-            "usuario" =>[
-                "login" => $usr->getIdUsuario()->getLogin() ,
-                "nombre" => $usr->getIdUsuario()->getNombre(),
-                "perfil" => $usr->getIdPerfil()->getNombre(),
-                "id_perfil" => $usr->getIdPerfil()->getIdPerfil(),
-                "id_usuario" => $usr->getIdUsuario()->getIdUsuario(),
-                "email" => $usr->getIdUsuario()->getEmail(),
-                "estado" => $usr->getIdUsuario()->getEstado(),
-                "aplicacion" => $usr->getIdAplic()->getNombre(),
-                "codigoApp" => $usr->getIdAplic()->getCodigo(),
-                "id_aplic" => $usr->getIdAplic()->getIdAplic()
-            ],
+            "usuario" => $usuario,
             "key" => $connect
 
         ];
         $jwt = JWT::encode($token, $key);
-
-        return $jwt;
+        $result = array(
+            "token" => $jwt ,
+            "menu" => $menus,
+            "usuario" => $usuario
+        );
+        return $result;
     }
 
     /**

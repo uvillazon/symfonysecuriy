@@ -7,7 +7,7 @@
  * Funciones Comunes
  *
  **/
-Ext.define("app.config.funciones", {
+Ext.define("App.Config.Funciones", {
     alternateClassName: ["Funciones", "fn"],
     singleton: true,
     winReporte: null,

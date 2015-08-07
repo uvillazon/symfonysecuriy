@@ -1,9 +1,9 @@
-﻿Ext.define("app.view.principal.principal", {
+﻿Ext.define("App.View.Principal.Principal", {
     extend: "Ext.Viewport",
     alias: "widget.PanelPrincipal",
     requires: [
-		"app.config.constantes",
-        "app.config.funciones",
+		"App.Config.Constantes",
+        "App.Config.Funciones",
         //"app.config.consultas",
         //"app.Config.Extensible"
     ],
@@ -14,10 +14,12 @@
         split: true
     },
     code: 'es',
+    app : null,
     initComponent: function () {
         var me = this;
         //creamos un componente
         Constantes.CargarTamano();
+        Constantes.CargarLocalStorage();
         Funciones.cargarValidaciones();
         me.bbar_pie = new Ext.Toolbar({
             iconCls: 'an-icon',
@@ -72,7 +74,7 @@
             ]
 
         });
-        me.panel_cabecera = Ext.create("app.view.principal.cabecera", { tabPanel: me.panel_centro });
+        me.panel_cabecera = Ext.create("App.View.Principal.Cabecera", { tabPanel: me.panel_centro , app : me.app});
         me.panel_pie = new Ext.Panel({
             region: 'south',
             border: true,
