@@ -98,7 +98,7 @@ class AutenticacionService
             "id_aplic" => $usr->getIdAplic()->getIdAplic()
         );
         $token = [
-            "exp" => time() + 120,
+            "exp" => time() + 3600,
             "menu" => $menus,
             "usuario" => $usuario,
             "key" => $connect

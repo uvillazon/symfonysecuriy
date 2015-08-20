@@ -1,4 +1,13 @@
 services:
+    jwt.security.authentication.provider:
+        class: Elfec\SgauthBundle\Security\Authentication\Provider\JWTProvider
+        arguments: ["", "%kernel.cache_dir%/security/nonces"]
+
+    jwt.security.authentication.listener:
+        class: Elfec\SgauthBundle\Security\Firewall\JWTListener
+        arguments: ["@security.token_storage", "@security.authentication.manager"]
+        calls:
+            - [ setContainer,[@service_container] ]
 #    servicios para usuarios
     sgauthbundle.usuarios_service:
         class: Elfec\SgauthBundle\Services\UsuariosService
