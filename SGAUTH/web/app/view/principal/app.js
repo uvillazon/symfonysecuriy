@@ -6,6 +6,7 @@ Ext.Loader.setPath("Extensible","App/extensible");
 Ext.require([
     'App.*'
 ]);
+//validamos si existe el token
 if(window.localStorage.length === 0){
     //alert("as");
     document.location = 'logon';

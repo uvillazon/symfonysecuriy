@@ -1,0 +1,60 @@
+<?php
+
+namespace Elfec\SgauthBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Elfec.perfilesBotones
+ *
+ * @ORM\Table(name="elfec.perfiles_botones")
+ * @ORM\Entity(repositoryClass="Elfec\SgauthBundle\Entity\Repository\perfilesBotonesRepository")
+ */
+class perfilesBotones
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_perfil", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idPerfil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_boton", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $idBoton;
+
+    /**
+     * @var \perfiles
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_perfil", referencedColumnName="id_perfil")
+     * })
+     */
+    private $perfiles;
+
+    /**
+     * @var \botones
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="botones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_boton", referencedColumnName="id_boton")
+     * })
+     */
+    private $botones;
+
+
+
+
+}
