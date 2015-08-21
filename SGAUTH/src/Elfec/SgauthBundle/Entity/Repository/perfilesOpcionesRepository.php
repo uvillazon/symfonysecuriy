@@ -17,7 +17,7 @@ class perfilesOpcionesRepository extends BaseRepository
         $opciones = $this->findBy(array('perfil'=>$idPerfil));
 
         /**
-         * @var perfilesOpciones $opcion
+         * @var \Elfec\SgauthBundle\Entity\perfilesOpciones $opcion
          */
         $rows =array();
         foreach ($opciones as $opcion ) {
@@ -31,7 +31,9 @@ class perfilesOpcionesRepository extends BaseRepository
                 "estado" => $opcion->getIdOpc()->getEstado(),
                 "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
                 "estilo"=> $opcion->getIdOpc()->getEstilo(),
-                "orden" => $opcion->getIdOpc()->getOrden()
+                "orden" => $opcion->getIdOpc()->getOrden(),
+                "id_perfil" => $opcion->getIdPerfil()->getIdPerfil()
+
 
             ];
             array_push($rows,$row);

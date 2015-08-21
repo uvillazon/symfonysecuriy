@@ -75,7 +75,7 @@ class UsuariosService
         if(!$paginacion->isEmpty()){
             $query = $repo->obtenerElementosPaginados($query,$paginacion);
         }
-        var_dump($query->getDQL());
+//        var_dump($query->getDQL());
         $rows =array();
         /**
          * @var \Elfec\SgauthBundle\Entity\appUsr $obj

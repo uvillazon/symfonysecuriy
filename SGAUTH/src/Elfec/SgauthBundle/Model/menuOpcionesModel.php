@@ -9,7 +9,6 @@
 namespace Elfec\SgauthBundle\Model;
 
 
-
 class menuOpcionesModel
 {
     public $titulo;
@@ -21,4 +20,8 @@ class menuOpcionesModel
      * @var  array $submenu
      */
     public $submenu;
+    /**
+     * @var array $botones
+     */
+    public $botones;
 }
