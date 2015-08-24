@@ -22,7 +22,7 @@ class BaseRepository extends EntityRepository
 
         $operador = (is_null($array->get('operador'))) ? " and " : $array->get('operador');
         $fields = array_keys($this->getClassMetadata()->fieldNames);
-//        var_dump($fields);
+//        var_dump($query->getDQL());
 //         var_dump($this->getClassMetadata()->getFieldMapping());die();
         $alias = $query->getRootAlias();
         foreach ($fields as $field) {

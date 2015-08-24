@@ -112,6 +112,21 @@ class botones
      */
     private $idOpc;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="perfiles", mappedBy="botones")
+     */
+    private $idPerfil;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idPerfil = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
 
     /**
      * Get idBoton

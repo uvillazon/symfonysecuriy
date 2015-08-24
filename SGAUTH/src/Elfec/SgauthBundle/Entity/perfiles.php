@@ -61,12 +61,34 @@ class perfiles
      */
     private $idAplic;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="botones", inversedBy="idPerfil")
+     * @ORM\JoinTable(name="elfec.perfiles_botones",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_perfil", referencedColumnName="id_perfil")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_boton", referencedColumnName="id_boton")
+     *   }
+     * )
+     */
+    private $botones;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idBoton = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
      * Get idPerfil
      *
-     * @return string 
+     * @return string
      */
     public function getIdPerfil()
     {
@@ -89,7 +111,7 @@ class perfiles
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -112,7 +134,7 @@ class perfiles
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -135,7 +157,7 @@ class perfiles
     /**
      * Get rolBd
      *
-     * @return string 
+     * @return string
      */
     public function getRolBd()
     {
@@ -158,7 +180,7 @@ class perfiles
     /**
      * Get estado
      *
-     * @return string 
+     * @return string
      */
     public function getEstado()
     {
@@ -181,7 +203,7 @@ class perfiles
     /**
      * Get idAplic
      *
-     * @return \Elfec\SgauthBundle\Entity\aplicaciones 
+     * @return \Elfec\SgauthBundle\Entity\aplicaciones
      */
     public function getIdAplic()
     {

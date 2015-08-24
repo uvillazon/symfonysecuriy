@@ -24,6 +24,15 @@ class PerfilesService
      */
     public function obtenerPerfilesPaginados($paginacion,$array){
 
+        $query = $this->em->createQuery('
+    SELECT c
+    FROM ElfecSgauthBundle:perfiles c
+    JOIN c.botones
+');
+        var_dump($query->getDQL());
+
+        return $query->getResult();
+
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:perfiles');
         $query = $repo->createQueryBuilder('per');
@@ -40,7 +49,7 @@ class PerfilesService
          * @var \Elfec\SgauthBundle\Entity\perfiles $obj
          */
         foreach($query->getQuery()->getResult() as $obj){
-            $row = [
+            $row = array(
                 "id_perfil"=> $obj->getIdPerfil(),
                 "id_aplic" =>$obj->getIdAplic()->getIdAplic(),
                 "aplicacion" => $obj->getIdAplic()->getNombre(),
@@ -48,7 +57,7 @@ class PerfilesService
                 "descripcion" =>$obj->getDescripcion(),
                 "rol_bd" =>$obj->getRolBd(),
                 "estado" =>$obj->getEstado()
-            ];
+            );
             array_push($rows,$row);
         }
 
