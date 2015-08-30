@@ -1,0 +1,86 @@
+<?php
+
+namespace Elfec\SgauthBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Elfec.perfiles
+ *
+ * @ORM\Table(name="elfec.perfiles", indexes={@ORM\Index(name="IDX_28A007AAC6839A04", columns={"id_aplic"})})
+ * @ORM\Entity
+ */
+class perfil
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_perfil", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="elfec.perfiles_id_perfil_seq", allocationSize=1, initialValue=1)
+     */
+    private $idPerfil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=40, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="string", length=50, nullable=false)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="rol_bd", type="string", length=30, nullable=true)
+     */
+    private $rolBd;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=10, nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \aplicaciones
+     *
+     * @ORM\ManyToOne(targetEntity="aplicaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_aplic", referencedColumnName="id_aplic")
+     * })
+     */
+    private $idAplic;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="botones", inversedBy="idPerfil")
+     * @ORM\JoinTable(name="elfec.perfiles_botones",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_perfil", referencedColumnName="id_perfil")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_boton", referencedColumnName="id_boton")
+     *   }
+     * )
+     */
+    private $idBoton;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idBoton = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}
