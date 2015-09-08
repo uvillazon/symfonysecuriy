@@ -51,4 +51,33 @@ class AplicacionesController extends BaseController
         $result = $servicio->obtenerAplicacionesPaginados($paginacion , $array);
         return $result;
     }
+
+    /**
+     * Este Metodo Guarda un Usuario
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Guardar Usuarios",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postAplicacionesAction(Request $request) {
+
+        $login = "SHC";
+        $data = $request->request->all();
+        $servicio = $this->get('sgauthbundle.aplicaciones_service');
+        $result = $servicio->guardarAplicacion($data,$login);
+        return $result;
+//        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
+
+    }
 }

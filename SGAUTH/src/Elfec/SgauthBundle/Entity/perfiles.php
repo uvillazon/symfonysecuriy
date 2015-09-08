@@ -81,9 +81,18 @@ class perfiles
      */
     public function __construct()
     {
-        $this->idBoton = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->botones = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    /**
+     * Get idBoton
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBotones()
+    {
+        return $this->botones;
+    }
 
     /**
      * Get idPerfil

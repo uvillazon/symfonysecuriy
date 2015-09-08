@@ -17,13 +17,11 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
         me.CargarComponentes();
         me.columns = [
             { xtype: "rownumberer", width: 30, sortable: false },
-            { header: "Con <br>Resp", width: 50, sortable: false, dataIndex: 'CON_RESP', renderer: me.renderUsuario },
-            { header: "Login", width: 90, sortable: true, dataIndex: "LOGIN" },
-            { header: "Nombre", width: 150, sortable: true, dataIndex: "NOMBRE" },
-            { header: "Email", width: 150, sortable: true, dataIndex: "EMAIL" },
-            { header: "Fecha Alta", width: 90, sortable: true, dataIndex: "FCH_ALTA", renderer: Ext.util.Format.dateRenderer('d/m/Y') },
-            { header: "Perfil", width: 150, sortable: true, dataIndex: "PERFIL" },
-            { header: "Estado", width: 90, sortable: true, dataIndex: "ESTADO" },
+            { header: "Login", width: 90, sortable: true, dataIndex: "login" },
+            { header: "Nombre", width: 150, sortable: true, dataIndex: "nombre" },
+            { header: "Email", width: 150, sortable: true, dataIndex: "email" },
+            { header: "Fecha Alta", width: 90, sortable: true, dataIndex: "fch_alta", renderer: Ext.util.Format.dateRenderer('d/m/Y') },
+            { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
         ];
 
         this.callParent(arguments);

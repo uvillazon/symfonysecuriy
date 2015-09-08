@@ -52,16 +52,11 @@ Ext.onReady(function () {
                                 waitTitle: 'Conectando',
                                 waitMsg: 'Verificando credenciales...',
                                 success: function (form,action) {
-                                    //console.log(action.result.data.token);
-                                    //JSON.stringify(names);
+
                                     window.localStorage.setItem("token",action.result.data.token);
                                     window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
                                     window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));
-
-                                    //var redirect = 'http://elfpre02/SisMan/';
-                                    var redirect = '/';
-                                    //alert(Constantes.HOST);
-                                    window.location =redirect;
+                                    window.location =Constantes.obtenerHost();
                                     win.hide();
                                 },
                                 failure: function (form, action) {
@@ -115,8 +110,7 @@ Ext.onReady(function () {
                         window.localStorage.setItem("token",action.result.data.token);
                         window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
                         window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));
-                        var redirect = '/';
-                        window.location = redirect;
+                        window.location =Constantes.obtenerHost();
                         win.hide();
                     },
 

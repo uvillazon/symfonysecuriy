@@ -99,11 +99,11 @@ class UsuariosController extends BaseController
     public function postUsuariosAction(Request $request) {
 
         $login = "SHC";
-//        $data = $request->request->all();
-//        $servicio= $this->get('sgcstbundle.indicadores_service');
-//        $result = $servicio->GuardarIndicador($data,$login);
-//        return $result;
-        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
+        $data = $request->request->all();
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $result = $servicio->guardarUsuario($data,$login);
+        return $result;
+//        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
 
     }
 

@@ -1,18 +1,20 @@
 Ext.define("App.Config.Abstract.Grid", {
     extend: "Ext.grid.Panel",
+    alias: 'widget.gridBase',
     width: 450,
+    height : 400,
     margins: '0 2 0 0',
     loadMask: true,
     fieldSet: '',
     equipo: '',
     value: '',
     split: true,
+    autoRender : true,
     stateful: true,
     requires: ['App.Config.ux.Printer', 'App.Config.ux.Exporter'],
     stateId: null,
     store: null,
     disableSelection: false,
-    equipo: '',
     funciones: null,
     imprimir: false,
     excel: false,
@@ -213,7 +215,7 @@ Ext.define("App.Config.Abstract.Grid", {
             if (me.borrarParametros) {
                 me.store.limpiarParametros(me.noLimpiar);
             }
-            me.store.setExtraParam('Contiene', me.txt_busqueda.getValue());
+            me.store.setExtraParam('contiene', me.txt_busqueda.getValue());
             me.bar.moveFirst();
         }
 
@@ -224,7 +226,7 @@ Ext.define("App.Config.Abstract.Grid", {
         if (me.borrarParametros) {
             me.store.limpiarParametros(me.noLimpiar);
         }
-        me.store.setExtraParam('Contiene', me.txt_busqueda.getValue());
+        me.store.setExtraParam('contiene', me.txt_busqueda.getValue());
         me.bar.moveFirst();
 
     },
@@ -252,22 +254,14 @@ Ext.define("App.Config.Abstract.Grid", {
         });
 
         store2.proxy.timeout = 120000;
-        var progrees = Ext.ComponentQuery.query('#progressPrincipal')[0];
         store2.on('beforeload', function (s, a, c) {
-            progrees.wait({
-                text: 'Exportando...'
-            });
+            me.getEl().mask();
         });
-        console.log(new Date());
         store2.load({ limit: me.store.getTotalCount(), start: 0, page: 1 });
         //alert("entro");
         var me = this;
         store2.on('load', function (store, records, options) {
-            // console.dir(options);
-            // console.dir(records);
-            // console.log("AAAAAAAAAAAAAAAAAA"+new Date());
-            progrees.reset();
-            progrees.updateText('');
+            me.getEl().unmask();
             var filename = 'exportarDatos';
             var data = App.Config.ux.Exporter.exportGrid(store2, me, 'excel', filename);
             window.open('data:application/vnd.ms-excel,' + encodeURIComponent(data));

@@ -85,13 +85,15 @@ class UsuariosService
                 "id_usuario"=> $obj->getIdUsuario()->getIdUsuario(),
                 "login" =>$obj->getIdUsuario()->getLogin(),
                 "email" => $obj->getIdUsuario()->getEmail(),
+                "nombre" => $obj->getIdUsuario()->getNombre(),
                 "fch_alta" => $obj->getFchAlta(),
                 "fch_baja" =>$obj->getFchBaja(),
                 "estado" =>$obj->getEstado(),
                 "aplicacion" =>$obj->getIdAplic()->getNombre(),
                 "id_perfil" => $obj->getIdPerfil()->getIdPerfil(),
                 "id_aplic" => $obj->getIdAplic()->getIdAplic(),
-                "perfil" => $obj->getIdPerfil()->getNombre()
+                "perfil" => $obj->getIdPerfil()->getNombre(),
+                "codigo_app" => $obj->getIdAplic()->getCodigo()
 
             ];
             array_push($rows,$row);
@@ -100,6 +102,45 @@ class UsuariosService
         $result->rows = $rows;
         $result->success = true;
         return $result;
+    }
+
+    public function guardarUsuario($data , $login ){
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        try {
+            $conection = $this->em->getConnection();
+            $st = $conection->prepare("SELECT elfec.grabar_usuarios(:p_id_usuario::NUMERIC,:p_login::VARCHAR,:p_nombre::VARCHAR ,:p_clave::VARCHAR,:p_email::VARCHAR, :p_fch_baja::DATE, :p_estado::VARCHAR ,:p_login_usr::VARCHAR);");
+            $st->bindValue(":p_id_usuario",($data["id_usuario"]=='')? 0 : $data["id_usuario"]);
+            $st->bindValue(":p_login", $data["login"]);
+            $st->bindValue(":p_nombre",  $data["nombre"]);
+            $st->bindValue(":p_clave", NULL);
+            $st->bindValue(":p_email", $data["email"]);
+            $st->bindValue(":p_fch_baja", NULL);
+            $st->bindValue(":p_estado", $data["estado"]);
+            $st->bindValue(":p_login_usr",$login);
+            $st->execute();
+            $response = $st->fetchAll();
+            if(count($response)>0){
+                if(is_numeric($response[0]["grabar_usuarios"])){
+                    $result->success=true;
+                    $result->msg= "Proceso Ejectuado Correctamente";
+                    $result->id= $response[0]["grabar_usuarios"];
+                }
+                else{
+                    $result->success=false;
+                    $result->msg= $response[0]["grabar_usuarios"];
+                }
+            }
+            else{
+                $result->success=false;
+                $result->msg="Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+            }
+        }
+        catch (Exception $e) {
+            $result->success=false;
+            $result->msg= $e->getMessage();
+        }
+        return $result;
+
     }
 
 }

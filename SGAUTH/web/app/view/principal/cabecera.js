@@ -1,7 +1,7 @@
 ﻿/**
  * @class App.View.Principal.Cabecera
  * @extends Ext.Component
- * requires 
+ * requires
  * @autor Ubaldo Villazon
  * @date 23/07/2013
  *
@@ -16,20 +16,14 @@ Ext.define("App.View.Principal.Cabecera", {
     region: 'north',
     layout: 'border',
     tabPanel: null,
-    app : null,
+    app: null,
     initComponent: function () {
         var me = this;
-        //me.flash = Ext.create('Ext.flash.Component', {
-        //    url: 'Content/banner/banner.swf',
-        //    region: 'west',
-        //    height: 60,
-        //    width: 400,
-        //});
-        me.cmp_logo = Ext.create('Ext.Img',{
+        me.cmp_logo = Ext.create('Ext.Img', {
             src: 'Content/images/seguridad-logo.png',
-            region : 'west',
-            height : 60,
-            width : 90,
+            region: 'west',
+            height: 60,
+            width: 90,
 
         });
         me.cabecera_top = Ext.create('Ext.Component', {
@@ -38,7 +32,8 @@ Ext.define("App.View.Principal.Cabecera", {
             region: 'north',
             html: '<h1> Sistema de Autenticación</h1>',
             height: 30,
-            //width : 500,
+            padding: 0,
+            margin: 0,
         });
         me.tb = Ext.create('Ext.toolbar.Toolbar', {
             itemId: 'mainmenu',
@@ -52,7 +47,6 @@ Ext.define("App.View.Principal.Cabecera", {
             //width: 500,
             border: true,
             margins: '0 0 1 0',
-            split: false,
             tbar: me.tb
         });
         me.panel_bar = Ext.create('Ext.panel.Panel', {
@@ -61,30 +55,19 @@ Ext.define("App.View.Principal.Cabecera", {
             layout: 'border',
             items: [me.cabecera_top, me.panel_menubar]
         });
-        me.items = [ me.cmp_logo,me.panel_bar];
+        me.items = [me.cmp_logo, me.panel_bar];
 
-
-        //Ext.Ajax.request({
-        //    //url: "MenuJs.js",
-        //    url: Constantes.HOST+"opciones/opciones",
-        //    method: 'GET',
-        //    //url:'http://localhost:89/demo/extjs/crysfel-Bleextop-7fdca2b/index.php/desktop/config',
-        //    scope: this,
-        //    success: this.buildDesktop,
-        //    failure: this.onError
-        //});
         me.crearMenuOpciones();
-        me.CrearCabeceraLogin(me.tb,Constantes.USUARIO);
-        ////me.CargarBandejaEntrada();
+        me.CrearCabeceraLogin(me.tb, Constantes.USUARIO);
         me.callParent();
     },
-    crearMenuOpciones : function(){
+    crearMenuOpciones: function () {
         var me = this;
-        if(Constantes.MENU == null){
+        if (Constantes.MENU == null) {
             alert("Error al Recuperar los Datos de las Opciones del Menu.");
             document.location = '/login';
         }
-        else{
+        else {
             me.CrearMenu(me.tb, Constantes.MENU);
         }
     },
@@ -92,13 +75,8 @@ Ext.define("App.View.Principal.Cabecera", {
         var me = this;
         var data1 = Ext.decode(data.responseText);
         me.configuracion = data1;
-        //Constantes.LiSTAS = data1.Listas;
-        //Constantes.USUARIO = data1.Usuario;
-        //me.Usuario = data1.Usuario.Nombre;
         console.dir(data1.data);
         me.CrearMenu(me.tb, data1.data);
-        //me.CrearCabeceraLogin(me.tb, data1.Usuario);
-        //me.VerificarCaducidad(data1.Usuario.Caducidad);
     },
     VerificarCaducidad: function (caducidad) {
         var me = this;
@@ -117,18 +95,18 @@ Ext.define("App.View.Principal.Cabecera", {
         //var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.Nombre + ' Inicio :  ' + data.FechaSesion + ' Fin : ' + data.FechaCaducidadSession + ' </span>';
         tb.add("->");
         tb.add(NombreUsuario, {
-            text: "Contraseña",
-            iconCls: "key",
-            tooltip: "Cambiar Contraseña",
-            scope: me,
-            //handler: me.VentanCambioContrasena
-        }, {
-            text: "Salir(Esc)",
-            iconCls: "exclamation",
-            tooltip: "Cerrar Session",
-            scope: me,
-            handler: me.SalirSession
-        }
+                text: "Contraseña",
+                iconCls: "key",
+                tooltip: "Cambiar Contraseña",
+                scope: me,
+                //handler: me.VentanCambioContrasena
+            }, {
+                text: "Salir(Esc)",
+                iconCls: "exclamation",
+                tooltip: "Cerrar Session",
+                scope: me,
+                handler: me.SalirSession
+            }
         );
 
     },
@@ -182,26 +160,26 @@ Ext.define("App.View.Principal.Cabecera", {
             }
         });
     },
-    CargarControlador : function(menu){
+    CargarControlador: function (menu) {
         var me = this;
         if (menu.datos.href) {
             controller = me.app.controllers.get(menu.datos.id);
-            if(!controller){
+            if (!controller) {
                 controller = Ext.create(me.app.getModuleClassName(menu.datos.href, 'controller'), {
                     //permissions	: info.data,
-                    application	: me.app,
-                    id			: menu.datos.id
+                    application: me.app,
+                    id: menu.datos.id
                 });
                 me.app.controllers.add(controller);
                 controller.tabPanel = me.tabPanel;
-                controller.datosTab= menu.datos;
+                controller.datosTab = menu.datos;
                 controller.init(me.app);
                 controller.onLaunch(me.app);
-                controller.show();
+                //controller.show();
             }
-            else{
+            else {
                 controller.show();
-                console.dir(controller);
+                console.dir(me.app);
             }
         }
 
@@ -242,7 +220,7 @@ Ext.define("App.View.Principal.Cabecera", {
                 var principal = Ext.create(menu.datos.clase).show();
             }
             /* else {
-                 //sas
+             //sas
              }*/
         }
 
@@ -271,8 +249,11 @@ Ext.define("App.View.Principal.Cabecera", {
     VentanCambioContrasena: function () {
         var me = this;
         if (me.winContrasena == null) {
-            me.winContrasena = Ext.create("App.Config.Abstract.Window", { botones: true, textGuardar: 'Cambiar Contraseña' });
-            me.formContrasena = Ext.create("App.View.Principal.Forms", { opcion: 'FormConstrasena', columns: 1 });
+            me.winContrasena = Ext.create("App.Config.Abstract.Window", {
+                botones: true,
+                textGuardar: 'Cambiar Contraseña'
+            });
+            me.formContrasena = Ext.create("App.View.Principal.Forms", {opcion: 'FormConstrasena', columns: 1});
             me.winContrasena.add(me.formContrasena);
             me.winContrasena.show();
             me.winContrasena.btn_guardar.on('click', function () {

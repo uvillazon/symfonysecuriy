@@ -11,7 +11,7 @@
     layout: 'border',
     frame: false,
     defaults: {
-        split: true
+        split: false
     },
     code: 'es',
     app : null,
@@ -20,6 +20,7 @@
         //creamos un componente
         Constantes.CargarTamano();
         Constantes.CargarLocalStorage();
+        Constantes.CargarHost();
         Funciones.cargarValidaciones();
         me.bbar_pie = new Ext.Toolbar({
             iconCls: 'an-icon',
@@ -56,13 +57,11 @@
             margins: '1 0 0 0',
             autoHeigth: true,
             enableTabScroll: true,
+            split: false,
             itemId: 'maintab', /* necesito para encontrar la referencia en el controller principal*/
             plain: false,
             maxTabWidth: 230,
             border: false,
-            tabBar: {
-                border: true
-            },
             defaults: { autoScroll: true, layout: 'fit' },
             items: [{
                 title: 'AUTH',
@@ -79,7 +78,6 @@
             region: 'south',
             border: true,
             margins: '0 0 1 0',
-            split: false,
             //height: 30,
             bbar: me.bbar_pie
 
