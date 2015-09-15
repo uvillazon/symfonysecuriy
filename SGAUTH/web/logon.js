@@ -52,7 +52,6 @@ Ext.onReady(function () {
                                 waitTitle: 'Conectando',
                                 waitMsg: 'Verificando credenciales...',
                                 success: function (form,action) {
-
                                     window.localStorage.setItem("token",action.result.data.token);
                                     window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
                                     window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));

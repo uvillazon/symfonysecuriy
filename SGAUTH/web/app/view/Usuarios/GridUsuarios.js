@@ -4,7 +4,6 @@
 Ext.define("App.View.Usuarios.GridUsuarios", {
     extend: "App.Config.Abstract.Grid",
     title: 'Usuarios',
-    imprimir: true,
     criterios: true,
     opcion: '',
     paramsStore: null,

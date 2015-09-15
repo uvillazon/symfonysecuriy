@@ -14,8 +14,7 @@ if(window.localStorage.length === 0){
 Ext.application({
     name: 'App',
     appFolder: 'App',
-//            controllers: ['app.Controller.Main'],
-
+    controllers: [],
     launch: function () {
         Ext.tip.QuickTipManager.init();
         var panel = Ext.create('App.View.Principal.Principal', {

@@ -79,6 +79,13 @@ class botones
     private $estado;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="disabled", type="boolean", nullable=false)
+     */
+    private $disabled;
+
+    /**
      * @var \botones
      *
      * @ORM\ManyToOne(targetEntity="botones")
@@ -412,5 +419,28 @@ class botones
     public function getMenuOpciones()
     {
         return $this->menuOpciones;
+    }
+
+    /**
+     * Set disabled
+     *
+     * @param boolean $disabled
+     * @return botones
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Get disabled
+     *
+     * @return boolean
+     */
+    public function getDisabled()
+    {
+        return $this->disabled;
     }
 }

@@ -143,4 +143,41 @@ class UsuariosService
 
     }
 
+    public function guardarUsuarioPorApp($data , $login ){
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        try {
+            $conection = $this->em->getConnection();
+            $st = $conection->prepare("SELECT elfec.grabar_perfil_usr(:p_id_usuario::NUMERIC,:p_id_aplic::NUMERIC,:p_id_perfil::NUMERIC ,:p_fch_baja::DATE, :p_estado::VARCHAR ,:p_login_usr::VARCHAR);");
+            $st->bindValue(":p_id_usuario",($data["id_usuario"]=='')? 0 : $data["id_usuario"]);
+            $st->bindValue(":p_id_aplic", $data["id_aplic"]);
+            $st->bindValue(":p_id_perfil",  $data["id_perfil"]);
+            $st->bindValue(":p_fch_baja", NULL);
+            $st->bindValue(":p_estado", $data["estado"]);
+            $st->bindValue(":p_login_usr",$login);
+            $st->execute();
+            $response = $st->fetchAll();
+            if(count($response)>0){
+                if(is_numeric($response[0]["grabar_perfil_usr"])){
+                    $result->success=true;
+                    $result->msg= "Proceso Ejectuado Correctamente";
+                    $result->id= $response[0]["grabar_perfil_usr"];
+                }
+                else{
+                    $result->success=false;
+                    $result->msg= $response[0]["grabar_perfil_usr"];
+                }
+            }
+            else{
+                $result->success=false;
+                $result->msg="Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+            }
+        }
+        catch (Exception $e) {
+            $result->success=false;
+            $result->msg= $e->getMessage();
+        }
+        return $result;
+
+    }
+
 }

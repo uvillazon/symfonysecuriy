@@ -9,9 +9,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
     verObservacion: true,
     initComponent: function () {
         var me = this;
-
         me.CargarComponentes();
-
         this.callParent(arguments);
     },
     CargarComponentes: function () {
@@ -39,6 +37,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
             colspan: 2,
+            mayus : false
         });
         me.txt_email = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Em@il",
@@ -46,6 +45,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
             width: 480,
+            vtype: 'email',
             colspan: 2
 
         });

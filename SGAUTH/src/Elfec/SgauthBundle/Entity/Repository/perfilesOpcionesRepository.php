@@ -46,7 +46,8 @@ class perfilesOpcionesRepository extends BaseRepository
                         "icono" => $btn->getIcono(),
                         "orden" => $btn->getOrden(),
                         "id_padre" => $btn->getIdPadre(),
-                        "estado" => $btn->getEstado()
+                        "estado" => $btn->getEstado(),
+                        "disabled" => $btn->getDisabled()
                     ];
                 array_push($result,$array);
             }
@@ -152,6 +153,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $row["icono"] = $btn['icono'];
                 $row["orden"] = $btn['orden'];
                 $row["estado"] = $btn['estado'];
+                $row["disabled"] = $btn['disabled'];
                 $subBtns = $this->buscarHijosBotones($array,$btn['id_boton']);
                 if(count($subBtns)> 0){
                     $row["subBotones"] = $subBtns;
@@ -175,6 +177,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $row["icono"] = $btn['icono'];
                 $row["orden"] = $btn['orden'];
                 $row["estado"] = $btn['estado'];
+                $row["disabled"] = $btn['disabled'];
                 $subBtns = $this->buscarHijosBotones($array,$btn['id_boton']);
                 if(count($subBtns)> 0){
                     $row["subBotones"] = $subBtns;

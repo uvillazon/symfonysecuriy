@@ -17,7 +17,7 @@ Ext.define("App.Config.Abstract.Grid", {
     disableSelection: false,
     funciones: null,
     imprimir: false,
-    excel: false,
+    excel: true,
     criterios: false,
     busqueda: false,
     ventanaCriterio: null,

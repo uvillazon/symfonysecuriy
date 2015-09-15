@@ -62,6 +62,14 @@ class perfiles
     private $idAplic;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $aplicacion;
+
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="botones", inversedBy="idPerfil")

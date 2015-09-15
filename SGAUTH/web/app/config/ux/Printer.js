@@ -217,15 +217,12 @@ Ext.define("App.Config.ux.Printer", {
             store2.proxy.timeout = 120000;
             var progrees = Ext.ComponentQuery.query('#progressPrincipal')[0];
             store2.on('beforeload', function (s, a, c) {
-                progrees.wait({
-                    text: 'Imprimiendo...'
-                });
+                grid.getEl().mask();
             });
             var me = this;
             store2.load({ limit: grid.store.getTotalCount(), start: 0, page: 1 });
             store2.on('load', function (store, records, options) {
-                progrees.reset();
-                progrees.updateText('');
+                grid.getEl().unmask();
                 me.printLoad(grid, store2);
             });
 

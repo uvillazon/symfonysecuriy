@@ -3,7 +3,6 @@
  */
 Ext.define("App.View.Aplicaciones.Principal", {
     extend: "App.Config.Abstract.PanelPrincipal",
-    alias: "widget.PrincipalSolicitudes",
     itemIdCmpBto: '',
     initComponent: function () {
         var me = this;

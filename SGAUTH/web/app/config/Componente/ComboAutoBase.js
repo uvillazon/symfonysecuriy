@@ -24,28 +24,32 @@
     datos : null,
     initComponent: function () {
         var me = this;
-        me.ConvertirCampoRequerido();
-        if (me.textoTpl != null) {
-            me.listConfig = {
-                loadingText: me.textoResultado,
-                emptyText: me.textoVacio,
-                getInnerTpl: me.textoTpl
-            };
-        }
-        me.on('assertValue', function () {
-            var me = this;
-            if (!me.forceSelection) {
-                me.collapse();
-            } else {
-                me.callParent();
-            }
-        });
-        me.on('select', function (cmb,record) {
-            var me = this;
-            me.datos = record;
-        });
-        me.on('change', me.limpiarCombo, this);
+        //me.ConvertirCampoRequerido();
+        //if (me.textoTpl != null) {
+        //    me.listConfig = {
+        //        loadingText: me.textoResultado,
+        //        emptyText: me.textoVacio,
+        //        getInnerTpl: me.textoTpl
+        //    };
+        //}
+        ////me.on('assertValue', function () {
+        ////    var me = this;
+        ////    if (!me.forceSelection) {
+        ////        me.collapse();
+        ////    } else {
+        ////        me.callParent();
+        ////    }
+        ////});
+        //me.on('select', function (cmb,record) {
+        //    var me = this;
+        //    me.datos = record;
+        //});
+        //me.on('change', me.limpiarCombo, this);
+
         me.callParent(arguments); //y
+    },
+    refrescarStore : function(){
+      this.getStore().load();
     },
     setDisabled: function (disabled) {
         this.forceSelection = disabled ? false : true;

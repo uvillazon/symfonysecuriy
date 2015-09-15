@@ -16,6 +16,11 @@
     scope: this,
     opc: '',
     opcHora : '',
+    /**
+     * propiedad que convierte en mayuscula o no b
+     *valores true or false
+     */
+    mayus : true,
     initComponent: function () {
         var me = this;
         me.ConvertirCampoRequerido();
@@ -28,7 +33,7 @@
                 });
             });
         }
-        if (me.opc == '') {
+        if (me.mayus) {
             me.on('blur', function (obj) {
                 var text = Ext.util.Format.uppercase(obj.getValue());
                 me.setValue(text);

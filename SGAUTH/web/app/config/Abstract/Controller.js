@@ -19,6 +19,15 @@ Ext.define("App.Config.Abstract.Controller", {
      */
     datosTab: null,
 
+    /**
+     * componente donde estanran las opciones  por menu
+     */
+    idCmpBotton: null,
+
+    /**
+     * componente principal
+     */
+    cmpPrincipal : null,
 
     /**
      * @cfg {Bleext.desktop.Window} win The main window for this module
@@ -30,11 +39,13 @@ Ext.define("App.Config.Abstract.Controller", {
 
     //private
     init: function () {
+
         var me = this,
             actions = {};
 
 
         me.setViewport();
+        me.setCmpButton();
         this.callParent();
         //me.control({
         //	"button[action=new]"	: {
@@ -47,6 +58,76 @@ Ext.define("App.Config.Abstract.Controller", {
         //		click		: me.remove
         //	}
         //});
+    },
+    /**
+     * funcion que formara dinamicamente los botones
+     */
+    setCmpButton : function(){
+        var me = this;
+        if(me.idCmpBotton != null){
+            var cmp = Ext.ComponentQuery.query('#'+me.idCmpBotton)[0];
+            me.getMenuBar(cmp,this.datosTab.botones);
+            //cmp.add(
+            //    [
+            //        {
+            //            text: 'Crear',
+            //            scale: 'large',
+            //            iconCls: 'user_add',
+            //            itemId: 'btn_crearUsuario',
+            //            accion: 'crear'
+            //        }
+            //    ]
+            //);
+            //[
+            //    {
+            //        text: 'Crear',
+            //        scale: 'large',
+            //        iconCls: 'user_add',
+            //        itemId: 'btn_crearUsuario',
+            //        accion : 'crear'
+            //    }
+        }
+    },
+
+    /**
+     * funcion que crea dinamicamente los botones segun los datosTab
+     *
+     */
+    getMenuBar: function(tb,data){
+        var me = this;
+        //console.dir(data);
+        Ext.each(data, function (menu) {
+            if (menu.subBotones) {
+                var subMenu = Ext.create('Ext.menu.Menu');
+                //alert(menu.text);
+                tb.add({
+                    text: menu.nombre,
+                    titulo: menu.nombre,
+                    iconCls: menu.icono,
+                    tooltip: menu.tooltip,
+                    accion: menu.accion,
+                    itemId : menu.id_item,
+                    disabled : menu.disabled,
+                    datos: menu,
+                    menu: subMenu
+                });
+                //console.dir(menu.subBotones);
+                me.getMenuBar(subMenu, menu.subBotones);
+            }
+            else {
+                tb.add({
+                    text: menu.nombre,
+                    titulo: menu.nombre,
+                    iconCls: menu.icono,
+                    tooltip: menu.tooltip,
+                    accion: menu.accion,
+                    itemId : menu.id_item,
+                    disabled : menu.disabled,
+                    datos: menu
+                });
+            }
+        });
+
     },
     /**
      * This method add the window id to the selectors, this way we can create more the one
@@ -135,29 +216,12 @@ Ext.define("App.Config.Abstract.Controller", {
     buildItems: function () {
         var me = this;
         me.show();
-        //var tab = new Ext.Panel({
-        //	id: me.datosTab.titulo,
-        //	autoHeigth: true,
-        //	autoWidht: true,
-        //	title: me.datosTab.titulo,
-        //	autoScroll: true,
-        //	iconCls: me.datosTab.iconcls,
-        //	tooltip: me.datosTab.tooltip,
-        //	viewConfig: {
-        //		forceFit: true,
-        //	},
-        //	items: Ext.create("App.View.Usuarios.Principal"),
-        //	closable: true,
-        //
-        //});
-        //me.tabPanel.add(tab);
-        //tab.show();
-
     },
     show: function () {
         var me = this;
         var open = !Ext.getCmp(this.datosTab.id);
         if (open) {
+            me.cmpPrincipal = Ext.create(me.classPrincipal);
             var tab = new Ext.Panel({
                 id: me.datosTab.id,
                 autoHeigth: true,
@@ -169,7 +233,7 @@ Ext.define("App.Config.Abstract.Controller", {
                 viewConfig: {
                     forceFit: true,
                 },
-                items: Ext.create(me.classPrincipal),
+                items: me.cmpPrincipal,
                 closable: true,
 
             });
@@ -177,7 +241,35 @@ Ext.define("App.Config.Abstract.Controller", {
             tab.show();
         }
         else {
+            var tab = Ext.getCmp(this.datosTab.id);
             me.tabPanel.setActiveTab(me.datosTab.id);
         }
+        tab.on('destroy',function(obj){
+            me.destroyController(me);
+            //console.dir(this.id);
+        });
+        tab.on('activate',me.refrescarPanel,me);
+    },
+    destroyController	: function(controller){
+        var me = this;
+        var app  = me.getApplication();
+        //remove from collection
+        app.controllers.remove(controller);
+        //for(var i=0,len=controller.selectors.length;i<len;i++){
+        //    var obj = controller.selectors[i];
+        //    for(var s in obj){
+        //        for(var ev in obj[s]){
+        //            //remove selectors from event bus
+        //            delete app.eventbus.bus[ev][s];
+        //        }
+        //
+        //    }
+        //}
+        //delete controller;
+    },
+    refrescarPanel : function(tab, opt){
+        //console.dir(this.getApplication());
+        //console.dir(tab);
+        console.log("una ves activa el panel se refrescara");
     }
 });
