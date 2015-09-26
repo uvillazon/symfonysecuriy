@@ -13,29 +13,29 @@ use Elfec\SgauthBundle\Entity\Repository\BaseRepository;
 
 class perfilesOpcionesRepository extends BaseRepository
 {
-    public function obtenerBotonesPorPerfilOpcion($idPerfil, $idOpc){
+    public function obtenerBotonesPorPerfilOpcion($idPerfil, $idOpc)
+    {
         $query = $this->_em->createQuery("
         SELECT c
     FROM ElfecSgauthBundle:perfiles c
     JOIN c.botones b
-    WHERE c.idPerfil = :idPerfil AND b.idOpc=:idOpc AND b.estado = :estado
+    WHERE c.idPerfil = :idPerfil
         ");
         $query->setParameters(array(
-            'idPerfil' => $idPerfil ,
-            'idOpc' => $idOpc,
-            'estado' => 'ACTIVO'
+            'idPerfil' => $idPerfil
         ));
 //        var_dump($query->getDQL());
         $result = array();
         /**
          * @var \Elfec\SgauthBundle\Entity\perfiles $obj
          */
-        foreach($query->getResult() as $obj){
+        foreach ($query->getResult() as $obj) {
 
             /**
              * @var \Elfec\SgauthBundle\Entity\botones $btn
              */
-            foreach($obj->getBotones() as $btn){
+            foreach ($obj->getBotones() as $btn) {
+                if ($btn->getIdOpc() === $idOpc) {
                     $array = [
                         "id_boton" => $btn->getIdBoton(),
                         "nombre" => $btn->getBoton(),
@@ -49,56 +49,61 @@ class perfilesOpcionesRepository extends BaseRepository
                         "estado" => $btn->getEstado(),
                         "disabled" => $btn->getDisabled()
                     ];
-                array_push($result,$array);
+                    array_push($result, $array);
+                }
             }
 
         }
-        $result = $this->sortArray($result,"orden");
+        $result = $this->sortArray($result, "orden");
         $botones = $this->obtenerBotonesFormado($result);
         return $botones;
     }
-    public function obtenerOpcionesMenuPorPerfil($idPerfil){
-        $opciones = $this->findBy(array('perfil'=>$idPerfil));
+
+    public function obtenerOpcionesMenuPorPerfil($idPerfil)
+    {
+        $opciones = $this->findBy(array('perfil' => $idPerfil));
 
         /**
          * @var \Elfec\SgauthBundle\Entity\perfilesOpciones $opcion
          */
-        $rows =array();
-        foreach ($opciones as $opcion ) {
+        $rows = array();
+        foreach ($opciones as $opcion) {
             $perfil = $opcion->getIdPerfil();
             $row = [
-                "opcion"=>$opcion->getIdOpc()->getOpcion(),
-                "id"=>$opcion->getIdOpc()->getIdOpc(),
+                "opcion" => $opcion->getIdOpc()->getOpcion(),
+                "id" => $opcion->getIdOpc()->getIdOpc(),
                 "url" => $opcion->getIdOpc()->getLink(),
                 "tooltip" => $opcion->getIdOpc()->getTooltip(),
                 "icono" => $opcion->getIdOpc()->getIcono(),
                 "estado" => $opcion->getIdOpc()->getEstado(),
-                "padre" => ($opcion->getIdOpc()->getIdPadre() != null)?  $opcion->getIdOpc()->getIdPadre()->getIdOpc():null,
-                "estilo"=> $opcion->getIdOpc()->getEstilo(),
+                "padre" => ($opcion->getIdOpc()->getIdPadre() != null) ? $opcion->getIdOpc()->getIdPadre()->getIdOpc() : null,
+                "estilo" => $opcion->getIdOpc()->getEstilo(),
                 "orden" => $opcion->getIdOpc()->getOrden(),
                 "id_perfil" => $opcion->getIdPerfil()->getIdPerfil(),
-                "botones" => $this->obtenerBotonesPorPerfilOpcion($idPerfil,$opcion->getIdOpc()->getIdOpc())
+                "botones" => $this->obtenerBotonesPorPerfilOpcion($idPerfil, $opcion->getIdOpc()->getIdOpc())
 
 
             ];
-            array_push($rows,$row);
+            array_push($rows, $row);
         }
 
-        $rows = $this->sortArray($rows,"orden");
+        $rows = $this->sortArray($rows, "orden");
 
         $menus = $this->obtenerMenuFormado($rows);
         return $menus;
 
     }
+
     /**
      * @param $array
      * @return array
      */
-    private function obtenerMenuFormado($array){
+    private function obtenerMenuFormado($array)
+    {
         $result = array();
 //        $result = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
-        foreach ( $array as $menu ) {
-            if($menu['estado']== 'ACTIVO' && $menu['padre'] == null){
+        foreach ($array as $menu) {
+            if ($menu['estado'] == 'ACTIVO' && $menu['padre'] == null) {
                 $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
                 $opcion->href = $menu['url'];
                 $opcion->titulo = $menu['opcion'];
@@ -106,21 +111,22 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->id = $menu['id'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
-                $subMenus = $this->buscarHijos($array,$menu['id']);
-                if(count($subMenus)> 0){
-                    $opcion->submenu= $subMenus;
+                $subMenus = $this->buscarHijos($array, $menu['id']);
+                if (count($subMenus) > 0) {
+                    $opcion->submenu = $subMenus;
                 }
-                array_push($result,$opcion);
+                array_push($result, $opcion);
             }
         }
         return $result;
     }
 
-    private function buscarHijos($array,$idPadre){
+    private function buscarHijos($array, $idPadre)
+    {
         $result = array();
 //        var_dump($idPadre);
-        foreach ($array as $menu ) {
-            if($menu['estado'] == 'ACTIVO' && $menu['padre']==$idPadre){
+        foreach ($array as $menu) {
+            if ($menu['estado'] == 'ACTIVO' && $menu['padre'] == $idPadre) {
                 $opcion = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
                 $opcion->href = $menu['url'];
                 $opcion->titulo = $menu['opcion'];
@@ -128,21 +134,23 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->id = $menu['id'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
-                $subMenus = $this->buscarHijos($array,$menu['id']);
-                if(count($subMenus)> 0){
-                    $opcion->submenu= $subMenus;
+                $subMenus = $this->buscarHijos($array, $menu['id']);
+                if (count($subMenus) > 0) {
+                    $opcion->submenu = $subMenus;
                 }
 
-                array_push($result,$opcion);
+                array_push($result, $opcion);
             }
         }
         return $result;
     }
-    private function obtenerBotonesFormado($array){
+
+    private function obtenerBotonesFormado($array)
+    {
         $result = array();
 //        $result = new \Elfec\SgauthBundle\Model\menuOpcionesModel();
-        foreach ( $array as $btn ) {
-            if($btn['estado']== 'ACTIVO' && $btn['id_padre'] == null){
+        foreach ($array as $btn) {
+            if ($btn['estado'] == 'ACTIVO' && $btn['id_padre'] == null) {
                 $row = array();
                 $row["id_boton"] = $btn['id_boton'];
                 $row["nombre"] = $btn['nombre'];
@@ -154,19 +162,21 @@ class perfilesOpcionesRepository extends BaseRepository
                 $row["orden"] = $btn['orden'];
                 $row["estado"] = $btn['estado'];
                 $row["disabled"] = $btn['disabled'];
-                $subBtns = $this->buscarHijosBotones($array,$btn['id_boton']);
-                if(count($subBtns)> 0){
+                $subBtns = $this->buscarHijosBotones($array, $btn['id_boton']);
+                if (count($subBtns) > 0) {
                     $row["subBotones"] = $subBtns;
                 }
-                array_push($result,$row);
+                array_push($result, $row);
             }
         }
         return $result;
     }
-    private function buscarHijosBotones($array,$idPadre){
+
+    private function buscarHijosBotones($array, $idPadre)
+    {
         $result = array();
-        foreach ($array as $btn ) {
-            if($btn['estado'] == 'ACTIVO' && $btn['id_padre']==$idPadre){
+        foreach ($array as $btn) {
+            if ($btn['estado'] == 'ACTIVO' && $btn['id_padre'] == $idPadre) {
                 $row = array();
                 $row["id_boton"] = $btn['id_boton'];
                 $row["nombre"] = $btn['nombre'];
@@ -178,12 +188,12 @@ class perfilesOpcionesRepository extends BaseRepository
                 $row["orden"] = $btn['orden'];
                 $row["estado"] = $btn['estado'];
                 $row["disabled"] = $btn['disabled'];
-                $subBtns = $this->buscarHijosBotones($array,$btn['id_boton']);
-                if(count($subBtns)> 0){
+                $subBtns = $this->buscarHijosBotones($array, $btn['id_boton']);
+                if (count($subBtns) > 0) {
                     $row["subBotones"] = $subBtns;
                 }
 
-                array_push($result,$row);
+                array_push($result, $row);
             }
         }
         return $result;

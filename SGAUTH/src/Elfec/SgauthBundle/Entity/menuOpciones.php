@@ -83,6 +83,14 @@ class menuOpciones
     private $idAplic;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $aplicacion;
+
+
+    /**
      * @var \menuOpciones
      *
      * @ORM\ManyToOne(targetEntity="menuOpciones")
@@ -91,6 +99,13 @@ class menuOpciones
      * })
      */
     private $idPadre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_padre", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $padre;
 
 
 

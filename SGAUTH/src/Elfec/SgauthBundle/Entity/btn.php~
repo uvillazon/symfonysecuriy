@@ -1,0 +1,123 @@
+<?php
+
+namespace Elfec\SgauthBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Elfec.botones
+ *
+ * @ORM\Table(name="elfec.botones", indexes={@ORM\Index(name="IDX_2E1E485B3DE02BDB", columns={"id_padre"}), @ORM\Index(name="IDX_2E1E485BD9EAF441", columns={"id_opc"})})
+ * @ORM\Entity
+ */
+class btn
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_boton", type="decimal", precision=10, scale=0, nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="elfec.botones_id_boton_seq", allocationSize=1, initialValue=1)
+     */
+    private $idBoton;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="boton", type="string", length=100, nullable=false)
+     */
+    private $boton;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tooltip", type="string", length=350, nullable=true)
+     */
+    private $tooltip;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_item", type="string", length=100, nullable=false)
+     */
+    private $idItem;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estilo", type="string", length=100, nullable=true)
+     */
+    private $estilo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="accion", type="string", length=100, nullable=true)
+     */
+    private $accion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="icono", type="string", length=250, nullable=true)
+     */
+    private $icono;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="orden", type="decimal", precision=2, scale=0, nullable=true)
+     */
+    private $orden;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string", length=10, nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="disabled", type="boolean", nullable=false)
+     */
+    private $disabled = false;
+
+    /**
+     * @var \botones
+     *
+     * @ORM\ManyToOne(targetEntity="botones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_padre", referencedColumnName="id_boton")
+     * })
+     */
+    private $idPadre;
+
+    /**
+     * @var \menuOpciones
+     *
+     * @ORM\ManyToOne(targetEntity="menuOpciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_opc", referencedColumnName="id_opc")
+     * })
+     */
+    private $idOpc;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="perfiles", mappedBy="idBoton")
+     */
+    private $idPerfil;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idPerfil = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+}

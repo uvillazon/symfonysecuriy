@@ -81,7 +81,6 @@ Ext.define('App.controller.Usuarios.Usuarios', {
     winCrearUsrApp: function () {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
-        console.dir(win);
         var form = Ext.create("App.View.Usuarios.FormUsrApp", {botones: false});
         console.dir(form);
         win.add(form);

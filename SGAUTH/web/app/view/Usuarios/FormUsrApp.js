@@ -95,7 +95,6 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
     cargarEventos: function () {
         var me = this;
         me.cbx_app.on('select', function (cbx, record) {
-            console.dir(record);
             me.cbx_perfil.setDisabled(false);
             me.cbx_perfil.clearValue();
             me.cbx_perfil.getStore().setExtraParams({id_aplic: record.get('id_aplic')});

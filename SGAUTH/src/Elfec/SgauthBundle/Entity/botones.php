@@ -443,4 +443,14 @@ class botones
     {
         return $this->disabled;
     }
+
+    /**
+     * Get idPerfil
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdPerfil()
+    {
+        return $this->idPerfil;
+    }
 }

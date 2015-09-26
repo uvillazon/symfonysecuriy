@@ -9,6 +9,7 @@ Ext.define("App.View.Usuarios.GridAplicacionesPorUsuario", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
+    busqueda : true,
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;

@@ -75,4 +75,94 @@ class MenuOpcionesController extends BaseController
         $result = $servicio->obtenerOpcionesPorUsuario($usuario, $codigoApp);
         return $result;
     }
+
+    /**
+     * Obtener Botones Paginagos
+     * formato de respuesta pagiandos
+     * rows  : listas de objetos segun lo paginado, success : false o true  , total cantidad de registros encontrados
+     * formato de envio
+     * start : desde donde empieza, limit : cantidad para mostrar , dir : Ordenamiento ASC o DESC , sort Ordenar por la propiedad (Propiedad de alguna columna a ordenar ) ,
+     * contiene : para buscar text libre ,
+     * para filtros de datos enviar
+     * propiedad de la tabla : valor , operador = AND o OR por defecto esta AND
+     * por ejemplo para periodos quiero filtrar todos los periodos con etapa a REGIMEN y nro resolucion LL tengo que enviar
+     * etapa : REGIMEN , nro_resolucion : lL
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Obtener Botones Paginado",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     */
+    public function getBotonesAction(Request $request)
+    {
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio= $this->get('sgauthbundle.MenuOpciones_service');
+        $array = $request->query;
+        $result = $servicio->obtenerBotonesPaginados($paginacion , $array);
+        return $result;
+    }
+
+
+    /**
+     * Este Metodo Guarda Opciones por Aplicacion
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Guardar Opciones Por Aplicacion ",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postOpcionesAction(Request $request) {
+
+        $login = "SHC";
+        $data = $request->request->all();
+        $servicio = $this->get('sgauthbundle.MenuOpciones_service');
+        $result = $servicio->guardarOpcion($data,$login);
+        return $result;
+//        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
+
+    }
+
+    /**
+     * Este Metodo Guarda Botones por Opcion
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Guardar Botones Por Opcion ",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postBotonesAction(Request $request) {
+
+        $login = "SHC";
+        $data = $request->request->all();
+        $servicio = $this->get('sgauthbundle.MenuOpciones_service');
+        $result = $servicio->guardarBoton($data,$login);
+        return $result;
+
+    }
 }

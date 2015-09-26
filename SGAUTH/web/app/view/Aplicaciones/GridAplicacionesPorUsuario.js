@@ -6,6 +6,7 @@ Ext.define("App.View.Aplicaciones.GridAplicacionesPorUsuario", {
     title: 'Usuario Por Aplicacion',
     imprimir: true,
     criterios: true,
+    busqueda : true,
     opcion: '',
     paramsStore: null,
     noLimpiar: null,

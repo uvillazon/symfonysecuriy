@@ -6,49 +6,8 @@ Ext.define("App.View.Usuarios.Principal", {
     initComponent: function () {
         var me = this;
         me.CargarComponentes();
-        //me.CargarEventos();
         this.callParent(arguments);
     },
-    //CargarEventos: function () {
-    //    var me = this;
-    //    me.grid.getSelectionModel().on('selectionchange', me.CargarDatosGrid, this);
-    //
-    //    Ext.ComponentQuery.query('#btn_crearUsuario')[0].on('click', me.WinCrearUsuairo, this);
-    //    Ext.ComponentQuery.query('#btn_editarUsuario')[0].on('click', me.WinCrearUsuairo, this);
-    //    Ext.ComponentQuery.query('#btn_UsrApp')[0].on('click', me.WinUsrApp, this);
-    //},
-    //WinCrearUsuairo: function (btn) {
-    //    var me = this;
-    //    var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
-    //    var form = Ext.create("App.View.Usuarios.FormUsuario", {botones: false});
-    //    win.add(form);
-    //    win.show();
-    //    if (btn.getItemId() === "btn_editarUsuario") {
-    //        form.getForm().loadRecord(me.record);
-    //    }
-    //    win.btn_guardar.on('click', function () {
-    //        Funciones.AjaxRequestWin('usuarios', 'usuarios', win, form, me.grid, 'Esta Seguro de guardar el Usuarios', null, win);
-    //    });
-    //
-    //},
-    //CargarDatosGrid: function (selModel, selections) {
-    //    var me = this;
-    //    disabled = selections.length === 0;
-    //    me.record = !disabled ? selections[0] : null;
-    //    Funciones.DisabledButton('btn_editarUsuario', me, disabled);
-    //    Funciones.DisabledButton('btn_UsrApp', me, disabled);
-    //    if (!disabled) {
-    //        me.form.CargarDatos(me.record);
-    //        me.gridAplicaciones.getStore().setExtraParams({id_usuario: me.record.get("id_usuario")});
-    //        me.gridAplicaciones.getStore().load();
-    //    }
-    //    else {
-    //        me.form.getForm().reset();
-    //        me.gridAplicaciones.getStore().setExtraParams({id_usuario: 0});
-    //        me.gridAplicaciones.getStore().load();
-    //    }
-    //
-    //},
     CargarComponentes: function () {
         var me = this;
         me.grid = Ext.create('App.View.Usuarios.GridUsuarios', {
