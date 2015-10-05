@@ -7,6 +7,6 @@
 #/app/phpunit.xml
 /bin/
 #/composer.phar
-#/vendor/
+/vendor/
 /web/bundles/
 .idea/
