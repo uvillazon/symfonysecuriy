@@ -1,3 +1,8 @@
+elfec_reportes:
+    resource: "@ElfecReportesBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 elfec_sgauth:
     resource: "@ElfecSgauthBundle/Resources/config/routing.yml"
     prefix:   /backend

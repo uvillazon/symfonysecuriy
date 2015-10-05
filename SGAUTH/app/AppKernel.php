@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Elfec\SgauthBundle\ElfecSgauthBundle(),
+            new Elfec\ReportesBundle\ElfecReportesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
