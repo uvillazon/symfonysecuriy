@@ -1,7 +1,6 @@
-elfec_reportes:
-    resource: "@ElfecReportesBundle/Controller/"
-    type:     annotation
-    prefix:   /
+elfec_reportes_view:
+    defaults: { _controller: ElfecReportesBundle:Default:index }
+    pattern: /reportes/view
 
 elfec_sgauth:
     resource: "@ElfecSgauthBundle/Resources/config/routing.yml"

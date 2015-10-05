@@ -5,15 +5,15 @@ namespace Elfec\ReportesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
-    public function indexAction($name)
+   
+    public function indexAction(Request $request) 
     {
-        return array('name' => $name);
+        var_dump($request);
+        return $this->render('ElfecReportesBundle:Default:reportes.html.twig');
     }
 }
