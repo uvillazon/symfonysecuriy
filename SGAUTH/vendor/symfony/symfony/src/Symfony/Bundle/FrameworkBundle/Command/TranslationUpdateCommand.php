@@ -69,7 +69,6 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output = new SymfonyStyle($input, $output);
-        $kernel = $this->getContainer()->get('kernel');
 
         // check presence of force or dump-message
         if ($input->getOption('force') !== true && $input->getOption('dump-messages') !== true) {
@@ -88,7 +87,7 @@ EOF
         }
         $kernel = $this->getContainer()->get('kernel');
 
-        // Define Root Path to app folder
+        // Define Root Path to App folder
         $transPaths = array($kernel->getRootDir().'/Resources/');
         $currentName = 'app folder';
 

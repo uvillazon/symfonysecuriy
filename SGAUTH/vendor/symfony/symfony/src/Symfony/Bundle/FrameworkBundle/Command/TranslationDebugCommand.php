@@ -95,7 +95,7 @@ EOF
         $loader = $this->getContainer()->get('translation.loader');
         $kernel = $this->getContainer()->get('kernel');
 
-        // Define Root Path to app folder
+        // Define Root Path to App folder
         $transPaths = array($kernel->getRootDir().'/Resources/');
 
         // Override with provided Bundle info
