@@ -109,6 +109,7 @@ Ext.define("App.Config.Abstract.Controller", {
                     itemId : menu.id_item,
                     disabled : menu.disabled,
                     datos: menu,
+                    scale: 'medium',
                     menu: subMenu
                 });
                 //console.dir(menu.subBotones);
@@ -123,6 +124,7 @@ Ext.define("App.Config.Abstract.Controller", {
                     accion: menu.accion,
                     itemId : menu.id_item,
                     disabled : menu.disabled,
+                    scale: 'medium',
                     datos: menu
                 });
             }

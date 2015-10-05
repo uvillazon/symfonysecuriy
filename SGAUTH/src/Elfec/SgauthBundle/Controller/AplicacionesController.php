@@ -72,7 +72,9 @@ class AplicacionesController extends BaseController
      */
     public function postAplicacionesAction(Request $request) {
 
-        $login = "SHC";
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.aplicaciones_service');
         $result = $servicio->guardarAplicacion($data,$login);

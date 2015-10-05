@@ -3,13 +3,16 @@
  */
 Ext.define("App.View.Opciones.GridOpciones", {
     extend: "App.Config.Abstract.Grid",
+    alias: 'widget.gridOpciones',
     title: 'Opciones de Menu',
     criterios: true,
+    porPerfil: false,
+    classStore: 'App.Store.Opciones.Opciones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;
+        me.store = Ext.create(me.classStore);
 
-        me.store = Ext.create("App.Store.Opciones.Opciones");
         me.CargarComponentes();
         me.columns = [
             {xtype: "rownumberer", width: 30, sortable: false},

@@ -1010,7 +1010,9 @@
 .xhtml_valid { background-image: url(Iconos/xhtml_valid.png) !important; }
 .zoom { background-image: url(Iconos/zoom.png) !important; }
 .zoom_in { background-image: url(Iconos/zoom_in.png) !important; }
-.zoom_out { background-image: url(Iconos/zoom_out.png) !important; } 
+.zoom_out { background-image: url(Iconos/zoom_out.png) !important; }
+.admin_min { background-image: url(Iconos/admin_min.png) !important;}
+.admin_min_32 { background-image: url(Iconos/admin_min_32.png) !important;}
 
 .project_2013_24x24 { background-image: url(Iconos/project_2013_24x24.png) !important; }
 .project_2013_16x16 { background-image: url(Iconos/project_2013_16x16.png) !important; }

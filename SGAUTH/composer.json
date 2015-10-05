@@ -24,7 +24,8 @@
         "friendsofsymfony/rest-bundle": "@dev",
         "jms/serializer-bundle": "@dev",
         "willdurand/hateoas-bundle": "0.5.*",
-        "firebase/php-jwt": "dev-master"
+        "firebase/php-jwt": "dev-master",
+        "jaspersoft/rest-client": "v2.0.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

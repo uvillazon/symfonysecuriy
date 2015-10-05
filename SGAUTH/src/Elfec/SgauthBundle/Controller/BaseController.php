@@ -32,6 +32,7 @@ class BaseController extends Controller
         $paginacion->start = $request->query->get('start');
         $paginacion->startDate = $request->query->get('startDate');
         $paginacion->endDate = $request->query->get('endDate');
+        $paginacion->contiene = ($paginacion->contiene =="")? null :$paginacion->contiene ;
         return $paginacion;
     }
 

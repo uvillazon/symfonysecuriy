@@ -3,18 +3,19 @@
  */
 Ext.define("App.View.Opciones.GridBotones", {
     extend: "App.Config.Abstract.Grid",
+    alias: 'widget.gridBotones',
     title: 'Botones Por Opcion de Menu',
-    imprimir: true,
+    //imprimir: true,
     criterios: true,
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
     busqueda: true,
+    classStore : 'App.Store.Opciones.Botones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;
-
-        me.store = Ext.create("App.Store.Opciones.Botones");
+        me.store = Ext.create(me.classStore);
         me.CargarComponentes();
         me.columns = [
             {xtype: "rownumberer", width: 30, sortable: false},

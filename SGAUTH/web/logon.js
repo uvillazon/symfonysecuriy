@@ -105,7 +105,7 @@ Ext.onReady(function () {
                     // and when they click "OK", they are redirected to whatever page
                     // you define as redirect. 
 
-                    success: function () {
+                    success: function (form,action) {
                         window.localStorage.setItem("token",action.result.data.token);
                         window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
                         window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));

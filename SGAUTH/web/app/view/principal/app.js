@@ -6,10 +6,15 @@ Ext.Loader.setPath("Extensible","App/extensible");
 Ext.require([
     'App.*'
 ]);
+//console.dir(window.localStorage);
+//alert("entrara");
+//var dec = Ext.util.Base64.decode(window.localStorage.token);
+//console.log(dec);
 //validamos si existe el token
 if(window.localStorage.length === 0){
     //alert("as");
     document.location = 'logon';
+
 }
 Ext.application({
     name: 'App',

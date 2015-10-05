@@ -26,6 +26,7 @@ Ext.define("App.Config.Constantes", {
     LiSTAS: null,
     USUARIO: null,
     MENU: null,
+    //TOKEN : null,
     URLLISTAS: 'Listas/ObtenerTodasLasListas',
     URLIMAGEN: "Imagenes/VerImagen?",
     UND_EJEC_MANT: 2,
@@ -55,6 +56,11 @@ Ext.define("App.Config.Constantes", {
     CargarLocalStorage: function () {
         this.USUARIO = JSON.parse(window.localStorage["usuario"]);
         this.MENU = JSON.parse(window.localStorage["menu"]);
+        //var token = window.localStorage["token"];
+        //
+        //var res = token.split(".");
+        //console.log(Ext.util.Base64.decode(res[1]));
+        //this.TOKEN = JSON.parse( Ext.util.Base64.decode(res[1]));
         //console.dir((this.MENU));
         //console.dir(storedNames);
         //console.dir(storedNames);

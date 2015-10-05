@@ -71,7 +71,8 @@ class PerfilesController extends BaseController
      */
     public function postPerfilesAction(Request $request) {
 
-        $login = "SHC";
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.perfiles_service');
         $result = $servicio->guardarPerfiles($data,$login);

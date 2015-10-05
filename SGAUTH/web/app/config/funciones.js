@@ -13,6 +13,8 @@ Ext.define("App.Config.Funciones", {
     winReporte: null,
     nameReport: '',
     paramsReport: '',
+    //token: "",
+    token: {'Authorization': "Bearer " + window.localStorage.token},
     Fecha: function (value, record) {
         if (value == null) {
             return null;
@@ -148,7 +150,7 @@ Ext.define("App.Config.Funciones", {
         });
         return menuBar;
     },
-    CrearMenu: function (id, nombre, icono, handler, menu, scope, controlador,/*para agregar diamicamente un controlador al controller principal*/ titulotab, tooltip, disabled, cls) {
+    CrearMenu: function (id, nombre, icono, handler, menu, scope, controlador, /*para agregar diamicamente un controlador al controller principal*/ titulotab, tooltip, disabled, cls) {
         var boton = Ext.create('Ext.Button', {
             text: nombre,
             iconCls: icono,
@@ -196,6 +198,7 @@ Ext.define("App.Config.Funciones", {
                         submitEmptyText: false,
                         url: Constantes.HOST + '' + controlador + '/' + accion + '',
                         params: param,
+                        headers: fn.token,
                         timeout: 1200,
                         success: function (form, action) {
                             mask.el.unmask();
@@ -248,6 +251,7 @@ Ext.define("App.Config.Funciones", {
                         submitEmptyText: false,
                         url: Constantes.HOST + '' + controlador + '/' + accion + '',
                         params: param,
+                        headers: fn.token,
                         success: function (form, action) {
                             mask.el.unmask();
                             Ext.MessageBox.alert('Exito', action.result.msg);
@@ -262,7 +266,7 @@ Ext.define("App.Config.Funciones", {
                             }
 
                             if (winArray != null) {
-                                for (i = 0 ; i < winArray.length ; i++) {
+                                for (i = 0; i < winArray.length; i++) {
                                     winArray[i].hide();
                                 }
                                 //grid.getStore().load();
@@ -296,6 +300,7 @@ Ext.define("App.Config.Funciones", {
                         submitEmptyText: false,
                         url: Constantes.HOST + '' + controlador + '/' + accion + '',
                         params: param,
+                        headers: fn.token,
                         success: function (form, action) {
                             mask.el.unmask();
                             Ext.MessageBox.alert('Exito', action.result.msg);
@@ -331,6 +336,7 @@ Ext.define("App.Config.Funciones", {
                 submitEmptyText: false,
                 url: Constantes.HOST + '' + controlador + '/' + accion + '',
                 params: param,
+                headers: fn.token,
                 success: function (form, action) {
                     mask.el.unmask();
                     Ext.MessageBox.alert('Exito', action.result.msg);
@@ -377,7 +383,9 @@ Ext.define("App.Config.Funciones", {
         if (record.get('IDSTATUS') == 0) {
             return "MatInactivosCSS";
         }
-        else { return ""; }
+        else {
+            return "";
+        }
     },
     CopiarRecordmodelo: function (v, record) {
         return record.get(v);
@@ -453,6 +461,7 @@ Ext.define("App.Config.Funciones", {
                 Ext.Ajax.request({
                     url: Constantes.HOST + '' + controlador + '/' + accion + '',
                     params: param,
+                    headers: fn.token,
                     success: function (response) {
                         mask.el.unmask();
                         var str = Ext.JSON.decode(response.responseText);
@@ -492,7 +501,7 @@ Ext.define("App.Config.Funciones", {
                         if (str.success == true) {
                             if (grid != null && winArray != null) {
                                 grid.getStore().load();
-                                for (i = 0 ; i < winArray.length ; i++) {
+                                for (i = 0; i < winArray.length; i++) {
                                     destruirwin == null ? winArray[i].hide() : winArray[i].close();
                                 }
                             }
@@ -500,7 +509,7 @@ Ext.define("App.Config.Funciones", {
                                 grid.getStore().load();
                             }
                             else if (grid == null && winArray != null) {
-                                for (i = 0 ; i < winArray.length ; i++) {
+                                for (i = 0; i < winArray.length; i++) {
                                     destruirwin == null ? winArray[i].hide() : winArray[i].close();
                                 }
                                 //destruirwin == null ? win.hide() : win.close();
@@ -592,7 +601,7 @@ Ext.define("App.Config.Funciones", {
                         var str = Ext.JSON.decode(response.responseText);
                         if (str.success == true) {
                             if (ArrayGrid != null) {
-                                for (i = 0 ; i < ArrayGrid.length ; i++) {
+                                for (i = 0; i < ArrayGrid.length; i++) {
                                     ArrayGrid[i].getStore().load();
                                 }
                                 //grid.getStore().load();
@@ -772,12 +781,14 @@ Ext.define("App.Config.Funciones", {
                 var str = Ext.JSON.decode(response.responseText);
                 if (str.success == true) {
                     Ext.each(str.Result, function (name) {
-                        for (i = 0 ; i < recordArray.length ; i++) {
+                        for (i = 0; i < recordArray.length; i++) {
                             try {
                                 record.set(recordArray[i], name[recordArray[i]]);
                                 //return false;
                             }
-                            catch (e) { console.log(e); }
+                            catch (e) {
+                                console.log(e);
+                            }
                             //alert(recordArray[i]);
                             //alert(name);
                         }
@@ -812,7 +823,7 @@ Ext.define("App.Config.Funciones", {
         //luego Actualizamos todos los componentes si tiene respusta
         Ext.Object.each(result, function (key, value, myself) {
             if (cmpArray != null) {
-                for (i = 0 ; i < cmpArray.length ; i++) {
+                for (i = 0; i < cmpArray.length; i++) {
                     if (cmpArray[i].getName() == key) {
                         cmpArray[i].setValue(value);
                     }
@@ -823,7 +834,7 @@ Ext.define("App.Config.Funciones", {
     //limpiar todos los campos de ese compomente Array
     resetCmpArray: function (cmpArray) {
         if (cmpArray != null) {
-            for (i = 0 ; i < cmpArray.length ; i++) {
+            for (i = 0; i < cmpArray.length; i++) {
                 cmpArray[i].reset();
             }
         }
@@ -917,8 +928,8 @@ Ext.define("App.Config.Funciones", {
             fn.store_view = Ext.create('Ext.data.Store', {
                 fields: ['src', 'caption', 'tipo'],
                 data: [
-                    { src: Constantes.HOST + '/Content/images/PDF.png', caption: 'PDF', tipo: 'pdf' },
-                    { src: Constantes.HOST + '/Content/images/EXCEL.png', caption: 'Excel', tipo: 'excel' },
+                    {src: Constantes.HOST + '/Content/images/PDF.png', caption: 'PDF', tipo: 'pdf'},
+                    {src: Constantes.HOST + '/Content/images/EXCEL.png', caption: 'Excel', tipo: 'excel'},
                     //{ src: 'http://www.sencha.com/img/20110215-feat-html5.png', caption: 'Overhauled Theme' },
 
                 ]

@@ -114,7 +114,7 @@ Ext.define("App.View.Principal.Cabecera", {
         Ext.Msg.confirm("Confirmar", "Esta seguro salir de la aplicación?", function (btn) {
             if (btn === "yes") {
                 window.localStorage.clear();
-                document.location = Constantes.obtenerHost()+'/logon';
+                document.location = Constantes.obtenerHost()+'logon';
 
             }
         });

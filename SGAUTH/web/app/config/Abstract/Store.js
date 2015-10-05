@@ -47,7 +47,7 @@ Ext.define("App.Config.Abstract.Store", {
                     root: "rows",
                     totalProperty: "total",
                     successProperty: "success",
-                    messageProperty: "message"
+                    messageProperty: "msg"
                 },
                 writer: {
                     type: "json",

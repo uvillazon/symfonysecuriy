@@ -17,6 +17,21 @@
     app : null,
     initComponent: function () {
         var me = this;
+        //funcion encargada de enviar el token
+        Ext.util.Observable.observe(Ext.data.Connection, {
+            requestexception: function(conn, response, options) {
+                if(response.status == '403'){
+                    Ext.Msg.alert("Error",response.responseText, function () {
+                        window.location =  Constantes.obtenerHost()+'/logon';
+                    });
+                }
+            }
+            //,
+                //beforerequest : function (conn, response, options) {
+            //    var token = {'Authorization': "Bearer " + window.localStorage.token};
+            //    response.headers = token;
+            //}
+        });
         //creamos un componente
         Constantes.CargarTamano();
         Constantes.CargarLocalStorage();

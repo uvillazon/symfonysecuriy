@@ -3,7 +3,7 @@ parameters:
     database_driver: pdo_pgsql
     database_host: elflbd01
     database_port: 5432
-    database_name: 'autenticacion'
+    database_name: autenticacion
     database_user: postgres
     database_password: postgres
     mailer_transport: smtp

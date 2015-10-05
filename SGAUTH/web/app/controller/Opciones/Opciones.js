@@ -79,7 +79,6 @@ Ext.define('App.controller.Opciones.Opciones', {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
         var form = Ext.create("App.View.Opciones.FormBoton", {botones: false});
-        console.dir(form);
         win.add(form);
         win.show();
         if(btn.getItemId() === "btn_editarBoton"){
