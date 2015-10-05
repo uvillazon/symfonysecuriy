@@ -13,7 +13,7 @@ class DefaultController extends Controller
    
     public function indexAction(Request $request) 
     {
-        var_dump($request);
+        var_dump($request->query);
         return $this->render('ElfecReportesBundle:Default:reportes.html.twig');
     }
 }
