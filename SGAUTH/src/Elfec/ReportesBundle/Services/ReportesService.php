@@ -23,7 +23,7 @@ class ReportesService
 
     public function obtenerReportes($datos,$login)
     {
-        $cliente = new Client("http://localhost:8080/jasperserver",
+        $cliente = new Client("http://192.168.50.80:8080/jasperserver",
             "jasperadmin",
             "jasperadmin",
             ""
