@@ -8,12 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+
 class DefaultController extends Controller
 {
    
     public function indexAction(Request $request) 
     {
+     //   $request->getReportesAction(Request $request);
+        
         var_dump($request->query);
         return $this->render('ElfecReportesBundle:Default:reportes.html.twig');
     }
+    
 }

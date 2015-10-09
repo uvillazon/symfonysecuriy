@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -31,13 +32,22 @@ class ReportesController extends Controller
      */
     public function getReportesAction(Request $request)
     {
-
+//        var_dump($request->query);die();  
+        $datos= $request->query;
+             
+        $login = "EBALLESTEROS";
         $servicio = $this->get('reportesbundle.reportes_service');
-        //ob tener el archivo
+       
+        $result = $servicio->obtenerReportes($datos,$login);
+        $response = new Response($result);
+        
+        $tipos = array("pdf"=>"application/pdf","xls"=>"application/vnd.ms-excel");
+        $response->headers->set('Content-Type', $tipos[$datos->get('tipo')]);
+        $response->headers->set('Another-Header', 'header-value');
+        return $response;
+       
 
-        $result = $servicio->obtenerReportes();
-
-        return null;
+        
     }
 
 
