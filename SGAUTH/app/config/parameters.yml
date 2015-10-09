@@ -1,4 +1,4 @@
-# This file is auto-generated during the composer install
+# This file is auto-generated dusring the composer install
 parameters:
     database_driver: pdo_pgsql
     database_host: elflbd01
