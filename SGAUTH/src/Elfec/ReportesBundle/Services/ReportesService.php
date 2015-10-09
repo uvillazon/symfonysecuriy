@@ -28,7 +28,7 @@ class ReportesService
             "jasperadmin",
             ""
         );
-      
+//        var_dump($datos);die();
 //        $pdf = new PDF();//reporte tipo PDF
         //$pdf->nombre = 'zip-' . time() . ".zip";
         $controls = $this->obtenerParametros($datos,$login);
@@ -60,9 +60,11 @@ class ReportesService
     }
     private function obtenerRuta($reporte){
         $arrayRutas = array("Indice1"=>"/reports/ReportesSGCST/indice1","Indice2"=>"/reports/ReportesSGCST/indice2");
-        return $array[$reporte];
+        return $arrayRutas[$reporte];
     }
     private function obtenerParametros($datos,$login){
+        $controls  = array();
+//        var_dump($datos);die();
         if($datos->get("reporte")== "Indice1"){
             
             $controls = array("REPORT_LOCALE" => array("NL_BE"),"niv_calidad" => array($datos->get("niv_calidad")),"periodo" => array($datos->get("id_periodo"))); 
@@ -71,6 +73,7 @@ class ReportesService
             $this->generarFuncionIndice2($datos, $login);
             $controls = array("REPORT_LOCALE" => array("NL_BE"),"niv_calidad" => array($datos->get("niv_calidad")),"periodo" => array($datos->get("id_periodo"))); 
         }
+        return $controls;
     }
     public function generarFuncionIndice2($data,$login){
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();

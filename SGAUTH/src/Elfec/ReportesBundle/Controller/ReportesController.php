@@ -34,6 +34,7 @@ class ReportesController extends Controller
     {
 //        var_dump($request->query);die();  
         $datos= $request->query;
+        
              
         $login = "EBALLESTEROS";
         $servicio = $this->get('reportesbundle.reportes_service');
