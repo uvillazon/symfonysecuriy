@@ -32,7 +32,7 @@ class ReportesController extends Controller
      */
     public function getReportesAction(Request $request)
     {
-//        var_dump($request->query);die();  
+//        var_dump($request->query);die();
         $datos= $request->query;
         $login = "EBALLESTEROS";
         $servicio = $this->get('reportesbundle.reportes_service');

@@ -24,13 +24,13 @@ class ReportesService
     public function obtenerReportes($datos,$login)
     {
        // $cliente = new Client("http://192.168.50.80:8080/jasperserver", //maquina local de erika
-       $cliente = new Client("http://192.168.30.218/:8080/jasperserver",
+       $cliente = new Client("http://192.168.30.218:8080/jasperserver",
             "jasperadmin",
             "jasperadmin",
             ""
         );
         $controls = $this->obtenerParametros($datos,$login);
-        
+
         $report = $cliente->reportService()->runReport($this->obtenerRuta($datos->get("reporte")), $datos->get('tipo'),null,null,$controls);
         return $report;
 
@@ -41,7 +41,6 @@ class ReportesService
     }
     private function obtenerParametros($datos,$login){
         $controls  = array();
-//        var_dump($datos);die();
         if($datos->get("reporte")== "Indice1"){
             
             $controls = array("REPORT_LOCALE" => array("NL_BE"),"niv_calidad" => array($datos->get("niv_calidad")),"periodo" => array($datos->get("id_periodo")),"f_ini_periodo" => array($datos->get("f_ini_periodo"))); 
@@ -79,7 +78,6 @@ class ReportesService
             $result->success = false;
             $result->msg = $e->getMessage();
         }
-        var_dump($result);die();
         return $result;
         
     }

@@ -19,7 +19,11 @@ security:
               stateless:    true
               jwt: true
               anonymous : true
-
+        wsse_report:
+              pattern:   ^/reportes/.*
+              stateless:    true
+              jwt: true
+              anonymous : true
         main:
             anonymous: ~
     access_control:
