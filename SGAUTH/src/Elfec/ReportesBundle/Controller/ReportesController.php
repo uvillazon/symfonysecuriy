@@ -34,21 +34,14 @@ class ReportesController extends Controller
     {
 //        var_dump($request->query);die();  
         $datos= $request->query;
-        
-             
         $login = "EBALLESTEROS";
         $servicio = $this->get('reportesbundle.reportes_service');
-       
         $result = $servicio->obtenerReportes($datos,$login);
         $response = new Response($result);
-        
         $tipos = array("pdf"=>"application/pdf","xls"=>"application/vnd.ms-excel");
         $response->headers->set('Content-Type', $tipos[$datos->get('tipo')]);
         $response->headers->set('Another-Header', 'header-value');
         return $response;
-       
-
-        
     }
 
 

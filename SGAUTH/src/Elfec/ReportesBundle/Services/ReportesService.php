@@ -23,43 +23,20 @@ class ReportesService
 
     public function obtenerReportes($datos,$login)
     {
-        $cliente = new Client("http://192.168.50.80:8080/jasperserver",
+       // $cliente = new Client("http://192.168.50.80:8080/jasperserver", //maquina local de erika
+       $cliente = new Client("http://192.168.30.218/:8080/jasperserver",
             "jasperadmin",
             "jasperadmin",
             ""
         );
-//        var_dump($datos);die();
-//        $pdf = new PDF();//reporte tipo PDF
-        //$pdf->nombre = 'zip-' . time() . ".zip";
         $controls = $this->obtenerParametros($datos,$login);
         
         $report = $cliente->reportService()->runReport($this->obtenerRuta($datos->get("reporte")), $datos->get('tipo'),null,null,$controls);
         return $report;
-//        $pdf->$cache_Control='must-revalidate';
-//        $pdf->$pragma='public';
-//        $pdf->$description='File Transfer';
-//        $pdf->$disposition='attachment';
-//        $pdf->$filename='report.pdf';
-//        
-//        $pdf->$transfer='binary';
-//        $pdf->$length=' . strlen($report)';
-//        $pdf->$type='application/pdf';
-//        
-//        var_dump($cliente);die();
-//       /* $report = $c->reportService()->runReport('/reports/ReportesSGCST/Periodos/Prueba', 'pdf');
-//        header('Cache-Control: must-revalidate');
-//        header('Pragma: public');
-//        header('Content-Description: File Transfer');
-//        header('Content-Disposition: attachment; filename=report.pdf');
-//        header('Content-Transfer-Encoding: binary');
-//        header('Content-Length: ' . strlen($report));
-//        header('Content-Type: application/pdf');
-//
-//        echo $report;*/
 
     }
     private function obtenerRuta($reporte){
-        $arrayRutas = array("Indice1"=>"/reports/ReportesSGCST/indice1","Indice2"=>"/reports/ReportesSGCST/indice2");
+        $arrayRutas = array("Indice1"=>"/reports/Sistema_ST/rpt_cindices_1_2","Indice2"=>"/reports/Sistema_ST/rpt_indices_1_2");
         return $arrayRutas[$reporte];
     }
     private function obtenerParametros($datos,$login){
@@ -67,7 +44,7 @@ class ReportesService
 //        var_dump($datos);die();
         if($datos->get("reporte")== "Indice1"){
             
-            $controls = array("REPORT_LOCALE" => array("NL_BE"),"niv_calidad" => array($datos->get("niv_calidad")),"periodo" => array($datos->get("id_periodo"))); 
+            $controls = array("REPORT_LOCALE" => array("NL_BE"),"niv_calidad" => array($datos->get("niv_calidad")),"periodo" => array($datos->get("id_periodo")),"f_ini_periodo" => array($datos->get("f_ini_periodo"))); 
         }
         elseif ($datos->get("reporte")=="Indice2") {
             $this->generarFuncionIndice2($datos, $login);
