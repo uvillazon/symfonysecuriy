@@ -22,7 +22,7 @@
             requestexception: function(conn, response, options) {
                 if(response.status == '403'){
                     Ext.Msg.alert("Error",response.responseText, function () {
-                        window.location =  Constantes.obtenerHost()+'/logon';
+                        window.location =  Constantes.obtenerHost()+'logon';
                     });
                 }
             }

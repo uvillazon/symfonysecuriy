@@ -67,25 +67,6 @@ Ext.define("App.Config.Abstract.Controller", {
         if(me.idCmpBotton != null){
             var cmp = Ext.ComponentQuery.query('#'+me.idCmpBotton)[0];
             me.getMenuBar(cmp,this.datosTab.botones);
-            //cmp.add(
-            //    [
-            //        {
-            //            text: 'Crear',
-            //            scale: 'large',
-            //            iconCls: 'user_add',
-            //            itemId: 'btn_crearUsuario',
-            //            accion: 'crear'
-            //        }
-            //    ]
-            //);
-            //[
-            //    {
-            //        text: 'Crear',
-            //        scale: 'large',
-            //        iconCls: 'user_add',
-            //        itemId: 'btn_crearUsuario',
-            //        accion : 'crear'
-            //    }
         }
     },
 
@@ -223,6 +204,7 @@ Ext.define("App.Config.Abstract.Controller", {
         var me = this;
         var open = !Ext.getCmp(this.datosTab.id);
         if (open) {
+
             me.cmpPrincipal = Ext.create(me.classPrincipal);
             var tab = new Ext.Panel({
                 id: me.datosTab.id,
@@ -241,6 +223,8 @@ Ext.define("App.Config.Abstract.Controller", {
             });
             me.tabPanel.add(tab);
             tab.show();
+            //me.setCmpButton();
+
         }
         else {
             var tab = Ext.getCmp(this.datosTab.id);
@@ -253,10 +237,19 @@ Ext.define("App.Config.Abstract.Controller", {
         tab.on('activate',me.refrescarPanel,me);
     },
     destroyController	: function(controller){
+
         var me = this;
         var app  = me.getApplication();
-        //remove from collection
-        app.controllers.remove(controller);
+        ////remove from collection
+        app.destroyController(controller);
+
+        //console.log(new Date());
+        //controller.setId(new Date());
+
+        //controller.cmpPrincipal.destroy();
+        //controller.clearListeners();
+        //delete controller;
+        console.dir(controller);
         //for(var i=0,len=controller.selectors.length;i<len;i++){
         //    var obj = controller.selectors[i];
         //    for(var s in obj){

@@ -163,11 +163,11 @@ Ext.define("App.View.Principal.Cabecera", {
     CargarControlador: function (menu) {
         var me = this;
         if (menu.datos.href) {
-            controller = me.app.controllers.get('Controller-'+menu.datos.id);
+            controller = me.app.controllers.get('Controller-' + menu.datos.id);
             if (!controller) {
                 controller = Ext.create(me.app.getModuleClassName(menu.datos.href, 'controller'), {
                     application: me.app,
-                    id: 'Controller-'+menu.datos.id
+                    id: 'Controller-' + menu.datos.id
                 });
                 me.app.controllers.add(controller);
                 controller.tabPanel = me.tabPanel;
@@ -177,7 +177,10 @@ Ext.define("App.View.Principal.Cabecera", {
                 //controller.show();
             }
             else {
+                //me.app.controllers.add(controller);
                 controller.show();
+                //controller.setCmpButton();
+
                 //console.dir(me.app);
             }
         }

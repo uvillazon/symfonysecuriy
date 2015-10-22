@@ -67,7 +67,7 @@ Ext.define("App.Config.Constantes", {
     },
     obtenerHost: function () {
         if (window.location.hostname == 'localhost') {
-            var host = window.location.origin ;
+            var host = window.location.origin +'/';
         }
         else {
             var host = window.location.origin + '/' + this.path;

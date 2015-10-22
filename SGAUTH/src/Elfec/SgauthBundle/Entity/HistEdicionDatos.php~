@@ -1,0 +1,82 @@
+<?php
+
+namespace Elfec\SgauthBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * HistEdicionDatos
+ *
+ * @ORM\Table(name="hist_edicion_datos")
+ * @ORM\Entity
+ */
+class HistEdicionDatos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_hist", type="bigint", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="hist_edicion_datos_id_hist_seq", allocationSize=1, initialValue=1)
+     */
+    private $idHist;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_dato", type="bigint", nullable=false)
+     */
+    private $idDato;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tabla", type="string", length=50, nullable=false)
+     */
+    private $tabla;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="campo", type="string", length=50, nullable=true)
+     */
+    private $campo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_antiguo", type="string", length=255, nullable=true)
+     */
+    private $valorAntiguo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="valor_nuevo", type="string", length=255, nullable=false)
+     */
+    private $valorNuevo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="motivo", type="string", length=50, nullable=true)
+     */
+    private $motivo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_reg", type="datetime", nullable=false)
+     */
+    private $fechaReg;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="login_usr", type="string", length=20, nullable=true)
+     */
+    private $loginUsr;
+
+
+}

@@ -32,3 +32,8 @@ services:
     sgauthbundle.autenticacion_service:
         class: Elfec\SgauthBundle\Services\AutenticacionService
         arguments: ["@doctrine.orm.entity_manager"]
+
+#   servicio para historicos
+    sgauthbundle.historicos_service:
+            class: Elfec\SgauthBundle\Services\HistoricosService
+            arguments: ["@doctrine.orm.entity_manager"]

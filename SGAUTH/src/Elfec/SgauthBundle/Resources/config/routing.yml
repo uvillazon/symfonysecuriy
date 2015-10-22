@@ -17,3 +17,8 @@ opciones:
     type:     rest
     prefix:   /opciones
     resource: Elfec\SgauthBundle\Controller\MenuOpcionesController
+
+historicos:
+    type:   rest
+    prefix: /historicos
+    resource: Elfec\SgauthBundle\Controller\HistoricosController

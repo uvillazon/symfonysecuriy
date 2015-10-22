@@ -2,14 +2,14 @@ Ext.define("App.Config.Abstract.Grid", {
     extend: "Ext.grid.Panel",
     alias: 'widget.gridBase',
     width: 450,
-    height : 400,
+    height: 400,
     margins: '0 2 0 0',
     loadMask: true,
     fieldSet: '',
     equipo: '',
     value: '',
     split: true,
-    autoRender : true,
+    autoRender: true,
     stateful: true,
     requires: ['App.Config.ux.Printer', 'App.Config.ux.Exporter'],
     stateId: null,
@@ -31,7 +31,7 @@ Ext.define("App.Config.Abstract.Grid", {
     reportes: '',
     reportesEquipo: true,
     cargarStore: true,
-    reportesHistoricoEstados: true,
+    reportesHistoricoEstados: false,
     //propiedad de los parametros del store si lo tiene
     paramsStore: null,
     //este campo indica si cargara los elementos asociados 
@@ -59,7 +59,9 @@ Ext.define("App.Config.Abstract.Grid", {
         }
         //        this.store = store = Ext.create('App.Usuario.Store.Usuarios');
         if (me.store != null) {
-            if (me.paramsStore != null) { this.store.setExtraParams(me.paramsStore); }
+            if (me.paramsStore != null) {
+                this.store.setExtraParams(me.paramsStore);
+            }
             if (me.cargarStore) {
                 this.store.load();
             }
@@ -68,7 +70,12 @@ Ext.define("App.Config.Abstract.Grid", {
             me.reportesEquipo = false;
         }
         me.widthBsuqeda = (me.tamBusqueda != 120) ? me.tamBusqueda + 130 : me.widthBsuqeda;
-        me.txt_busqueda = Ext.create("App.Config.Componente.TextFieldBase", { fieldLabel: me.textBusqueda, width: me.widthBsuqeda, labelWidth: me.tamBusqueda, hidden: me.busqueda })
+        me.txt_busqueda = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: me.textBusqueda,
+            width: me.widthBsuqeda,
+            labelWidth: me.tamBusqueda,
+            hidden: me.busqueda
+        })
         me.button = Ext.create('Ext.Button', {
             pressed: true,
             text: 'Buscar',
@@ -131,7 +138,7 @@ Ext.define("App.Config.Abstract.Grid", {
         me.btn_historico = Ext.create('Ext.Button', {
             pressed: true,
             iconCls: 'clock',
-            tooltip: 'Reporte Historicos Estados',
+            tooltip: 'Reporte Historicos Cambios',
             //enableToggle: true,
             scope: this,
             hidden: me.reportesHistoricoEstados,
@@ -143,13 +150,13 @@ Ext.define("App.Config.Abstract.Grid", {
         ///////////
         me.toolBar = Ext.create('Ext.toolbar.Toolbar', {
             items: [
-            me.txt_busqueda,
-            me.button,
-            me.btn_imprimir,
-            me.btn_exportExcel,
-            me.btn_criterios,
-            me.btn_reportes,
-            me.btn_historico
+                me.txt_busqueda,
+                me.button,
+                me.btn_imprimir,
+                me.btn_exportExcel,
+                me.btn_criterios,
+                me.btn_reportes,
+                me.btn_historico
             ]
         });
         this.dockedItems = me.toolBar;
@@ -186,14 +193,22 @@ Ext.define("App.Config.Abstract.Grid", {
         var me = this;
         var datos = me.getSelectionModel().getSelection()[0];
         if (datos != null) {
-
-            if (me.winHist == null) {
-                me.winHist = Ext.create("App.Config.Abstract.Window", { botones: false });
-                me.gridHist = Ext.create("App.View.Historicos.GridHistoricosEstado");
+            if (me.tabla != '' && me.id_tabla != '') {
+                var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+                var grid = Ext.create("App.View.Historicos.GridHistoricosEdicion",{paramsStore : {tabla : me.tabla , id_dato : datos.get(me.id_tabla)}});
+                win.add(grid);
+                win.show();
             }
-            me.gridHist.CargarHistorico(me.tabla, datos.get(me.id_tabla));
-            me.winHist.add(me.gridHist);
-            me.winHist.show();
+            else {
+                Ext.Msg.alert("Error", "No esta Configurado. Consultar a TI.");
+            }
+            //if (me.winHist == null) {
+            //    me.winHist = Ext.create("App.Config.Abstract.Window", {botones: false});
+            //    me.gridHist = Ext.create("App.View.Historicos.GridHistoricosEdicion");
+            //}
+            ////me.gridHist.CargarHistorico(me.tabla, datos.get(me.id_tabla));
+            //me.winHist.add(me.gridHist);
+            //me.winHist.show();
         } else {
             Ext.Msg.alert("Aviso", "Seleccione un Registro...");
 
@@ -233,7 +248,16 @@ Ext.define("App.Config.Abstract.Grid", {
     Criterios: function () {
         var me = this;
         if (me.ventanaCriterio == null) {
-            me.ventanaCriterio = Ext.create("App.Busqueda.Vistas.VentanaCriterios", { title: " Criterios de Busqueda", height: 160, width: 410, storeBuscar: me.getStore(), gridBuscar: me, data: me.txt_busqueda.getValue(), equipo: me.equipo, tmp: me.bar });
+            me.ventanaCriterio = Ext.create("App.Busqueda.Vistas.VentanaCriterios", {
+                title: " Criterios de Busqueda",
+                height: 160,
+                width: 410,
+                storeBuscar: me.getStore(),
+                gridBuscar: me,
+                data: me.txt_busqueda.getValue(),
+                equipo: me.equipo,
+                tmp: me.bar
+            });
         }
         me.ventanaCriterio.show();
     },
@@ -257,7 +281,7 @@ Ext.define("App.Config.Abstract.Grid", {
         store2.on('beforeload', function (s, a, c) {
             me.getEl().mask();
         });
-        store2.load({ limit: me.store.getTotalCount(), start: 0, page: 1 });
+        store2.load({limit: me.store.getTotalCount(), start: 0, page: 1});
         //alert("entro");
         var me = this;
         store2.on('load', function (store, records, options) {
