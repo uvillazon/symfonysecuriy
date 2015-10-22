@@ -72,7 +72,7 @@ class ReportesService
                 }
             } else {
                 $result->success = false;
-                $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+                $result->msg = "Ocurrio algun problema al Ejecutar la Funcion en Postgresql";
             }
         } catch (Exception $e) {
             $result->success = false;
