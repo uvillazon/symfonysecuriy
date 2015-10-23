@@ -31,7 +31,7 @@ Ext.define("App.Config.Abstract.Grid", {
     reportes: '',
     reportesEquipo: true,
     cargarStore: true,
-    reportesHistoricoEstados: false,
+    reportesHistoricoEstados: true,
     //propiedad de los parametros del store si lo tiene
     paramsStore: null,
     //este campo indica si cargara los elementos asociados 
