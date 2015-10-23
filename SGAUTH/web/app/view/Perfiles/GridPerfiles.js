@@ -9,6 +9,9 @@ Ext.define("App.View.Perfiles.GridPerfiles", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
+    reportesHistoricoEstados: false,
+    tabla : 'perfiles',
+    id_tabla : 'id_perfil',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;

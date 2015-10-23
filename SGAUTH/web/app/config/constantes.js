@@ -81,5 +81,15 @@ Ext.define("App.Config.Constantes", {
         else {
             this.HOST = window.location.origin + '/' + this.path+''+this.rutaBackend;
         }
+    },
+    obtenerHostManualUsuario : function(){
+        var urlDoc = 'ManualUsuario/SGAUTH.html';
+        if (window.location.hostname == 'localhost') {
+            return window.location.origin+'/'+urlDoc ;
+        }
+        else {
+            return window.location.origin + '/' + this.path+''+urlDoc;
+        }
+        //ManualUsuario/SGAUTH.html
     }
 });

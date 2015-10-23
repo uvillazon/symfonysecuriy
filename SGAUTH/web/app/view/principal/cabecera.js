@@ -114,7 +114,7 @@ Ext.define("App.View.Principal.Cabecera", {
         Ext.Msg.confirm("Confirmar", "Esta seguro salir de la aplicación?", function (btn) {
             if (btn === "yes") {
                 window.localStorage.clear();
-                document.location = Constantes.obtenerHost()+'logon';
+                document.location = Constantes.obtenerHost() + 'logon';
 
             }
         });
@@ -165,15 +165,20 @@ Ext.define("App.View.Principal.Cabecera", {
         if (menu.datos.href) {
             controller = me.app.controllers.get('Controller-' + menu.datos.id);
             if (!controller) {
-                controller = Ext.create(me.app.getModuleClassName(menu.datos.href, 'controller'), {
-                    application: me.app,
-                    id: 'Controller-' + menu.datos.id
-                });
-                me.app.controllers.add(controller);
-                controller.tabPanel = me.tabPanel;
-                controller.datosTab = menu.datos;
-                controller.init(me.app);
-                controller.onLaunch(me.app);
+                try {
+                    controller = Ext.create(me.app.getModuleClassName(menu.datos.href, 'controller'), {
+                        application: me.app,
+                        id: 'Controller-' + menu.datos.id
+                    });
+                    me.app.controllers.add(controller);
+                    controller.tabPanel = me.tabPanel;
+                    controller.datosTab = menu.datos;
+                    controller.init(me.app);
+                    controller.onLaunch(me.app);
+                }
+                catch(error){
+                    Ext.Msg.alert("Error","Error Consulta a TI , Error Generado "+error);
+                }
                 //controller.show();
             }
             else {

@@ -10,6 +10,7 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
     noLimpiar: null,
     tabla : 'usuarios',
     id_tabla : 'id_usuario',
+    reportesHistoricoEstados: false,
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;

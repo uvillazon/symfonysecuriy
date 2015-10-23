@@ -7,6 +7,9 @@ Ext.define("App.View.Opciones.GridOpciones", {
     title: 'Opciones de Menu',
     criterios: true,
     porPerfil: false,
+    reportesHistoricoEstados: false,
+    tabla : 'menu_opciones',
+    id_tabla : 'id_opc',
     classStore: 'App.Store.Opciones.Opciones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {

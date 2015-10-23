@@ -5,7 +5,7 @@
     disabledCls: 'DisabledClase',
     readOnlyCls: 'DisabledClaseReadOnly',
     //    vtype: "uppercase",
-    maxLength: 30,
+    maxLength: 255,
     emptyText: 'Introduzca...',
     enforceMaxLength: true,
     width: 240,

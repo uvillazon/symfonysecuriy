@@ -11,6 +11,9 @@ Ext.define("App.View.Opciones.GridBotones", {
     paramsStore: null,
     noLimpiar: null,
     busqueda: true,
+    reportesHistoricoEstados: false,
+    tabla : 'botones',
+    id_tabla : 'id_boton',
     classStore : 'App.Store.Opciones.Botones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
