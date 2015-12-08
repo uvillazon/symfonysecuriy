@@ -16,6 +16,7 @@ class menuOpcionesModel
     public $href;
     public $id;
     public $tooltip;
+    public $parametros;
     /**
      * @var  array $submenu
      */

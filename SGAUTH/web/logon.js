@@ -62,9 +62,11 @@ Ext.onReady(function () {
                                     var razon = action.result;
                                     var u = login.query('#usuario')[0];
                                     var c = login.query('#contrasena')[0];
-                                    c.focus();
-                                    c.reset();
-                                    Ext.Msg.alert('Error en el acceso!', razon.msg);
+
+                                    Ext.Msg.alert('Error en el acceso!', razon.msg,function(){
+                                        c.focus();
+                                        c.reset();
+                                    });
                                 }
                             });
                         }

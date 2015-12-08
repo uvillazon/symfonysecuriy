@@ -107,6 +107,13 @@ class menuOpciones
      */
     private $padre;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parametros", type="string", length=100, nullable=false)
+     */
+    private $parametros;
+
 
 
     /**
@@ -324,5 +331,28 @@ class menuOpciones
     public function getIdPadre()
     {
         return $this->idPadre;
+    }
+
+    /**
+     * Set parametros
+     *
+     * @param string $parametros
+     * @return menuOpciones
+     */
+    public function setParametros($parametros)
+    {
+        $this->parametros = $parametros;
+
+        return $this;
+    }
+
+    /**
+     * Get parametros
+     *
+     * @return string
+     */
+    public function getParametros()
+    {
+        return $this->parametros;
     }
 }

@@ -79,6 +79,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 "padre" => ($opcion->getIdOpc()->getIdPadre() != null) ? $opcion->getIdOpc()->getIdPadre()->getIdOpc() : null,
                 "estilo" => $opcion->getIdOpc()->getEstilo(),
                 "orden" => $opcion->getIdOpc()->getOrden(),
+                "parametros"=> $opcion->getIdOpc()->getParametros(),
                 "id_perfil" => $opcion->getIdPerfil()->getIdPerfil(),
                 "botones" => $this->obtenerBotonesPorPerfilOpcion($idPerfil, $opcion->getIdOpc()->getIdOpc())
 
@@ -111,6 +112,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->id = $menu['id'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
+                $opcion->parametros = $menu['parametros'];
                 $subMenus = $this->buscarHijos($array, $menu['id']);
                 if (count($subMenus) > 0) {
                     $opcion->submenu = $subMenus;
@@ -134,6 +136,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->id = $menu['id'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
+                $opcion->parametros = $menu['parametros'];
                 $subMenus = $this->buscarHijos($array, $menu['id']);
                 if (count($subMenus) > 0) {
                     $opcion->submenu = $subMenus;

@@ -194,7 +194,7 @@ Ext.define("App.Config.Abstract.Grid", {
         var datos = me.getSelectionModel().getSelection()[0];
         if (datos != null) {
             if (me.tabla != '' && me.id_tabla != '') {
-                var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+                var win = Ext.create("App.Config.Abstract.Window", {botones: false, destruirWin: true});
                 var grid = Ext.create("App.View.Historicos.GridHistoricosEdicion",{paramsStore : {tabla : me.tabla , id_dato : datos.get(me.id_tabla)}});
                 win.add(grid);
                 win.show();
