@@ -42,6 +42,7 @@ class JsonSerializableParser implements ParserInterface
         if (isset($input['name']) && !empty($input['name'])) {
             $output = array();
             $output[$input['name']] = $parsed;
+
             return $output;
         }
 
@@ -58,7 +59,8 @@ class JsonSerializableParser implements ParserInterface
             'subType' => null,
             'required' => null,
             'description' => null,
-            'readonly' => null
+            'readonly' => null,
+            'default' => is_scalar($item) ? $item : null,
         );
 
         if ($type == 'object' && $item instanceof \JsonSerializable) {
@@ -79,7 +81,7 @@ class JsonSerializableParser implements ParserInterface
      * Check for numeric sequential keys, just like the json encoder does
      * Credit: http://stackoverflow.com/a/25206156/859027
      *
-     * @param array $arr
+     * @param  array $arr
      * @return bool
      */
     private function isSequential(array $arr)
@@ -89,6 +91,7 @@ class JsonSerializableParser implements ParserInterface
                 return false;
             }
         }
+
         return true;
     }
 }

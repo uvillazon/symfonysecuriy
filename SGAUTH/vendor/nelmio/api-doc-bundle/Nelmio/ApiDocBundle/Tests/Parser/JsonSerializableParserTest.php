@@ -1,11 +1,15 @@
 <?php
-/**
- * Created by mcfedr on 30/06/15 21:06
+
+/*
+ * This file is part of the NelmioApiDocBundle.
+ *
+ * (c) Nelmio <hello@nelm.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
-
 namespace NelmioApiDocBundle\Tests\Parser;
-
 
 use Nelmio\ApiDocBundle\Parser\JsonSerializableParser;
 
@@ -48,13 +52,15 @@ class JsonSerializableParserTest extends \PHPUnit_Framework_TestCase
             array(
                 'property' => 'id',
                 'expected' => array(
-                    'dataType' => 'integer'
+                    'dataType' => 'integer',
+                    'default'  => 123
                 )
             ),
             array(
                 'property' => 'name',
                 'expected' => array(
-                    'dataType' => 'string'
+                    'dataType' => 'string',
+                    'default'  => 'My name',
                 )
             ),
             array(
@@ -68,7 +74,8 @@ class JsonSerializableParserTest extends \PHPUnit_Framework_TestCase
                             'subType' => null,
                             'required' => null,
                             'description' => null,
-                            'readonly' => null
+                            'readonly' => null,
+                            'default' => null,
                         )
                     )
                 )

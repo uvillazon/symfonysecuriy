@@ -211,9 +211,6 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @covers Symfony\Component\DependencyInjection\Loader\YamlFileLoader::supports
-     */
     public function testSupports()
     {
         $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator());
@@ -279,5 +276,25 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(array('setLogger', array(new Reference('logger'))), array('setClass', array('User'))), $definition->getMethodCalls());
         $this->assertEquals(array(true), $definition->getArguments());
         $this->assertEquals(array('manager' => array(array('alias' => 'user'))), $definition->getTags());
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessageRegExp /The tag name for service ".+" in .+ must be a non-empty string/
+     */
+    public function testTagWithEmptyNameThrowsException()
+    {
+        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
+        $loader->load('tag_name_empty_string.yml');
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessageREgExp /The tag name for service "\.+" must be a non-empty string/
+     */
+    public function testTagWithNonStringNameThrowsException()
+    {
+        $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator(self::$fixturesPath.'/yaml'));
+        $loader->load('tag_name_no_string.yml');
     }
 }

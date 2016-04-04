@@ -1,0 +1,464 @@
+To: ubaldo.villazon@elfec.bo
+Subject: Recuperacion de Correos
+Message-ID: <0bd72d714ef6e7ff2e3660e70c741cfd@127.0.0.1>
+Date: Wed, 30 Mar 2016 11:10:57 -0400
+From: ubaldo.villazon@elfec.bo
+Bcc: ubaldo.villazon@elfec.bo
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns=3D"http://www.w3.org/19=
+99/xhtml">
+<head>
+    <meta http-equiv=3D"Content-Type" content=3D"text=
+/html; charset=3Dutf-8" />
+    <meta name=3D"viewport" content=3D"width=
+=3Ddevice-width, initial-scale=3D1.0"/>
+    <title>[SUBJECT]</title>
+  =
+  <style type=3D"text/css">
+
+        @media screen and (max-width: 600p=
+x) {
+            table[class=3D"container"] {
+                width: 95=
+% !important;
+            }
+        }
+
+        #outlook a {padding:=
+0;}
+        body{width:100% !important; -webkit-text-size-adjust:100%; -m=
+s-text-size-adjust:100%; margin:0; padding:0;}
+        .ExternalClass {wi=
+dth:100%;}
+        .ExternalClass, .ExternalClass p, .ExternalClass span,=
+ .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 1=
+00%;}
+        #backgroundTable {margin:0; padding:0; width:100% !importan=
+t; line-height: 100% !important;}
+        img {outline:none; text-decorat=
+ion:none; -ms-interpolation-mode: bicubic;}
+        a img {border:none;}=
+
+        .image_fix {display:block;}
+        p {margin: 1em 0;}
+     =
+   h1, h2, h3, h4, h5, h6 {color: black !important;}
+
+        h1 a, h2 =
+a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+
+        h1 a:activ=
+e, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+   =
+         color: red !important;
+        }
+
+        h1 a:visited, h2 a=
+:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+     =
+       color: purple !important;
+        }
+
+        table td {border-=
+collapse: collapse;}
+
+        table { border-collapse:collapse; mso-tab=
+le-lspace:0pt; mso-table-rspace:0pt; }
+
+        a {color: #000;}
+
+ =
+       @media only screen and (max-device-width: 480px) {
+
+            =
+a[href^=3D"tel"], a[href^=3D"sms"] {
+                text-decoration: non=
+e;
+                color: black; /* or whatever your want */
+          =
+      pointer-events: none;
+                cursor: default;
+          =
+  }
+
+            .mobile_link a[href^=3D"tel"], .mobile_link a[href^=3D=
+"sms"] {
+                text-decoration: default;
+                colo=
+r: orange !important; /* or whatever your want */
+                pointer=
+-events: auto;
+                cursor: default;
+            }
+       =
+ }
+
+
+        @media only screen and (min-device-width: 768px) and (ma=
+x-device-width: 1024px) {
+            a[href^=3D"tel"], a[href^=3D"sms"] =
+{
+                text-decoration: none;
+                color: blue; /=
+* or whatever your want */
+                pointer-events: none;
+      =
+          cursor: default;
+            }
+
+            .mobile_link a[=
+href^=3D"tel"], .mobile_link a[href^=3D"sms"] {
+                text-deco=
+ration: default;
+                color: orange !important;
+            =
+    pointer-events: auto;
+                cursor: default;
+            =
+}
+        }
+
+        @media only screen and (-webkit-min-device-pixel=
+-ratio: 2) {
+            /* Put your iPhone 4g styles in here */
+      =
+  }
+
+        @media only screen and (-webkit-device-pixel-ratio:.75){=
+
+            /* Put CSS for low density (ldpi) Android layouts in here */=
+
+        }
+        @media only screen and (-webkit-device-pixel-ratio:1=
+){
+            /* Put CSS for medium density (mdpi) Android layouts in he=
+re */
+        }
+        @media only screen and (-webkit-device-pixel-ra=
+tio:1.5){
+            /* Put CSS for high density (hdpi) Android layouts =
+in here */
+        }
+        /* end Android targeting */
+        h2{=
+
+            color:#181818;
+            font-family:Helvetica, Arial, s=
+ans-serif;
+            font-size:22px;
+            line-height: 22px;=
+
+            font-weight: normal;
+        }
+        a.link1{
+
+   =
+     }
+        a.link2{
+            color:#fff;
+            text-deco=
+ration:none;
+            font-family:Helvetica, Arial, sans-serif;
+    =
+        font-size:16px;
+            color:#fff;border-radius:4px;
+     =
+   }
+        p{
+            color:#555;
+            font-family:Helve=
+tica, Arial, sans-serif;
+            font-size:16px;
+            line-h=
+eight:160%;
+        }
+    </style>
+
+    <script type=3D"colorScheme=
+" class=3D"swatch active">
+  {
+    "name":"Default",
+    "bgBody":"ff=
+ffff",
+    "link":"fff",
+    "color":"555555",
+    "bgItem":"ffffff",=
+
+    "title":"181818"
+  }
+</script>
+
+</head>
+<body>
+<!-- Wrap=
+per/Container Table: Use a wrapper table to control the width and the backg=
+round color consistently of your email. Use this approach instead of settin=
+g attributes on the body tag. -->
+<table cellpadding=3D"0" width=3D"100%"=
+ cellspacing=3D"0" border=3D"0" id=3D"backgroundTable" class=3D'bgBody'>
+=
+    <tr>
+        <td>
+            <table cellpadding=3D"0" width=3D"620=
+" class=3D"container" align=3D"center" cellspacing=3D"0" border=3D"0">
+  =
+              <tr>
+                    <td>
+                        <!-=
+- Tables are the most common way to format your email consistently. Set you=
+r table widths inside cells and in most cases reset cellpadding, cellspacin=
+g, and border to zero. Use nested tables as a way to space effectively in y=
+our message. -->
+
+
+                        <table cellpadding=3D"0" c=
+ellspacing=3D"0" border=3D"0" align=3D"center" width=3D"600" class=3D"conta=
+iner">
+                            <tr>
+                               =
+ <td class=3D'movableContentContainer bgItem'>
+
+                       =
+             <div class=3D'movableContent'>
+                             =
+           <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D=
+"center" width=3D"600" class=3D"container">
+                             =
+               <tr height=3D"40">
+                                       =
+         <td width=3D"200">&nbsp;</td>
+                                  =
+              <td width=3D"200">&nbsp;</td>
+                             =
+                   <td width=3D"200">&nbsp;</td>
+                        =
+                    </tr>
+                                            <tr=
+>
+                                                <td width=3D"200" valig=
+n=3D"top">&nbsp;</td>
+                                                <td=
+ width=3D"200" valign=3D"top" align=3D"center">
+                         =
+                           <div class=3D"contentEditableContainer contentIm=
+ageEditable">
+                                                        <di=
+v class=3D"contentEditable" align=3D'center' >
+                          =
+                                  <img src=3D"[url]Content/images/logoSisma=
+n.png" width=3D"200" height=3D"200"  alt=3D'Logo'  data-default=3D"placehol=
+der" />
+                                                        </div>
+=
+                                                    </div>
+              =
+                                  </td>
+                                 =
+               <td width=3D"200" valign=3D"top">&nbsp;</td>
+             =
+                               </tr>
+                                    =
+        <tr height=3D"25">
+                                              =
+  <td width=3D"200">&nbsp;</td>
+                                         =
+       <td width=3D"200">&nbsp;</td>
+                                    =
+            <td width=3D"200">&nbsp;</td>
+                               =
+             </tr>
+                                        </table>
+   =
+                                 </div>
+
+                              =
+      <div class=3D'movableContent'>
+                                    =
+    <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center=
+" width=3D"600" class=3D"container">
+                                    =
+        <tr>
+                                                <td width=3D=
+"100%" colspan=3D"3" align=3D"center" style=3D"padding-bottom:10px;padding-=
+top:25px;">
+                                                    <div clas=
+s=3D"contentEditableContainer contentTextEditable">
+                     =
+                                   <div class=3D"contentEditable" align=3D'=
+center' >
+                                                            <h2=
+ >Cambio de Contrase=C3=B1a</h2>
+                                        =
+                </div>
+                                                  =
+  </div>
+                                                </td>
+        =
+                                    </tr>
+                               =
+             <tr>
+                                                <td wid=
+th=3D"100">&nbsp;</td>
+                                                <t=
+d width=3D"400" align=3D"center">
+                                       =
+             <div class=3D"contentEditableContainer contentTextEditable">=
+
+                                                        <div class=3D"co=
+ntentEditable" align=3D'left' >
+                                         =
+                   <p ><span style=3D"color: rgb(34, 34, 34); font-family: =
+arial, sans-serif; font-size: 15px; font-style: normal; font-variant: norma=
+l; font-weight: normal; letter-spacing: normal; line-height: normal; orphan=
+s: auto; text-align: start; text-indent: 0px; text-transform: none; white-s=
+pace: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0=
+px; display: inline !important; float: none; background-color: rgb(255, 255=
+, 255);">Estimado/a </span>[Name],
+                                      =
+                          <br/>
+                                         =
+                       <br/>
+                                            =
+                    El proceso de restablecer su contrase=C3=B1a se<strong>=
+ EJECUTO CORRECTAMENTE</strong></p>
+                                     =
+                       <p >Datos Adicionales:</p>
+                       =
+                                     <p >Fecha : [FECHA]</p>
+            =
+                                                <p >IP CLIENTE : [IP]</p>=
+
+                                                            <p >NAVEGADO=
+R : 92DJfv0RtgDlSF8c8YM-dhfkAt-M58XFWRc0dOfjIUU7vAI1n5uWFg</p>
+          =
+                                                  <p >si la informacion no =
+corresponde a su equipo. restablecer nuevamente su contrase=C3=B1a.Puede qu=
+e otro usuario cambio su contrase=C3=B1a</p>
+                            =
+                                <p >&nbsp;</p>
+                          =
+                                  <p >
+                                  =
+                              Gracias,</p>
+                              =
+                              <p >
+                                      =
+                          Unidad de Tecnologia de Informaci=C3=B3n</p>
+=
+
+                                                        </div>
+       =
+                                             </div>
+                     =
+                           </td>
+                                        =
+        <td width=3D"100">&nbsp;</td>
+                                   =
+         </tr>
+                                        </table>
+       =
+                                 <table cellpadding=3D"0" cellspacing=3D"0"=
+ border=3D"0" align=3D"center" width=3D"600" class=3D"container">
+       =
+                                     <tr>
+                               =
+                 <td width=3D"200">&nbsp;</td>
+                          =
+                      <td width=3D"200" align=3D"center" style=3D"padding-t=
+op:25px;">
+                                                    <table cel=
+lpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" width=3D"200=
+" height=3D"50">
+                                                        =
+<tr>
+                                                            <td bgco=
+lor=3D"#1E4C94" align=3D"center" style=3D"border-radius:4px;" width=3D"200"=
+ height=3D"50">
+                                                         =
+       <div class=3D"contentEditableContainer contentTextEditable">
+     =
+                                                               <div class=
+=3D"contentEditable" align=3D'center' >
+                                 =
+                                       <a href=3D"[link]" class=3D'link2'>I=
+r Aplicacion Sisman</a>
+                                                 =
+                   </div>
+                                               =
+                 </div>
+                                                 =
+           </td>
+                                                        =
+</tr>
+                                                    </table>
+    =
+                                            </td>
+                       =
+                         <td width=3D"200">&nbsp;</td>
+                  =
+                          </tr>
+                                        <=
+/table>
+                                    </div>
+
+
+              =
+                      <div class=3D'movableContent'>
+                    =
+                    <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0"=
+ align=3D"center" width=3D"600" class=3D"container">
+                    =
+                        <tr>
+                                            =
+    <td width=3D"100%" colspan=3D"2" style=3D"padding-top:65px;">
+       =
+                                             <hr style=3D"height:1px;border=
+:none;color:#333;background-color:#ddd;" />
+                             =
+                   </td>
+                                            </tr=
+>
+                                            <tr>
+                    =
+                            <td width=3D"100%">
+                         =
+                           <div class=3D"contentEditable" align=3D'left' >=
+
+                                                        <span style=3D"f=
+ont-size:13px;color:#181818;font-family:Helvetica, Arial, sans-serif;line-h=
+eight:200%;">Envio de Correo por la "Unidad de Tecnologia de Informacion&qu=
+ot;</span>
+                                                </td>
+      =
+                                      </tr>
+                             =
+           </table>
+                                    </div>
+
+
+  =
+                              </td>
+                            </tr>
+ =
+                       </table>
+
+
+
+
+                    </td></tr=
+></table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>=
+
+

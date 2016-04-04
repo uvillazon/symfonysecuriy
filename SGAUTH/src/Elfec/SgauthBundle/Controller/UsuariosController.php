@@ -171,4 +171,43 @@ class UsuariosController extends BaseController
 
     }
 
+    /**
+     * Este Metodo Cqambia la contrasea del usuario
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Cambiar la contrasea del usuario",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postCambiarcontrasenaAction(Request $request) {
+
+        $Usertoken = $this->container->get("JWTUser");
+        $servicio = $this->get('sgauthbundle.recuperacion_service');
+        $data = $request->request->all();
+//        var_dump($data)
+        $data["usuario"] = $Usertoken->login;
+        $result = $servicio->cambiar_password_sc($data);
+        if($result->success){
+            $servicio= $this->get('sgauthbundle.autenticacion_service');
+            $array = $request->query;
+            $array1 = $request->request->all();
+            $array->set("codigoApp",$Usertoken->codigoApp);
+            $array->set("usuario",$Usertoken->login);
+            $array->set("password",$array1['password']);
+            $header = $request->headers;
+            $result = $servicio->generarTokenPorUsuarioApp($array,$header);
+        }
+        return $result;
+    }
+
 }

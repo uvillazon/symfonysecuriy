@@ -81,7 +81,7 @@
     }
 
     extPrefix = useDebug ? '/ext' : '/ext-all';
-    console.log(extDir);
+    //console.log(extDir);
     document.write('<script type="text/javascript" src="' + extDir + extPrefix + rtlSuffix + '.js"></script>');
 
     if (hasOverrides) {

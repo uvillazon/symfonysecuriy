@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta charset="UTF-8" />
-        <title>ELFEC S.A. |  {% block title %}!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-        {#<link href="~/favicon.png" rel="shortcut icon" type="image/x-icon" />#}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
-    </head>
-    <body>
-       {% block body %}   {% endblock %}
-
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <title>ELFEC S.A. |  {% block title %}!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+    {#<link href="~/favicon.png" rel="shortcut icon" type="image/x-icon" />#}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.png') }}" />
+</head>
+<body id="body_1">
+{% block body %}   {% endblock %}
+</body>
 </html>

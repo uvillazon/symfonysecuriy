@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Elfec\SgauthBundle\ElfecSgauthBundle(),
             new Elfec\ReportesBundle\ElfecReportesBundle(),
+            new Nzo\UrlEncryptorBundle\NzoUrlEncryptorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

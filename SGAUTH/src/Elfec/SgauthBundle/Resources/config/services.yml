@@ -31,9 +31,19 @@ services:
 #    servicios para autenticacion
     sgauthbundle.autenticacion_service:
         class: Elfec\SgauthBundle\Services\AutenticacionService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.sgauth_entity_manager"]
 
 #   servicio para historicos
     sgauthbundle.historicos_service:
             class: Elfec\SgauthBundle\Services\HistoricosService
             arguments: ["@doctrine.orm.entity_manager"]
+
+#   servicio para envio de correo
+    sgauthbundle.correo_service:
+            class: Elfec\SgauthBundle\Services\CorreoService
+            arguments: ["@mailer","@templating"]
+
+#   servicio para la recuperacion de contraseña
+    sgauthbundle.recuperacion_service:
+            class: Elfec\SgauthBundle\Services\RecuperacionService
+            arguments: ["@doctrine.orm.sgauth_entity_manager" , "@nzo_url_encryptor" , "@sgauthbundle.correo_service"]

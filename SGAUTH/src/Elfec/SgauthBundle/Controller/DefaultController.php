@@ -10,6 +10,9 @@ use Exception;
 class DefaultController extends Controller
 {
 
+    /**
+     * @Route("/", name="index")
+     */
     public function indexAction()
     {
 //        try{
@@ -23,8 +26,24 @@ class DefaultController extends Controller
         return $this->render('ElfecSgauthBundle:Default:index.html.twig');
     }
 
+    /**
+     * @Route("/logon", name="logon")
+     */
     public function logonAction()
     {
             return $this->render('ElfecSgauthBundle:Default:login.html.twig');
+    }
+
+    /**
+     * @Route("/recuperacion/{codigoApp}", name="recuperacion")
+     */
+    public function recuperacionAction($codigoApp)
+    {
+
+        $des = $this->get('nzo_url_encryptor')->encrypt($codigoApp);
+        $MyId = $this->get('nzo_url_encryptor')->decrypt($des);
+//       var_dump($this->;
+//        $codigoApp = "adsdad";
+        return $this->render('ElfecSgauthBundle:Default:recuperacion.html.twig',array("codigoApp"=>$codigoApp, "encriptar"=> $des , "decr"=> $MyId));
     }
 }

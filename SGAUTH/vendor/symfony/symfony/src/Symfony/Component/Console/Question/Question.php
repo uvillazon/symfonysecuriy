@@ -140,7 +140,7 @@ class Question
         }
 
         if (null !== $values && !is_array($values)) {
-            if (!$values instanceof \Traversable || $values instanceof \Countable) {
+            if (!$values instanceof \Traversable || !$values instanceof \Countable) {
                 throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
             }
         }
@@ -217,7 +217,7 @@ class Question
      *
      * The normalizer can be a callable (a string), a closure or a class implementing __invoke.
      *
-     * @param string|\Closure $normalizer
+     * @param callable $normalizer
      *
      * @return Question The current instance
      */
@@ -233,7 +233,7 @@ class Question
      *
      * The normalizer can ba a callable (a string), a closure or a class implementing __invoke.
      *
-     * @return string|\Closure
+     * @return callable
      */
     public function getNormalizer()
     {

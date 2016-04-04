@@ -12,6 +12,7 @@ Ext.define("App.Config.Constantes", {
     singleton: true,
     /* Aqui Defino todas mis contanstantes */
     HOST: 'http://localhost:8000/backend/',
+    HOST_TOKEN : 'http://localhost:8000weqwewqe/',
     //HOST                : 'http://elfpre02/SisMan/',
     REQUERIDO: '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span>',
     PIEPAGINA: '<font color="black"><h2  style="font-size:12px;height:14px">Copyright &copy;  ' + (Ext.Date.format(new Date(), 'Y')) + '  -  Version 1.0</h2></font>',
@@ -80,6 +81,15 @@ Ext.define("App.Config.Constantes", {
         }
         else {
             this.HOST = window.location.origin + '/' + this.path+''+this.rutaBackend;
+        }
+    },
+    CargarHostSinSeguridad : function(){
+        console.dir(window.location);
+        if (window.location.hostname == 'localhost') {
+            this.HOST_TOKEN = window.location.origin+'/' ;
+        }
+        else {
+            this.HOST_TOKEN = window.location.origin + '/' + this.path;
         }
     },
     obtenerHostManualUsuario : function(){

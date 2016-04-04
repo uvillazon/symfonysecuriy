@@ -18,7 +18,9 @@
     "require": {
         "php": ">=5.3.9",
         "doctrine/common": "~2.4",
-        "twig/twig": "~1.20|~2.0",
+        "paragonie/random_compat": "~1.0",
+        "symfony/polyfill-apcu": "~1.1",
+        "twig/twig": "~1.23|~2.0",
         "psr/log": "~1.0"
     },
     "replace": {
@@ -68,14 +70,13 @@
         "symfony/yaml": "self.version"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "self.version",
         "doctrine/data-fixtures": "1.0.*",
         "doctrine/dbal": "~2.4",
         "doctrine/orm": "~2.4,>=2.4.5",
         "doctrine/doctrine-bundle": "~1.2",
         "monolog/monolog": "~1.11",
         "ircmaxell/password-compat": "~1.0",
-        "ocramius/proxy-manager": "~0.4|~1.0",
+        "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
         "egulias/email-validator": "~1.2"
     },
     "autoload": {
@@ -92,7 +93,10 @@
             "src/Symfony/Component/HttpFoundation/Resources/stubs",
             "src/Symfony/Component/Intl/Resources/stubs"
         ],
-        "files": [ "src/Symfony/Component/Intl/Resources/stubs/functions.php" ]
+        "files": [ "src/Symfony/Component/Intl/Resources/stubs/functions.php" ],
+        "exclude-from-classmap": [
+            "**/Tests/"
+        ]
     },
     "minimum-stability": "dev",
     "extra": {

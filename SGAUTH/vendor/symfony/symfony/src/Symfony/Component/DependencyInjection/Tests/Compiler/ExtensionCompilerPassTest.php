@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Symfony\Component\DependencyInjection\Tests\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\ExtensionCompilerPass;
@@ -12,7 +21,7 @@ class ExtensionCompilerPassTest extends \PHPUnit_Framework_TestCase
     private $container;
     private $pass;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $this->pass = new ExtensionCompilerPass();

@@ -53,7 +53,7 @@ class JWTListener implements ListenerInterface
         $encoder = str_replace("Bearer ", "", $request->headers->get('Authorization'));
 //        var_dump($encoder);
         if (empty($encoder)) {
-            $response->setStatusCode(Response::HTTP_INSUFFICIENT_STORAGE);
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
             $event->setResponse($response);
         } else {
             try {

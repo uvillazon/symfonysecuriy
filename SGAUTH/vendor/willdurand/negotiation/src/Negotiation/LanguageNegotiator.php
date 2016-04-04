@@ -2,40 +2,90 @@
 
 namespace Negotiation;
 
-class LanguageNegotiator extends AbstractNegotiator
+/**
+ * @author William Durand <william.durand1@gmail.com>
+ */
+class LanguageNegotiator extends Negotiator
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function acceptFactory($accept)
+    protected function parseHeader($header)
     {
-        return new AcceptLanguage($accept);
+        $acceptHeaders = array();
+
+        $header      = preg_replace('/\s+/', '', $header);
+        $acceptParts = array();
+
+        preg_match_all(
+            '/(?<=[, ]|^)([a-zA-Z-]+|\*)(?:;q=([0-9.]+))?(?:$|\s*,\s*)/i',
+            $header,
+            $acceptParts,
+            PREG_SET_ORDER
+        );
+
+        $index    = 0;
+        $catchAll = null;
+        foreach ($acceptParts as $acceptPart) {
+            $value   = $acceptPart[1];
+            $quality = isset($acceptPart[2]) ? (float) $acceptPart[2] : 1.0;
+
+            if ('*' === $value) {
+                $catchAll = new AcceptHeader($value, $quality);
+            } else {
+                $acceptHeaders[] = array(
+                    'item'  => new AcceptHeader($value, $quality),
+                    'index' => $index
+                );
+            }
+
+            $index++;
+        }
+
+        return $this->sortAcceptHeaders($acceptHeaders, $catchAll);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function match(AcceptHeader $acceptLanguage, AcceptHeader $priority, $index)
+    protected function match(array $acceptHeaders, array $priorities = array())
     {
-        if (!$acceptLanguage instanceof AcceptLanguage || !$priority instanceof AcceptLanguage) {
-            return null;
+        $wildcardAccept  = null;
+        $genericAccept   = null;
+
+        $prioritiesSet   = array();
+        $prioritiesSet[] = $priorities;
+        $prioritiesSet[] = array_map(function ($priority) {
+            return strtok($priority, '-');
+        }, $priorities);
+
+        foreach ($acceptHeaders as $accept) {
+            foreach ($prioritiesSet as $availablePriorities) {
+                $sanitizedPriorities = $this->sanitize($availablePriorities);
+
+                if (false !== $found = array_search(strtolower($accept->getValue()), $sanitizedPriorities)) {
+                    return $priorities[$found];
+                }
+
+                if (null === $genericAccept && false !== strpos($accept->getValue(), '-')) {
+                    $genericValue = explode('-', $accept->getValue());
+                    if ($genericValue && (false !== $found = array_search(strtolower($genericValue[0]), $sanitizedPriorities))) {
+                        $genericAccept = $priorities[$found];
+                    }
+                }
+
+                if ('*' === $accept->getValue()) {
+                    $wildcardAccept = $accept;
+                }
+            }
         }
 
-        $ab = $acceptLanguage->getBasePart();
-        $pb = $priority->getBasePart();
-
-        $as = $acceptLanguage->getSubPart();
-        $ps = $priority->getSubPart();
-
-        $baseEqual = !strcasecmp($ab, $pb);
-        $subEqual  = !strcasecmp($as, $ps);
-
-        if (($ab == '*' || $baseEqual) && ($as === null || $subEqual)) {
-            $score = 10 * $baseEqual + $subEqual;
-
-            return new Match($acceptLanguage->getQuality(), $score, $index);
+        if ($genericAccept) {
+            return $genericAccept;
         }
 
-        return null;
+        if (null !== $wildcardAccept) {
+            return reset($priorities);
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Symfony\Component\DependencyInjection\Tests\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -268,6 +269,27 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     */
+    public function testParseTagsWithoutNameThrowsException()
+    {
+        $container = new ContainerBuilder();
+        $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
+        $loader->load('tag_without_name.xml');
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\InvalidArgumentException
+     * @expectedExceptionMessageRegExp /The tag name for service ".+" in .* must be a non-empty string/
+     */
+    public function testParseTagWithEmptyNameThrowsException()
+    {
+        $container = new ContainerBuilder();
+        $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
+        $loader->load('tag_with_empty_name.xml');
+    }
+
     public function testConvertDomElementToArray()
     {
         $doc = new \DOMDocument('1.0');
@@ -390,9 +412,6 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @covers Symfony\Component\DependencyInjection\Loader\XmlFileLoader::supports
-     */
     public function testSupports()
     {
         $loader = new XmlFileLoader(new ContainerBuilder(), new FileLocator());

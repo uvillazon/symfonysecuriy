@@ -11,12 +11,21 @@ elfec_sgauth:
     prefix:   /backend
 
 front-end:
-    pattern:  /
-    defaults: { _controller: ElfecSgauthBundle:Default:index }
+    resource: Elfec\SgauthBundle\Controller\DefaultController
+    type:     annotation
+    prefix:   /
 
-front-end-logon:
-    pattern : /logon
-    defaults: { _controller: ElfecSgauthBundle:Default:logon }
+#    defaults: { _controller: ElfecSgauthBundle:Default:index }
+
+#front-end-logon:
+#    pattern : /logon
+#    defaults: { _controller: ElfecSgauthBundle:Default:logon }
+#
+#front-end-recuperacion:
+#    pattern : /recuperacion
+#    defaults: { _controller: ElfecSgauthBundle:Default:recuperacion }
+#
+
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"

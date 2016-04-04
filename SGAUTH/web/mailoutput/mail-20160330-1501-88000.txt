@@ -1,0 +1,48 @@
+To: ubaldo.villazon@elfec.bo
+Subject: Recuperacion de Correos
+Message-ID: <44ef01780237b272c11e3cc84250ed85@127.0.0.1>
+Date: Wed, 30 Mar 2016 11:01:02 -0400
+From: ubaldo.villazon@elfec.bo
+Bcc: ubaldo.villazon@elfec.bo
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html lang=3D"es">
+<html>
+<head>
+    <meta http-equ=
+iv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8" />
+    <meta c=
+harset=3D"UTF-8" />
+    <title>ELFEC S.A. |   Sistema de Autenticacion</t=
+itle>
+   =20
+            <link href=3D"/Content/extjs42.css" rel=3D"style=
+sheet" />
+    <link href=3D"/Content/Icons.css" rel=3D"stylesheet" />
+ =
+   <link href=3D"/Content/print.css" rel=3D"stylesheet" />
+       =20
+   =
+=20
+        <script type=3D"text/javascript" src=3D"/Scripts/extjs/shared/i=
+nclude-ext.js"></script>
+    <script type=3D"text/javascript" src=3D"/Scr=
+ipts/extjs/shared/options-toolbar.js"></script>
+    <script type=3D"text/=
+javascript" src=3D"/App/Config/Overrides/Store.js"></script>
+    <script =
+type=3D"text/javascript" src=3D"/App/View/Principal/App.js"></script>
+   =
+        =20
+        <link rel=3D"icon" type=3D"image/x-icon" href=3D"/favic=
+on.png" />
+</head>
+<body id=3D"body_1">
+92DJfv0RtgCiz8nXQodJzxfkAt-M5=
+8XFWRc0dOfjIUU7vAI1n5uWFg
+</body>
+</html>
+

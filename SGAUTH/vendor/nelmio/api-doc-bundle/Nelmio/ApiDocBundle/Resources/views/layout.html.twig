@@ -208,6 +208,9 @@
                         case "file":
                             $('<input type="file" class="value" placeholder="'+ placeholder +'">').insertAfter($context);
                             break;
+                        case "textarea":
+                            $('<textarea class="value" placeholder="'+ placeholder +'" />').insertAfter($context);
+                            break;
                         default:
                             $('<input type="text" class="value" placeholder="'+ placeholder +'">').insertAfter($context);
                     }
@@ -471,7 +474,6 @@
 
 
 
-
                     // retrieve the additional headers to send
                     $('.headers .tuple', $(this)).each(function() {
                         var key, value;
@@ -520,12 +522,6 @@
                     }
                     {% endif %}
 
-                    // Workaround for Firefox bug and a thereby resulting nginx incompatibility
-                    if (method == "LINK") {
-                        method = "POST";
-                        params._method = "LINK";
-                    }
-
                     // prepare final parameters
                     var body = {};
                     if(bodyFormat == 'json' && method != 'GET') {
@@ -537,6 +533,7 @@
                     var data = content.length ? content : body;
                     var ajaxOptions = {
                         url: (url.indexOf('http')!=0?endpoint:'') + url,
+                        xhrFields: { withCredentials: true },
                         type: method,
                         data: data,
                         headers: headers,
@@ -571,6 +568,7 @@
                         ajaxOptions.data = formData;
                         ajaxOptions.processData = false;
                         ajaxOptions.contentType = false;
+                        delete(headers['Content-type']);
                     }
 
                     // and trigger the API call
