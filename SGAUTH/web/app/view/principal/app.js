@@ -16,6 +16,9 @@ if(window.localStorage.length === 0){
     document.location = 'logon';
 
 }
+else{
+    console.dir(window.localStorage);
+}
 Ext.application({
     name: 'App',
     appFolder: 'App',

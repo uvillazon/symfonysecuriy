@@ -16,7 +16,7 @@ Ext.define("App.Config.Abstract.Store", {
     autoLoad: false,
     sortProperty: '',
     sortDirection: 'DESC',
-    pageSize: 25,
+    pageSize: 100,
     type: 'rest',
     url : '',
     urlCreate: '',

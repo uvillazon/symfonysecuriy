@@ -34,6 +34,18 @@ Ext.define("App.View.Perfiles.Principal", {
             itemId : 'per_cbx_app',
             store: me.store_app
         });
+        me.btn_historico_cambios = Ext.create('Ext.Button', {
+            pressed: true,
+            iconCls: 'clock',
+            tooltip: 'Historicos de Asociacio de Menu al Perfil',
+            itemId : 'btn_hist_perfiles',
+            //enableToggle: true,
+            scope: this,
+            text: 'Historicos',
+            tooltipType: 'qtip'
+
+
+        });
         me.grid = Ext.create('App.View.Perfiles.GridPerfiles', {
             width: '100%',
             region: 'center',
@@ -41,6 +53,7 @@ Ext.define("App.View.Perfiles.Principal", {
             borrarParametros: true,
         });
         me.grid.AgregarBtnToolbar(me.cbx_app);
+        me.grid.AgregarBtnToolbar(me.btn_historico_cambios);
 
         //me.grid.addDocked(me.cbx_app, 1);
         var panelCentral = Ext.create("App.Config.Abstract.FormPanel",
@@ -63,12 +76,16 @@ Ext.define("App.View.Perfiles.Principal", {
                     classStore : 'App.Store.Opciones.OpcionesPerfil',
                     cargarStore : false,
                     busqueda: true,
+                    reportesHistoricoEstados : true,
+                    imprimir : true
                 },
                 {
                     xtype: 'gridBotones',
                     itemId : 'gridBotonesPerfil',
                     cargarStore : false,
-                    classStore : 'App.Store.Opciones.BotonesPerfil'
+                    classStore : 'App.Store.Opciones.BotonesPerfil',
+                    reportesHistoricoEstados : true,
+                    imprimir : true
                 }
             ]
         });

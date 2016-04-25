@@ -25,6 +25,10 @@ Ext.define('App.controller.Opciones.Opciones', {
                 click: me.winCrearBoton
             }
             ,
+            'button[itemId=btn_eliminarBoton]': {
+                click: me.eliminarBoton
+            }
+            ,
             '#gridOpcBotones': {
                 selectionchange: me.cargarGridBoton
             }
@@ -43,6 +47,7 @@ Ext.define('App.controller.Opciones.Opciones', {
         disabled = selections.length === 0;
         me.recordBoton = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_editarBoton', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_eliminarBoton', me.cmpPrincipal, disabled);
     },
     cargarDatosGrid: function (selModel, selections) {
         var me = this;
@@ -88,6 +93,10 @@ Ext.define('App.controller.Opciones.Opciones', {
         win.btn_guardar.on('click', function () {
             Funciones.AjaxRequestWin('opciones', 'botones', win, form, me.getGridBoton(), 'Esta Seguro de guardar los Cambios?', null, win);
         });
+
+    },
+    eliminarBoton : function(){
+        Ext.Msg.alert("Aviso","Se Esta Trabajando en la construccion de la opcion");
 
     }
 

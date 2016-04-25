@@ -37,11 +37,14 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             '#btn_quitarBoton': {
                 click: me.quitarBotonPerfil
             },
-            'grid[itemId=gridOpcionesPerfil]':{
-                selectionchange : me.cargarBotones
+            '#btn_hist_perfiles': {
+                click: me.ventanaHistPerfiles
             },
-            'grid[itemId=gridBotonesPerfil]':{
-                selectionchange : me.cargarOpciones
+            'grid[itemId=gridOpcionesPerfil]': {
+                selectionchange: me.cargarBotones
+            },
+            'grid[itemId=gridBotonesPerfil]': {
+                selectionchange: me.cargarOpciones
             }
 
         });
@@ -61,7 +64,7 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
 
 
-    }    ,
+    },
     cargarDatosGrid: function (selModel, selections) {
         var me = this;
         disabled = selections.length === 0;
@@ -98,7 +101,7 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         });
 
     },
-    cargarBotones : function(selModel, selections){
+    cargarBotones: function (selModel, selections) {
         var me = this;
         disabled = selections.length === 0;
         console.log(disabled);
@@ -112,14 +115,14 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             me.getGridBotones().getStore().clearFilter();
         }
     },
-    cargarOpciones : function(selModel , selections){
+    cargarOpciones: function (selModel, selections) {
         var me = this;
         disabled = selections.length === 0;
         console.log(disabled);
         me.boton = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_quitarBoton', me.cmpPrincipal, disabled);
     },
-    winAgregarOpcion : function(){
+    winAgregarOpcion: function () {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
         var form = Ext.create("App.View.Perfiles.FormOpcionPerfil", {botones: false});
@@ -131,11 +134,14 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             Funciones.AjaxRequestWin('opciones', 'agregars/opcions', win, form, me.getGridOpciones(), 'Esta Seguro de guardar los datos', null, win);
         });
     },
-    quitarOpcionPerfil : function(){
+    quitarOpcionPerfil: function () {
         var me = this;
-        Funciones.AjaxRequestGrid('opciones', 'quitars/opcions', me.cmpPrincipal, 'Esta Seguro de Eliminar', {id_perfil : me.record.get('id_perfil'),id_opc : me.opcion.get('id_opc')}, me.getGridOpciones());
+        Funciones.AjaxRequestGrid('opciones', 'quitars/opcions', me.cmpPrincipal, 'Esta Seguro de Eliminar', {
+            id_perfil: me.record.get('id_perfil'),
+            id_opc: me.opcion.get('id_opc')
+        }, me.getGridOpciones());
     },
-    winAgregarBoton : function(){
+    winAgregarBoton: function () {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
         var form = Ext.create("App.View.Perfiles.FormBotonPerfil", {botones: false});
@@ -149,9 +155,30 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         });
         //App.View.Perfiles.FormBotonPerfil"
     },
-    quitarBotonPerfil : function(){
+    quitarBotonPerfil: function () {
         var me = this;
-        Funciones.AjaxRequestGrid('opciones', 'quitars/botons', me.cmpPrincipal, 'Esta Seguro de Eliminar', {id_perfil : me.record.get('id_perfil'),id_boton : me.boton.get('id_boton')}, me.getGridBotones());
+        Funciones.AjaxRequestGrid('opciones', 'quitars/botons', me.cmpPrincipal, 'Esta Seguro de Eliminar', {
+            id_perfil: me.record.get('id_perfil'),
+            id_boton: me.boton.get('id_boton')
+        }, me.getGridBotones());
     },
+    ventanaHistPerfiles: function (a) {
+        var me = this;
+        var datos = me.record;
+        if (datos != null) {
+            var win = Ext.create("App.Config.Abstract.Window", {botones: false, destruirWin: true});
+            var grid = Ext.create("App.View.Historicos.GridHistoricosEdicion", {
+                paramsStore: {
+                    tabla: 'perfiles_opciones',
+                    id_dato: datos.get('id_perfil')
+                }
+            });
+            win.add(grid);
+            win.show();
+        } else {
+            Ext.Msg.alert("Aviso", "Seleccione un Registro...");
+
+        }
+    }
 })
 ;

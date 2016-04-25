@@ -1,5 +1,0 @@
-services:
-#    servicios para autenticacion
-    reportesbundle.reportes_service:
-        class: Elfec\ReportesBundle\Services\ReportesService
-        arguments: ["@doctrine.orm.entity_manager"]

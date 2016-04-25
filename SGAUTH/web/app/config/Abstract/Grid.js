@@ -202,13 +202,6 @@ Ext.define("App.Config.Abstract.Grid", {
             else {
                 Ext.Msg.alert("Error", "No esta Configurado. Consultar a TI.");
             }
-            //if (me.winHist == null) {
-            //    me.winHist = Ext.create("App.Config.Abstract.Window", {botones: false});
-            //    me.gridHist = Ext.create("App.View.Historicos.GridHistoricosEdicion");
-            //}
-            ////me.gridHist.CargarHistorico(me.tabla, datos.get(me.id_tabla));
-            //me.winHist.add(me.gridHist);
-            //me.winHist.show();
         } else {
             Ext.Msg.alert("Aviso", "Seleccione un Registro...");
 

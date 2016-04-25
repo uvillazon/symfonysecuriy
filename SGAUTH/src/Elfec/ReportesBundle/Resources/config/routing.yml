@@ -1,4 +1,0 @@
-servicios:
-    type:     rest
-    prefix:   /servicio
-    resource: Elfec\ReportesBundle\Controller\ReportesController

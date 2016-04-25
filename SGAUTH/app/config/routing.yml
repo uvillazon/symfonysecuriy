@@ -1,11 +1,3 @@
-elfec_reportes_view:
-    defaults: { _controller: ElfecReportesBundle:Default:index }
-    pattern: /reportes/view
-
-elfec_sgauth_reportes:
-    resource: "@ElfecReportesBundle/Resources/config/routing.yml"
-    prefix:   /reportes
-
 elfec_sgauth:
     resource: "@ElfecSgauthBundle/Resources/config/routing.yml"
     prefix:   /backend

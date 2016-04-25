@@ -37,7 +37,7 @@ Ext.define("App.View.Perfiles.FormOpcionPerfil", {
         });
 
         me.store_opcion = Ext.create("App.Store.Opciones.Opciones");
-        me.cbx_opcion = Ext.create("App.Config.Componente.ComboBase", {
+        me.cbx_opcion = Ext.create("App.Config.Componente.ComboAutoBase", {
             fieldLabel: 'Opcion',
             displayField: 'opcion',
             valueField: 'id_opc',

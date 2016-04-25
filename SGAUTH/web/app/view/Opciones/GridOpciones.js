@@ -8,8 +8,8 @@ Ext.define("App.View.Opciones.GridOpciones", {
     criterios: true,
     porPerfil: false,
     reportesHistoricoEstados: false,
-    tabla : 'menu_opciones',
-    id_tabla : 'id_opc',
+    tabla: 'menu_opciones',
+    id_tabla: 'id_opc',
     classStore: 'App.Store.Opciones.Opciones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
@@ -35,6 +35,11 @@ Ext.define("App.View.Opciones.GridOpciones", {
 
     },
     renderIcon: function (value, metaData, record) {
-        return '<img data-qtip="' + value + '", src="' + Constantes.obtenerHost() + '/Content/Iconos/' + value + '.png" />';
+        if (record.get('id_aplic') === 1) {
+            return '<span class="' + value + '"/>';
+        }
+        else {
+            return '<img data-qtip="' + value + '", src="' + Constantes.obtenerHost() + '/Content/Iconos/' + value + '.png" />';
+        }
     }
 });

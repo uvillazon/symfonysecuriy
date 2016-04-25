@@ -34,7 +34,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         me.cargarEventos();
     },
     quitarUsrApp: function () {
-
+        Ext.Msg.alert("Aviso","Se esta implementando esta opcion...");
     },
     cargarEventos: function () {
         var me = this;

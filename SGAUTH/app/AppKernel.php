@@ -20,7 +20,6 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Elfec\SgauthBundle\ElfecSgauthBundle(),
-            new Elfec\ReportesBundle\ElfecReportesBundle(),
             new Nzo\UrlEncryptorBundle\NzoUrlEncryptorBundle(),
         );
 
@@ -36,6 +35,6 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
+        $loader->load($this->getRootDir() . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 }

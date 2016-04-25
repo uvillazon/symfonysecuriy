@@ -18,48 +18,54 @@ use Elfec\SgauthBundle\Entity\perfilesOpciones;
 use Elfec\SgauthBundle\Entity\usuarios;
 use Exception;
 use Firebase\JWT\JWT;
+
 class AutenticacionService
 {
     protected $em;
     private $usrArray = array();
     private $idUsr = 0;
-    public function __construct(\Doctrine\ORM\EntityManager $em){
+
+    public function __construct(\Doctrine\ORM\EntityManager $em)
+    {
 
         $this->em = $em;
     }
-    public function generarTokenPorUsuarioApp($data,$header){
+
+    public function generarTokenPorUsuarioApp($data, $header)
+    {
 
 
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
-        if(is_null($data->get('codigoApp'))){
-            $result->msg="Tiene que Ingresar un codigo de aplicacion";
+        if (is_null($data->get('codigoApp'))) {
+            $result->msg = "Tiene que Ingresar un codigo de aplicacion";
             $result->success = false;
-        }
-        else{
+        } else {
             $codigoApp = $data->get('codigoApp');
-            $managerApp =  $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
+            $managerApp = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
 
-            $obj = $managerApp->findOneBy(array('codigo'=> $codigoApp ));
-            if(is_null($obj)){
-                $result->msg="Codigo de Apliacion  no existe";
+            $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
+            if (is_null($obj)) {
+                $result->msg = "Codigo de Apliacion  no existe";
                 $result->success = false;
-            }
-            else{
-                $test = $this->testConnection($data->get('usuario'),$data->get('password'),$obj);
-                if(is_numeric($test)){
-                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'),$obj->getIdAplic());
-                    if(is_numeric($usrTest)){
-                        $result->msg= "Proceso Ejecutado Correctamente";
+            } else {
+                $test = $this->testConnection($data->get('usuario'), $data->get('password'), $obj);
+//                var_dump($test);die();
+                if (is_numeric($test) && $data->get('codigoApp') != 'SISMAN') {
+                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic());
+                    if (is_numeric($usrTest)) {
+                        $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
-                        $result->data = $this->obtenerTokenPerfil($usrTest,$obj);
-                    }
-                    else{
-                        $result->msg= $usrTest;
+                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj);
+                    } else {
+                        $result->msg = $usrTest;
                         $result->success = false;
                     }
-                }
-                else{
-                    $result->msg=$test;
+                } else if (is_numeric($test) && $data->get('codigoApp') == 'SISMAN') {
+                    $result->msg = "Proceso Ejecutado Correctamente";
+                    $result->success = true;
+                    $result->data = $this->obtenerTokenSisman($obj, $data);
+                } else {
+                    $result->msg = $test;
                     $result->success = false;
                 }
 
@@ -68,6 +74,30 @@ class AutenticacionService
         return $result;
     }
 
+    /**
+     * metodo temporal para obtener
+     */
+    private function obtenerTokenSisman($app, $data)
+    {
+        $key = $app->getSecretKey();
+        $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
+        $token = [
+            "exp" => time() + 28800,
+
+            "key" => $connect
+
+        ];
+//        var_dump($data);
+        $jwt = JWT::encode($token, $key);
+        $result = array(
+            "token" => $jwt,
+            "usuario" => array(
+                "login" => $data->get("usuario"),
+                "codigoApp" => $data->get("codigoApp")
+            )
+        );
+        return $result;
+    }
 
 
     /**
@@ -75,7 +105,8 @@ class AutenticacionService
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
      * @return array
      */
-    private function obtenerTokenPerfil($idPerfil,$app){
+    private function obtenerTokenPerfil($idPerfil, $app)
+    {
         $key = $app->getSecretKey();
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
         $menus = $repoUsr->obtenerOpcionesMenuPorPerfil($idPerfil);
@@ -83,10 +114,10 @@ class AutenticacionService
         /**
          * @var appUsr $usr
          */
-        $usr = $repoUsr->findOneBy(array('perfil'=> $idPerfil , 'usuario' => $this->idUsr));
-        $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"],$key),$key);
+        $usr = $repoUsr->findOneBy(array('perfil' => $idPerfil, 'usuario' => $this->idUsr));
+        $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
         $usuario = array(
-            "login" => $usr->getIdUsuario()->getLogin() ,
+            "login" => $usr->getIdUsuario()->getLogin(),
             "nombre" => $usr->getIdUsuario()->getNombre(),
             "perfil" => $usr->getIdPerfil()->getNombre(),
             "id_perfil" => $usr->getIdPerfil()->getIdPerfil(),
@@ -97,16 +128,24 @@ class AutenticacionService
             "codigoApp" => $usr->getIdAplic()->getCodigo(),
             "id_aplic" => $usr->getIdAplic()->getIdAplic()
         );
-        $token = [
-            "exp" => time() + 28800,
-            "menu" => $menus,
-            "usuario" => $usuario,
-            "key" => $connect
+        if ($app->getCodigo() === "SGCST") {
+            $token = [
+                "exp" => time() + 28800,
+                "menu" => $menus,
+                "usuario" => $usuario,
+                "key" => $connect
 
-        ];
+            ];
+        } else {
+            $token = [
+                "exp" => time() + 28800,
+                "usuario" => $usuario,
+                "key" => $connect
+            ];
+        }
         $jwt = JWT::encode($token, $key);
         $result = array(
-            "token" => $jwt ,
+            "token" => $jwt,
             "menu" => $menus,
             "usuario" => $usuario
         );
@@ -117,29 +156,28 @@ class AutenticacionService
      * @param string $usuario
      * @return string
      */
-    private function esUsuarioAppActivo($usuario,$idApp){
+    private function esUsuarioAppActivo($usuario, $idApp)
+    {
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:usuarios');
         /**
          * @var usuarios $usr
          */
-        $usr =  $repoUsr->findOneBy(array('login'=> $usuario));
+        $usr = $repoUsr->findOneBy(array('login' => $usuario));
         $result = "";
-        if(is_null($usr)){
-            $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion",$usuario);
-        }
-        else{
-            if($usr->getEstado()=="ACTIVO"){
-                $repoUsrApp =  $this->em->getRepository('ElfecSgauthBundle:appUsr');
+        if (is_null($usr)) {
+            $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion", $usuario);
+        } else {
+            if ($usr->getEstado() == "ACTIVO") {
+                $repoUsrApp = $this->em->getRepository('ElfecSgauthBundle:appUsr');
                 /**
                  * @var appUsr $usrApp
                  */
-                $usrApp =  $repoUsrApp->findOneBy(array('usuario'=>$usr->getIdUsuario(),'aplicacion'=>$idApp));
+                $usrApp = $repoUsrApp->findOneBy(array('usuario' => $usr->getIdUsuario(), 'aplicacion' => $idApp));
 //                var_dump($usrApp->getEstado());
-                if(is_null($usrApp)){
-                    $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion",$usuario);
-                }
-                else{
-                    if($usrApp->getEstado()=="ACTIVO"){
+                if (is_null($usrApp)) {
+                    $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion", $usuario);
+                } else {
+                    if ($usrApp->getEstado() == "ACTIVO") {
                         $result = $usrApp->getIdPerfil()->getIdPerfil();
                         $usrArray = array(
                             "usuario" => $usr->getLogin(),
@@ -149,14 +187,12 @@ class AutenticacionService
                         );
                         $this->idUsr = $usr->getIdUsuario();
                         $this->usrArray["usuario"] = $usrArray;
-                    }
-                    else{
-                        $result = sprintf("el usuario: %s esta INACTIVO",$usuario);
+                    } else {
+                        $result = sprintf("el usuario: %s esta INACTIVO", $usuario);
                     }
                 }
-            }
-            else{
-                $result = sprintf("el usuario: %s esta INACTIVO",$usuario);
+            } else {
+                $result = sprintf("el usuario: %s esta INACTIVO", $usuario);
             }
         }
         return $result;
@@ -169,26 +205,28 @@ class AutenticacionService
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
      * @return string
      */
-    private function testConnection($usuario,$password , $app){
-        try{
+    private function testConnection($usuario, $password, $app)
+    {
+        try {
             $config = new \Doctrine\DBAL\Configuration();
             $connectionParams = array(
                 'dbname' => $app->getBdPrinc(),
                 'user' => $usuario,
                 'password' => $password,
                 'host' => $app->getBdHost(),
-                'port'=> $app->getBdPort(),
-                'driver' => $app->getBdDrive()
+                'port' => $app->getBdPort(),
+                'driver' => $app->getBdDrive(),
+                'service' => true
             );
+//            var_dump($connectionParams);
             $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
             $conn->connect();
             $conn->close();
             $this->usrArray["dbConnect"] = $connectionParams;
 //            array_push($this->usrArray,$connectionParams);
-            $result=1;
-        }
-        catch(Exception $ex){
-            $result=$ex->getMessage();
+            $result = 1;
+        } catch (Exception $ex) {
+            $result = $ex->getMessage();
         }
         return $result;
     }

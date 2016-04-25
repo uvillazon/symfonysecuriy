@@ -46,7 +46,7 @@ class MenuOpcionesService
             $row = [
                 "id_opc" => $obj->getIdOpc(),
                 "id_aplic" => $obj->getIdAplic()->getIdAplic(),
-                "aplicacion" => $obj->getIdAplic()->getNombre(),
+                "aplicacion" => $obj->getIdAplic()->getCodigo(),
                 "opcion" => $obj->getOpcion(),
                 "link" => $obj->getLink(),
                 "tooltip" => $obj->getTooltip(),
@@ -144,17 +144,30 @@ class MenuOpcionesService
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
-            $st = $conection->prepare("SELECT elfec.grabar_menu_opciones(:p_id_opc::NUMERIC,:p_id_aplic::NUMERIC,:p_opcion::VARCHAR , :p_link::VARCHAR,:p_tooltip::VARCHAR,:p_icono::VARCHAR,:p_estilo::VARCHAR,:p_id_padre::NUMERIC ,:p_orden::NUMERIC, :p_estado::VARCHAR ,:p_login_usr::VARCHAR);");
-            $st->bindValue(":p_id_opc", ($data["id_opc"] == '') ? 0 : $data["id_opc"]);
-            $st->bindValue(":p_id_aplic", ($data["id_aplic"] == '') ? 0 : $data["id_aplic"]);
-            $st->bindValue(":p_opcion", $data["opcion"]);
-            $st->bindValue(":p_link", $data["link"]);
-            $st->bindValue(":p_tooltip", $data["tooltip"]);
-            $st->bindValue(":p_icono", $data["icono"]);
-            $st->bindValue(":p_estilo", $data["estilo"]);
-            $st->bindValue(":p_id_padre", ($data["id_padre"] == '') ? 0 : $data["id_padre"]);
-            $st->bindValue(":p_orden", $data["orden"]);
-            $st->bindValue(":p_estado", $data["estado"]);
+            $st = $conection->prepare("SELECT elfec.grabar_menu_opciones(
+            :p_id_opc::NUMERIC,
+            :p_id_aplic::NUMERIC,
+            :p_opcion::VARCHAR ,
+            :p_link::VARCHAR,
+            :p_tooltip::VARCHAR,
+            :p_icono::VARCHAR,
+            :p_estilo::VARCHAR,
+            :p_id_padre::NUMERIC ,
+            :p_orden::NUMERIC,
+            :p_estado::VARCHAR ,
+            :p_parametros::varchar,
+            :p_login_usr::VARCHAR);");
+            $st->bindValue(":p_id_opc", array_key_exists('id_opc', $data) ? $data["id_opc"] === '' ? 0 : $data["id_opc"] : 0);
+            $st->bindValue(":p_id_aplic", array_key_exists('id_aplic', $data) ? $data["id_aplic"] === '' ? 0 : $data["id_aplic"] : 0);
+            $st->bindValue(":p_opcion", array_key_exists('opcion', $data) ? $data["opcion"] : null);
+            $st->bindValue(":p_link", array_key_exists('link', $data) ? $data["link"] : null);
+            $st->bindValue(":p_tooltip", array_key_exists('tooltip', $data) ? $data["tooltip"] : null);
+            $st->bindValue(":p_icono", array_key_exists('icono', $data) ? $data["icono"] : null);
+            $st->bindValue(":p_estilo", array_key_exists('estilo', $data) ? $data["estilo"] : null);
+            $st->bindValue(":p_id_padre", array_key_exists('id_padre', $data) ? $data["id_padre"] === '' ? 0 : $data["id_padre"] : 0);
+            $st->bindValue(":p_orden", array_key_exists('orden', $data) ? $data["orden"] === '' ? 0 : $data["orden"] : 0);
+            $st->bindValue(":p_estado", array_key_exists('estado', $data) ? $data["estado"] : null);
+            $st->bindValue(":p_parametros", array_key_exists('parametros', $data) ? $data["parametros"] : null);
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();
@@ -346,7 +359,9 @@ class MenuOpcionesService
         return $result;
 
     }
-    public function eliminarOpcionPerfil($data,$login){
+
+    public function eliminarOpcionPerfil($data, $login)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
@@ -429,7 +444,9 @@ class MenuOpcionesService
         return $result;
 
     }
-    public function eliminarBotonPerfil($data,$login){
+
+    public function eliminarBotonPerfil($data, $login)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();

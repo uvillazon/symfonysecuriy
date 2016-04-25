@@ -45,7 +45,7 @@ Ext.define("App.Config.Constantes", {
         }
     },
     CargarTamano: function () {
-        this.ALTO = document.documentElement.clientHeight - 155;
+        this.ALTO = document.documentElement.clientHeight - 130;
         //this.MAXALTO = document.documentElement.clientHeight - 40;
         this.MAXANCHO = document.documentElement.clientWidth - 50;
         this.MAXALTO = document.documentElement.clientHeight - 90;
@@ -55,16 +55,13 @@ Ext.define("App.Config.Constantes", {
         Ext.Msg.alert("Entrooo");
     },
     CargarLocalStorage: function () {
+        try{
         this.USUARIO = JSON.parse(window.localStorage["usuario"]);
         this.MENU = JSON.parse(window.localStorage["menu"]);
-        //var token = window.localStorage["token"];
-        //
-        //var res = token.split(".");
-        //console.log(Ext.util.Base64.decode(res[1]));
-        //this.TOKEN = JSON.parse( Ext.util.Base64.decode(res[1]));
-        //console.dir((this.MENU));
-        //console.dir(storedNames);
-        //console.dir(storedNames);
+        }
+        catch (e){
+            document.location = 'logon';
+        }
     },
     obtenerHost: function () {
         if (window.location.hostname == 'localhost') {
