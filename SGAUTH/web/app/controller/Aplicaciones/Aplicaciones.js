@@ -11,6 +11,7 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
     }],
     init: function () {
         var me = this;
+        // opc_cbx_app
         me.control({
             'button[itemId=btn_crear_app]': {
                 click: me.winCrearApp
@@ -24,7 +25,6 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
         this.callParent();
         me.cargarEventos();
     },
-
     cargarEventos: function () {
         var me = this;
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
