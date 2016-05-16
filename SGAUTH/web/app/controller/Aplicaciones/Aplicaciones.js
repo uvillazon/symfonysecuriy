@@ -11,12 +11,13 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
     }],
     init: function () {
         var me = this;
+        // opc_cbx_app
         me.control({
-            'button[itemId=btn_crearApp]': {
+            'button[itemId=btn_crear_app]': {
                 click: me.winCrearApp
             }
             ,
-            'button[itemId=btn_editarApp]': {
+            'button[itemId=btn_editar_app]': {
                 click: me.winCrearApp
             }
         });
@@ -24,10 +25,10 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
         this.callParent();
         me.cargarEventos();
     },
-
     cargarEventos: function () {
         var me = this;
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
+
 
 
     },
@@ -36,7 +37,7 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
         console.dir(selections);
         disabled = selections.length === 0;
         me.record = !disabled ? selections[0] : null;
-        //Funciones.DisabledButton('btn_editarApp', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_editar_app', me.cmpPrincipal, disabled);
         if (!disabled) {
             me.cmpPrincipal.form.CargarDatos(me.record);
             me.getGridUser().getStore().setExtraParams({id_aplic: me.record.get("id_aplic")});
@@ -54,7 +55,7 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
         var form = Ext.create("App.View.Aplicaciones.FormAplicacion",{botones : false});
         win.add(form);
         win.show();
-        if(btn.getItemId() === "btn_editarApp"){
+        if(btn.getItemId() === "btn_editar_app"){
             form.getForm().loadRecord(me.record);
         }
         win.btn_guardar.on('click', function () {

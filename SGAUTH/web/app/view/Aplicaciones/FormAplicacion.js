@@ -49,6 +49,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
         me.txt_bd = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Base de Datos",
             name: "bd_princ",
+            mayus : false,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
 
@@ -63,6 +64,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
         me.txt_bd_host = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "BD Host",
             name: "bd_host",
+            mayus : false,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false
 
@@ -70,6 +72,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
         me.txt_bd_drive = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "BD Drive",
             name: "bd_drive",
+            mayus : false,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false
 
@@ -77,6 +80,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
         me.txt_host = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Host App",
             name: "app_host",
+            mayus : false,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false
 
@@ -92,6 +96,15 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             store: ['ACTIVO', 'INACTIVO'],
 
         });
+        me.txt_secret = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: "Secret Key",
+            name: "secret_key",
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            mayus : false,
+            colspan: 2,
+            width: 480,
+        });
         me.items = [
             me.txt_id,
             me.txt_codigo,
@@ -103,6 +116,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             me.txt_bd_drive,
             me.txt_host,
             me.cbx_estado,
+            me.txt_secret
         ];
 
 

@@ -249,7 +249,7 @@ Ext.define("App.Config.Abstract.Controller", {
         //controller.cmpPrincipal.destroy();
         //controller.clearListeners();
         //delete controller;
-        console.dir(controller);
+        // console.dir(controller);
         //for(var i=0,len=controller.selectors.length;i<len;i++){
         //    var obj = controller.selectors[i];
         //    for(var s in obj){

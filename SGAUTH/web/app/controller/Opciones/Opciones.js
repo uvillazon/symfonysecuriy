@@ -32,11 +32,21 @@ Ext.define('App.controller.Opciones.Opciones', {
             '#gridOpcBotones': {
                 selectionchange: me.cargarGridBoton
             }
+            ,
+            'combobox[itemId=opc_cbx_app]': {
+                select: me.filtrarPorApp
+            }
         });
 
         this.callParent();
         me.cargarEventos();
     },
+    filtrarPorApp: function (cbx, record) {
+        var me = this;
+        me.cmpPrincipal.grid.getStore().setExtraParams({id_aplic: record.get("id_aplic")});
+        me.cmpPrincipal.grid.getStore().load();
+    },
+
     cargarEventos: function () {
         var me = this;
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
@@ -86,7 +96,7 @@ Ext.define('App.controller.Opciones.Opciones', {
         var form = Ext.create("App.View.Opciones.FormBoton", {botones: false});
         win.add(form);
         win.show();
-        if(btn.getItemId() === "btn_editarBoton"){
+        if (btn.getItemId() === "btn_editarBoton") {
             form.getForm().loadRecord(me.recordBoton);
         }
         form.cargarRecordOpcion(me.record);
@@ -95,8 +105,8 @@ Ext.define('App.controller.Opciones.Opciones', {
         });
 
     },
-    eliminarBoton : function(){
-        Ext.Msg.alert("Aviso","Se Esta Trabajando en la construccion de la opcion");
+    eliminarBoton: function () {
+        Ext.Msg.alert("Aviso", "Se Esta Trabajando en la construccion de la opcion");
 
     }
 
