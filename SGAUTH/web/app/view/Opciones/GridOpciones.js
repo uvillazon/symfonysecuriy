@@ -18,6 +18,8 @@ Ext.define("App.View.Opciones.GridOpciones", {
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;
+
+
         // Ext.define('Task', {
         //     extend: 'Ext.data.TreeModel',
         //     fields: [
