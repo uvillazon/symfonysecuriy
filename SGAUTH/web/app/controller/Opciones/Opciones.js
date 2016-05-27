@@ -32,20 +32,12 @@ Ext.define('App.controller.Opciones.Opciones', {
             '#gridOpcBotones': {
                 selectionchange: me.cargarGridBoton
             }
-            ,
-            'combobox[itemId=opc_cbx_app]': {
-                select: me.filtrarPorApp
-            }
         });
 
         this.callParent();
         me.cargarEventos();
     },
-    filtrarPorApp: function (cbx, record) {
-        var me = this;
-        me.cmpPrincipal.grid.getStore().setExtraParams({id_aplic: record.get("id_aplic")});
-        me.cmpPrincipal.grid.getStore().load();
-    },
+  
 
     cargarEventos: function () {
         var me = this;

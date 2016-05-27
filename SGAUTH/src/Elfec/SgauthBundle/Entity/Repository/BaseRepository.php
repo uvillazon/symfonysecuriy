@@ -39,6 +39,7 @@ class BaseRepository extends EntityRepository
                 }
             }
         }
+//        var_dump($query->getDQL()) ;
         return $query;
     }
 
@@ -55,6 +56,7 @@ class BaseRepository extends EntityRepository
             $fields = array_keys($this->getClassMetadata()->fieldNames);
             $alias = $query->getRootAlias();
             $count = 0;
+//            var_dump($query->getState());
             foreach ($array as $field) {
                 $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
                 $where = sprintf("UPPER(%s.%s) LIKE :condicion", $alias, $fieldMapping);
@@ -148,5 +150,56 @@ class BaseRepository extends EntityRepository
             return $retval;
         });
         return $data;
+    }
+
+    /**
+     * @param $array
+     * @param $index
+     * @param $default
+     * @return int|null|string
+     */
+    public function getValueArray($array, $index, $default)
+    {
+        if ($default === 0) {
+//            var_dump(array_key_exists($index, $array) ? $array[$index] === '' ? 0 : $array[$index] : 0);
+            return array_key_exists($index, $array) ? $array[$index] === '' ? 0 : $array[$index] : 0;
+        } else {
+//            var_dump(array_key_exists($index, $array) ? $array[$index] : null);
+            return array_key_exists($index, $array) ? $array[$index] === '' ? null : $array[$index] : null;
+        }
+
+    }
+
+    /**
+     * @param $response
+     * @return \Elfec\SgauthBundle\Model\RespuestaSP
+     */
+    public function respuestaSP($response)
+    {
+
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        if (count($response) > 0) {
+            if (is_numeric($this->getValueToArray($response[0]))) {
+                $result->success = true;
+                $result->msg = "Proceso Ejectuado Correctamente";
+                $result->id = $this->getValueToArray($response[0]);
+            } else {
+                $result->success = false;
+                $result->msg = $this->getValueToArray($response[0]);
+            }
+        } else {
+            $result->success = false;
+            $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+        }
+
+        return $result;
+    }
+
+    private function getValueToArray($array)
+    {
+        foreach ($array as $key => $value) {
+            return $value;
+        }
+        return null;
     }
 }

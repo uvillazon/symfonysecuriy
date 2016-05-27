@@ -30,10 +30,12 @@ class MenuOpcionesService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:menuOpciones');
         $query = $repo->createQueryBuilder('men');
-        $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["opcion", "tooltip", "estado"], $paginacion->contiene);
         }
+        $query = $repo->filtrarDatos($query, $array);
+
+//        var_dump($query->getDQL());die();
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);

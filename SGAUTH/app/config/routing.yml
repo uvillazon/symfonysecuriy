@@ -7,6 +7,15 @@ front-end:
     type:     annotation
     prefix:   /
 
+elfec-config:
+    resource: Elfec\SgauthBundle\Controller\ItemsController
+    type:     rest
+    prefix:   /api
+
+elfec-rest-api:
+    resource: Elfec\SgauthBundle\Controller\FreeServicesController
+    type:     rest
+    prefix:   /rest-api
 #    defaults: { _controller: ElfecSgauthBundle:Default:index }
 
 #front-end-logon:

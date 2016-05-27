@@ -12,7 +12,7 @@ Ext.define("App.Config.Constantes", {
     singleton: true,
     /* Aqui Defino todas mis contanstantes */
     HOST: 'http://localhost:8000/backend/',
-    HOST_TOKEN : 'http://localhost:8000weqwewqe/',
+    HOST_TOKEN: 'http://localhost:8000weqwewqe/',
     //HOST                : 'http://elfpre02/SisMan/',
     REQUERIDO: '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span>',
     PIEPAGINA: '<font color="black"><h2  style="font-size:12px;height:14px">Copyright &copy;  ' + (Ext.Date.format(new Date(), 'Y')) + '  -  Version 1.0</h2></font>',
@@ -27,6 +27,7 @@ Ext.define("App.Config.Constantes", {
     LiSTAS: null,
     USUARIO: null,
     MENU: null,
+    APLICACION : null,
     //TOKEN : null,
     URLLISTAS: 'Listas/ObtenerTodasLasListas',
     URLIMAGEN: "Imagenes/VerImagen?",
@@ -35,7 +36,7 @@ Ext.define("App.Config.Constantes", {
     UND_EJEC_LLVV: 1,
     UND_EJEC_SUB: 4,
     path: 'sgauth/',
-    rutaBackend : 'backend/',
+    rutaBackend: 'backend/',
     UnidadesRequeridas: function (unidad, requerido) {
         if (requerido) {
             return '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span><span style="color:blue" data-qtip="Requerido">[' + unidad + ']</span>';
@@ -55,47 +56,48 @@ Ext.define("App.Config.Constantes", {
         Ext.Msg.alert("Entrooo");
     },
     CargarLocalStorage: function () {
-        try{
-        this.USUARIO = JSON.parse(window.localStorage["usuario"]);
-        this.MENU = JSON.parse(window.localStorage["menu"]);
+        try {
+            this.USUARIO = JSON.parse(window.localStorage["usuario"]);
+            this.MENU = JSON.parse(window.localStorage["menu"]);
+            this.APLICACION = JSON.parse(window.localStorage["aplicacion"]);
         }
-        catch (e){
+        catch (e) {
             document.location = 'logon';
         }
     },
     obtenerHost: function () {
         if (window.location.hostname == 'localhost') {
-            var host = window.location.origin +'/';
+            var host = window.location.origin + '/';
         }
         else {
             var host = window.location.origin + '/' + this.path;
         }
         return host;
     },
-    CargarHost : function(){
+    CargarHost: function () {
         if (window.location.hostname == 'localhost') {
-            this.HOST = window.location.origin+'/'+this.rutaBackend ;
+            this.HOST = window.location.origin + '/' + this.rutaBackend;
         }
         else {
-            this.HOST = window.location.origin + '/' + this.path+''+this.rutaBackend;
+            this.HOST = window.location.origin + '/' + this.path + '' + this.rutaBackend;
         }
     },
-    CargarHostSinSeguridad : function(){
+    CargarHostSinSeguridad: function () {
         console.dir(window.location);
         if (window.location.hostname == 'localhost') {
-            this.HOST_TOKEN = window.location.origin+'/' ;
+            this.HOST_TOKEN = window.location.origin + '/';
         }
         else {
             this.HOST_TOKEN = window.location.origin + '/' + this.path;
         }
     },
-    obtenerHostManualUsuario : function(){
+    obtenerHostManualUsuario: function () {
         var urlDoc = 'ManualUsuario/SGAUTH.html';
         if (window.location.hostname == 'localhost') {
-            return window.location.origin+'/'+urlDoc ;
+            return window.location.origin + '/' + urlDoc;
         }
         else {
-            return window.location.origin + '/' + this.path+''+urlDoc;
+            return window.location.origin + '/' + this.path + '' + urlDoc;
         }
         //ManualUsuario/SGAUTH.html
     }

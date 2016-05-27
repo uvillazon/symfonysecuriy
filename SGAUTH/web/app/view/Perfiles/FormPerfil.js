@@ -33,22 +33,6 @@ Ext.define("App.View.Perfiles.FormPerfil", {
             colspan: 2,
             width: 480,
         });
-        me.store_app = Ext.create("App.Store.Aplicaciones.Aplicaciones");
-        me.store_app.load();
-        me.cbx_app = Ext.create("App.Config.Componente.ComboBase", {
-            fieldLabel: 'Aplicacion',
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            afterLabelTextTpl: Constantes.REQUERIDO,
-            allowBlank: false,
-            name: 'id_aplic',
-            colspan: 2,
-            width: 480,
-            store: me.store_app,
-            textoTpl: function () {
-                return '<h4>{codigo}</h4>  {nombre}';
-            }
-        });
 
         me.txt_descripcion = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Descripcion",
@@ -70,7 +54,6 @@ Ext.define("App.View.Perfiles.FormPerfil", {
         me.items = [
             me.txt_id,
             me.txt_nombre,
-            me.cbx_app,
             me.txt_descripcion,
             me.cbx_estado
         ];
