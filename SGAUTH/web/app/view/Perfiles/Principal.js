@@ -23,17 +23,7 @@ Ext.define("App.View.Perfiles.Principal", {
                 overflowHandler: 'Menu'
             },
         });
-        me.store_app = Ext.create("App.Store.Aplicaciones.Aplicaciones");
-        me.store_app.load();
-        me.cbx_app = Ext.create("App.Config.Componente.ComboBase", {
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            name: 'id_aplic',
-            emptyText: 'Seleccione Aplicacion',
-            width: 150,
-            itemId : 'per_cbx_app',
-            store: me.store_app
-        });
+
         me.btn_historico_cambios = Ext.create('Ext.Button', {
             pressed: true,
             iconCls: 'clock',
@@ -52,7 +42,6 @@ Ext.define("App.View.Perfiles.Principal", {
             itemId: 'grid123',
             borrarParametros: true,
         });
-        me.grid.AgregarBtnToolbar(me.cbx_app);
         me.grid.AgregarBtnToolbar(me.btn_historico_cambios);
 
         //me.grid.addDocked(me.cbx_app, 1);

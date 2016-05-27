@@ -44,6 +44,10 @@ class AutenticacionService
             $managerApp = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
 
             $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
+//            var_dump($data);
+//            var_dump(is_null($data->get('id_aplic')));
+            $aplicacion = !is_null($data->get('id_aplic')) ? $managerApp->find($data->get('id_aplic')) : null;
+//            var_dump($aplicacion);
             if (is_null($obj)) {
                 $result->msg = "Codigo de Apliacion  no existe";
                 $result->success = false;
@@ -55,7 +59,8 @@ class AutenticacionService
                     if (is_numeric($usrTest)) {
                         $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
-                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj);
+                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj ,$aplicacion);
+                        $result->data = !is_null($aplicacion) ?   $this->pushArrayApp($aplicacion,$result->data) : $result->data;
                     } else {
                         $result->msg = $usrTest;
                         $result->success = false;
@@ -72,6 +77,28 @@ class AutenticacionService
             }
         }
         return $result;
+    }
+
+    /**
+     * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
+     * @param array $array
+     * @return array
+     */
+    private function pushArrayApp($app, $array)
+    {
+//        var_dump($array);
+        $row = array(
+            "codigo" => $app->getCodigo(),
+            "aplicacion" => $app->getNombre(),
+            "id_aplic" => $app->getIdAplic()
+
+        );
+
+        $array["aplicacion"] = $row;
+//        array_push($array, $row);
+
+//            var_dump($array);
+        return $array;
     }
 
     /**
@@ -105,7 +132,7 @@ class AutenticacionService
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
      * @return array
      */
-    private function obtenerTokenPerfil($idPerfil, $app)
+    private function obtenerTokenPerfil($idPerfil, $app,$aplicacion)
     {
         $key = $app->getSecretKey();
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
@@ -143,6 +170,7 @@ class AutenticacionService
                 "key" => $connect
             ];
         }
+        $token = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion,$token) : $token;
         $jwt = JWT::encode($token, $key);
         $result = array(
             "token" => $jwt,

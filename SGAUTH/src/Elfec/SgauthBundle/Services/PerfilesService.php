@@ -30,10 +30,11 @@ class PerfilesService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:perfiles');
         $query = $repo->createQueryBuilder('per');
-        $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["nombre", "descripcion", "estado"], $paginacion->contiene);
         }
+        $query = $repo->filtrarDatos($query, $array);
+
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);

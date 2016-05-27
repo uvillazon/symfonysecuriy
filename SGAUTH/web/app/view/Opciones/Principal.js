@@ -10,24 +10,11 @@ Ext.define("App.View.Opciones.Principal", {
     },
     CargarComponentes: function () {
         var me = this;
-        me.store_app = Ext.create("App.Store.Aplicaciones.Aplicaciones");
-        me.store_app.load();
-        me.cbx_app = Ext.create("App.Config.Componente.ComboBase", {
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            name: 'id_aplic',
-            emptyText: 'Seleccione Aplicacion',
-            width: 150,
-            itemId : 'opc_cbx_app',
-            store: me.store_app
-        });
-
 
         me.grid = Ext.create('App.View.Opciones.GridOpciones', {
             region: 'west',
             width: '50%'
         });
-        me.grid.AgregarBtnToolbar(me.cbx_app);
         var cmpButton  = Ext.create("Ext.Toolbar",{
             width: '100%',
             height : 55,

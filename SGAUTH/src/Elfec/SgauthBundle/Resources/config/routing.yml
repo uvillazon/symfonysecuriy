@@ -22,3 +22,8 @@ historicos:
     type:   rest
     prefix: /historicos
     resource: Elfec\SgauthBundle\Controller\HistoricosController
+
+listas:
+    type:   rest
+    prefix: /listas
+    resource: Elfec\SgauthBundle\Controller\ListasController

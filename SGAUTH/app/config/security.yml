@@ -19,8 +19,8 @@ security:
               stateless:    true
               jwt: true
               anonymous : true
-        wsse_report:
-              pattern:   ^/reportes/.*
+        wsse_api:
+              pattern:   ^/api/.*
               stateless:    true
               jwt: true
               anonymous : true

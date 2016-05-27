@@ -58,7 +58,7 @@ Ext.define("App.View.Principal.Cabecera", {
         me.items = [me.cmp_logo, me.panel_bar];
 
         me.crearMenuOpciones();
-        me.CrearCabeceraLogin(me.tb, Constantes.USUARIO);
+        me.CrearCabeceraLogin(me.tb, Constantes.USUARIO, Constantes.APLICACION);
         me.callParent();
     },
     crearMenuOpciones: function () {
@@ -88,9 +88,9 @@ Ext.define("App.View.Principal.Cabecera", {
             });
         }
     },
-    CrearCabeceraLogin: function (tb, data) {
+    CrearCabeceraLogin: function (tb, data, dataApp) {
         var me = this;
-        var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.perfil + ' : ' + data.login + '</span>';
+        var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;">  APLICACION ->' + dataApp.codigo + ' | ' + data.perfil + '  : ' + data.login + '</span>';
         //var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.Nombre + ' / ' + data.UsuarioDB + '</span>';
         //var NombreUsuario = '<span  style="font-size:11px;height:11px;font-weight: bold;"> ' + data.Perfil + ' : ' + data.Nombre + ' Inicio :  ' + data.FechaSesion + ' Fin : ' + data.FechaCaducidadSession + ' </span>';
         tb.add("->");
@@ -176,8 +176,8 @@ Ext.define("App.View.Principal.Cabecera", {
                     controller.init(me.app);
                     controller.onLaunch(me.app);
                 }
-                catch(error){
-                    Ext.Msg.alert("Error","Error Consulta a TI , Error Generado "+error);
+                catch (error) {
+                    Ext.Msg.alert("Error", "Error Consulta a TI , Error Generado " + error);
                 }
                 //controller.show();
             }
