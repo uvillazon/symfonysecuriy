@@ -71,7 +71,7 @@ Ext.define("App.View.Listas.FormLista", {
             store : ["A", "I"]
         });
         me.items = [
-            me.num_id_lista,
+            me.txt_id,
             me.txt_lista,
             me.txt_descripcion,
             me.num_tam_limite,

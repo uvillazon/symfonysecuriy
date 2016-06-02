@@ -26,7 +26,7 @@ class BaseRepository extends EntityRepository
 //         var_dump($this->getClassMetadata()->getFieldMapping());die();
         $alias = $query->getRootAlias();
         foreach ($fields as $field) {
-            if (!is_null($array->get($field))) {
+            if (!is_null($array->get($field)) && strlen($array->get($field)) > 0) {
                 $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
                 if (trim(strtoupper($operador)) === "AND") {
                     $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
