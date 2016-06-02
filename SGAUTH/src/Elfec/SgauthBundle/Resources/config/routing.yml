@@ -27,3 +27,9 @@ listas:
     type:   rest
     prefix: /listas
     resource: Elfec\SgauthBundle\Controller\ListasController
+
+#Directorios
+libretadireciones:
+    type:   rest
+    prefix: /directorios
+    resource: Elfec\SgauthBundle\Controller\DirectoriosController

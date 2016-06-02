@@ -18,8 +18,7 @@ class aplicaciones
      *
      * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="elfec.aplicaciones_id_aplic_seq", allocationSize=1, initialValue=1)
+     
      */
     private $idAplic;
 

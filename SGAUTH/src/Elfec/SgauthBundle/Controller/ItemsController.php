@@ -12,16 +12,31 @@ class ItemsController extends BaseController
 {
 
     /**
-     *  @Rest\Get("/listas/items")
+     * @Rest\Get("/listas/items")
      */
     public function getListasItemsAction(Request $request)
     {
         $Usertoken = $this->container->get("JWTUser");
         $id_aplic = $Usertoken->id_aplic;
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.listas_service');
+        $servicio = $this->get('sgauthbundle.listas_service');
         $array = $request->query;
-        $result = $servicio->obtenerItemsPorLista($paginacion , $array,$id_aplic);
+        $result = $servicio->obtenerItemsPorLista($paginacion, $array, $id_aplic);
+        return $result;
+    }
+
+    /**
+     * @Rest\Get("/usuarios/usuarios")
+     */
+    public function getUsuariosAplicacionAction(Request $request)
+    {
+        $Usertoken = $this->container->get("JWTUser");
+        $id_aplic = $Usertoken->id_aplic;
+        $array = $request->query;
+        $array->set("id_aplic", $id_aplic);
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $result = $servicio->obtenerUsuariosPorAplicacionPaginados($paginacion, $array);
         return $result;
     }
 }

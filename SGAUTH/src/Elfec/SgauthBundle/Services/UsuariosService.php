@@ -12,12 +12,15 @@ namespace Elfec\SgauthBundle\Services;
 class UsuariosService
 {
     protected $em;
+    protected $emSgauth;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em)
+    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth)
     {
 
         $this->em = $em;
+        $this->emSgauth = $emSgauth;
     }
+
 
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
@@ -179,6 +182,56 @@ class UsuariosService
         }
         return $result;
 
+    }
+
+
+    //Rest Api For Other Aplicaction
+    /**
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @param array $array
+     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     */
+    public function obtenerUsuariosPorAplicacionPaginados($paginacion, $array)
+    {
+
+        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:appUsr');
+        $query = $repo->createQueryBuilder('usu');
+        if (!is_null($paginacion->contiene)) {
+            $query = $repo->consultaContiene($query, ["estado"], $paginacion->contiene);
+        }
+        $query = $repo->filtrarDatos($query, $array);
+        $result->total = $repo->total($query);
+        if (!$paginacion->isEmpty()) {
+            $query = $repo->obtenerElementosPaginados($query, $paginacion);
+        }
+//        var_dump($query->getDQL());
+        $rows = array();
+        /**
+         * @var \Elfec\SgauthBundle\Entity\appUsr $obj
+         */
+        foreach ($query->getQuery()->getResult() as $obj) {
+            $row = [
+                "id_usuario" => $obj->getIdUsuario()->getIdUsuario(),
+                "login" => $obj->getIdUsuario()->getLogin(),
+                "email" => $obj->getIdUsuario()->getEmail(),
+                "nombre" => $obj->getIdUsuario()->getNombre(),
+                "fch_alta" => $obj->getFchAlta(),
+                "fch_baja" => $obj->getFchBaja(),
+                "estado" => $obj->getEstado(),
+                "aplicacion" => $obj->getIdAplic()->getNombre(),
+                "id_perfil" => $obj->getIdPerfil()->getIdPerfil(),
+                "id_aplic" => $obj->getIdAplic()->getIdAplic(),
+                "perfil" => $obj->getIdPerfil()->getNombre(),
+                "codigo_app" => $obj->getIdAplic()->getCodigo()
+
+            ];
+            array_push($rows, $row);
+        }
+
+        $result->rows = $rows;
+        $result->success = true;
+        return $result;
     }
 
 }
