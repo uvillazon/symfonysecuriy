@@ -204,27 +204,4 @@ class listasItems
     {
         return $this->lista;
     }
-
-    /**
-     * Set orden
-     *
-     * @param string $orden
-     * @return listasItems
-     */
-    public function setOrden($orden)
-    {
-        $this->orden = $orden;
-    
-        return $this;
-    }
-
-    /**
-     * Get orden
-     *
-     * @return string 
-     */
-    public function getOrden()
-    {
-        return $this->orden;
-    }
 }

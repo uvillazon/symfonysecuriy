@@ -1,7 +1,7 @@
 /**
  * @class App.Config.Abstract.Store
  * @extends Ext.data.Store
- * requires 
+ * requires
  * @autor Ubaldo Villazon
  * @date 07/11/2013
  *
@@ -18,15 +18,15 @@ Ext.define("App.Config.Abstract.Store", {
     sortDirection: 'DESC',
     pageSize: 100,
     type: 'rest',
-    url : '',
+    url: '',
     urlCreate: '',
     urlUpdate: '',
-    urlDestroy : '',
+    urlDestroy: '',
     //model : '',
     constructor: function (config) {
         var me = this;
         var defaults = {
-            sorters : [
+            sorters: [
                 {
                     property: me.sortProperty,
                     direction: me.sortDirection
@@ -35,7 +35,7 @@ Ext.define("App.Config.Abstract.Store", {
             autoload: false,
             proxy: {
                 type: "rest",
-                headers: {'Authorization': "Bearer "+window.localStorage.token },
+                headers: {'Authorization': "Bearer " + Constantes.TOKEN},
                 api: {
                     read: Constantes.HOST + "" + me.url,
                     create: Constantes.HOST + "" + me.urlCreate,

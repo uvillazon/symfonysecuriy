@@ -67,7 +67,10 @@ class JWTListener implements ListenerInterface
 //                var_dump($decoded->usuario->login);die();
                 $this->container->set("JWTUser", $decoded->usuario);
 //                var_dump($decoded->aplicacion);
-                $this->container->set("JWTApp", $decoded->aplicacion);
+                try {
+                    $this->container->set("JWTApp", $decoded->aplicacion);
+                } catch (\Exception $a) {
+                }
                 $keydecoded = JWT::decode(JWT::decode($decoded->key, $this->secret, array('HS256')), $this->secret, array('HS256'));
                 $this->container->set("JWTTokenPostgres", $keydecoded);
                 //Ccreamos la coneccion

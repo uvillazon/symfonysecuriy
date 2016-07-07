@@ -9,6 +9,7 @@ Ext.define("App.View.Listas.FormItem", {
     },
     CargarComponentes: function () {
         var me = this;
+        var opc = false;
         me.txt_id_lista = Ext.create("App.Config.Componente.TextFieldBase", {
             name: 'id_lista',
             hidden: true
@@ -32,11 +33,12 @@ Ext.define("App.View.Listas.FormItem", {
 
         });
         if (me.data.get('tipo_valor') == "CADENA") {
-            if (me.data.get('mayus_minus') == 'MINUS') {
-                var opc = 'Minuscula';
+            console.dir(me.data);
+            if (me.data.get('mayus_minus') == 'MIXTO') {
+                opc = false;
             }
             else {
-                var opc = '';
+                opc = true;
             }
 
             me.num_valor = Ext.create("App.Config.Componente.TextFieldBase", {
@@ -44,7 +46,7 @@ Ext.define("App.View.Listas.FormItem", {
                 name: 'valor',
                 afterLabelTextTpl: Constantes.REQUERIDO,
                 allowBlank: false,
-                opc: opc,
+                mayus: opc,
                 maxLength: me.data.get("tam_limite")
 
             });
@@ -68,7 +70,13 @@ Ext.define("App.View.Listas.FormItem", {
             afterLabelTextTpl: Constantes.REQUERIDO,
             maxLength: 15,
             allowBlank: false,
+            mayus: opc,
             //margin: '10'sadsad
+        });
+
+        me.txt_orden = Ext.create("App.Config.Componente.NumberFieldBase", {
+            fieldLabel: "Orden",
+            name: "orden",
         });
         //////////////////////////////
         this.items = [
@@ -78,6 +86,7 @@ Ext.define("App.View.Listas.FormItem", {
             me.txt_lista,
             me.txt_codigo,
             me.num_valor,
+            me.txt_orden,
             me.cbx_estado
         ];
 

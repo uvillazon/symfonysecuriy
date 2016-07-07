@@ -12,7 +12,7 @@ Ext.define("App.Config.Constantes", {
     singleton: true,
     /* Aqui Defino todas mis contanstantes */
     HOST: 'http://localhost:8000/backend/',
-    HOST_TOKEN: 'http://localhost:8000weqwewqe/',
+    HOST_TOKEN: 'http://localhost:8000/',
     //HOST                : 'http://elfpre02/SisMan/',
     REQUERIDO: '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span>',
     PIEPAGINA: '<font color="black"><h2  style="font-size:12px;height:14px">Copyright &copy;  ' + (Ext.Date.format(new Date(), 'Y')) + '  -  Version 1.0</h2></font>',
@@ -27,8 +27,8 @@ Ext.define("App.Config.Constantes", {
     LiSTAS: null,
     USUARIO: null,
     MENU: null,
-    APLICACION : null,
-    //TOKEN : null,
+    APLICACION: null,
+    TOKEN: null,
     URLLISTAS: 'Listas/ObtenerTodasLasListas',
     URLIMAGEN: "Imagenes/VerImagen?",
     UND_EJEC_MANT: 2,
@@ -57,9 +57,10 @@ Ext.define("App.Config.Constantes", {
     },
     CargarLocalStorage: function () {
         try {
-            this.USUARIO = JSON.parse(window.localStorage["usuario"]);
-            this.MENU = JSON.parse(window.localStorage["menu"]);
-            this.APLICACION = JSON.parse(window.localStorage["aplicacion"]);
+            this.USUARIO = JSON.parse(window.localStorage["usuario_sgauth"]);
+            this.MENU = JSON.parse(window.localStorage["menu_sgauth"]);
+            this.APLICACION = JSON.parse(window.localStorage["aplicacion_sgauth"]);
+            this.TOKEN = window.localStorage["token_sgauth"];
         }
         catch (e) {
             document.location = 'logon';

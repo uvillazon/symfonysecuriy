@@ -9,6 +9,8 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Jaspersoft\Service\Result\SearchResourcesResult;
+
 class ListasService
 {
     protected $em;
@@ -83,6 +85,9 @@ class ListasService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         if (!is_null($paginacion->condicion) && is_numeric($id_aplic)) {
             $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:listas');
+            /**
+             * @var \Elfec\SgauthBundle\Entity\listas $lista
+             */
             $lista = $repo->findOneBy(array("lista" => $paginacion->condicion, "idAplic" => $id_aplic));
             if (!is_null($lista)) {
                 $rows = array();
@@ -97,7 +102,7 @@ class ListasService
                     array_push($rows, $row);
                 }
                 $result->success = true;
-                $result->rows = $rows;
+                $result->rows = $repo->array_sort_by_column($rows, $lista->getOrdenarPor(), $lista->getTipoOrden() == 'ASC' ? SORT_ASC : SORT_DESC);
             } else {
                 $result->success = false;
                 $result->msg = "No Existe Existe La Lista";
@@ -114,34 +119,39 @@ class ListasService
      * @param $login
      * @return \Elfec\SgauthBundle\Model\RespuestaSP
      */
-    public function guardarLista($data , $login ){
+    public function guardarLista($data, $login)
+    {
 //        var_dump($data);
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listas');
-        $result = $repo->grabarListas($data,$login);
+        $result = $repo->grabarListas($data, $login);
         return $result;
 
     }
 
-    public function guardarListaItem($data , $login ){
+    public function guardarListaItem($data, $login)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItems');
-        $result = $repo->grabarListasItems($data,$login);
+        $result = $repo->grabarListasItems($data, $login);
         return $result;
 
     }
 
-    public function eliminarLista($data , $login ){
+    public function eliminarLista($data, $login)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listas');
-        $result = $repo->eliminarLista($data["id_lista"],$login);
+        $result = $repo->eliminarLista($data["id_lista"], $login);
         return $result;
 
     }
-    public function eliminarItem($data , $login ){
+
+    public function eliminarItem($data, $login)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItems');
-        $result = $repo->eliminarItem($data["id_item"],$login);
+        $result = $repo->eliminarItem($data["id_item"], $login);
         return $result;
 
     }

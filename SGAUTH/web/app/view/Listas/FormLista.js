@@ -17,10 +17,10 @@ Ext.define("App.View.Listas.FormLista", {
         me.txt_lista = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Nombre de Lista",
             name: "lista",
-            width : 480,
+            width: 480,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            colspan : 2
+            colspan: 2
         });
         me.txt_descripcion = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Descripcion",
@@ -29,14 +29,14 @@ Ext.define("App.View.Listas.FormLista", {
             maxLength: 50,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            colspan : 2
+            colspan: 2
         });
         me.num_tam_limite = Ext.create("App.Config.Componente.NumberFieldBase", {
             fieldLabel: "Tamano Maximo",
             name: "tam_limite",
             width: 240,
             maxLength: 5,
-            minValue:1,
+            minValue: 1,
             allowNegative: false,
             allowDecimals: false,
             afterLabelTextTpl: Constantes.REQUERIDO,
@@ -49,7 +49,7 @@ Ext.define("App.View.Listas.FormLista", {
             maxLength: 10,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            store : ["CADENA","NUMERICO"]
+            store: ["CADENA", "NUMERICO"]
         });
         me.txt_mayus_minus = Ext.create("App.Config.Componente.ComboBase", {
             fieldLabel: "Mayus o Minus",
@@ -58,7 +58,7 @@ Ext.define("App.View.Listas.FormLista", {
             maxLength: 5,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            store: ["MAYUS", "MINUS"]
+            store: ["MAYUS", "MIXTO"]
         });
         me.txt_estado = Ext.create("App.Config.Componente.ComboBase", {
             fieldLabel: "Estado",
@@ -67,9 +67,29 @@ Ext.define("App.View.Listas.FormLista", {
             maxLength: 15,
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            value :"A",
-            store : ["A", "I"]
+            value: "A",
+            store: ["A", "I"]
         });
+        me.txt_ordenarPor = Ext.create("App.Config.Componente.ComboBase", {
+            fieldLabel: "Ordenar Por",
+            name: "ordenar_por",
+            width: 240,
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            value : 'valor',
+            store: ["codigo", "valor", "orden"]
+        });
+        me.txt_tipoOrden = Ext.create("App.Config.Componente.ComboBase", {
+            fieldLabel: "Tipo Orden",
+            name: "tipo_orden",
+            width: 240,
+            value : 'ASC',
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            store: ["ASC", "DESC"]
+        });
+
+
         me.items = [
             me.txt_id,
             me.txt_lista,
@@ -78,6 +98,8 @@ Ext.define("App.View.Listas.FormLista", {
             me.txt_tipo_valor,
             me.txt_mayus_minus,
             me.txt_estado,
+            me.txt_ordenarPor,
+            me.txt_tipoOrden
         ];
 
 

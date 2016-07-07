@@ -153,6 +153,24 @@ class BaseRepository extends EntityRepository
     }
 
     /**
+     * @param $arr
+     * @param $col
+     * @param int $dir
+     * @return mixed
+     */
+    function array_sort_by_column($arr, $col, $dir = SORT_ASC)
+    {
+        $sort_col = array();
+        foreach ($arr as $key => $row) {
+
+            $sort_col[$key] = is_string($row[$col]) ? strtoupper($row[$col]) : $row[$col];
+        }
+//        var_dump($sort_col);
+        array_multisort($sort_col, $dir, $arr);
+        return $arr;
+    }
+
+    /**
      * @param $array
      * @param $index
      * @param $default

@@ -29,6 +29,10 @@ Ext.define('App.controller.Listas.Listas', {
                 click: me.winCrearItem
             }
             ,
+            'button[itemId=btn_editar_item]': {
+                click: me.winEditarItem
+            }
+            ,
             'button[itemId=btn_eliminar_item]': {
                 click: me.eliminarItem
             }
@@ -48,6 +52,7 @@ Ext.define('App.controller.Listas.Listas', {
         console.log("entro");
         me.recordItem = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_eliminar_item', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_editar_item', me.cmpPrincipal, disabled);
     },
     cargarDatosGrid: function (selModel, selections) {
         var me = this;
@@ -59,7 +64,7 @@ Ext.define('App.controller.Listas.Listas', {
         Funciones.DisabledButton('btn_eliminar_lista', me.cmpPrincipal, disabled);
 
         if (!disabled) {
-            me.getGridItems().getStore().setExtraParams({id_lista: me.record.get("id_lista")});
+            me.getGridItems().getStore().setExtraParams({id_lista: me.record.get("id_lista") , sort : me.record.get('ordenar_por') , dir : me.record.get('tipo_orden')});
             me.getGridItems().getStore().load();
         }
         else {
@@ -93,13 +98,25 @@ Ext.define('App.controller.Listas.Listas', {
             id_item: me.recordItem.get('id_item')
         }, me.getGridItems());
     },
-    winCrearItem : function (btn) {
+    winEditarItem: function (btn) {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
-        var form = Ext.create("App.View.Listas.FormItem", {botones: false, record : me.record });
+        var form = Ext.create("App.View.Listas.FormItem", {botones: false, record: me.record});
+        win.add(form);
+        win.show();
+        form.getForm().loadRecord(me.recordItem);
+        win.btn_guardar.on('click', function () {
+            Funciones.AjaxRequestWin('listas', 'listas_items', win, form, me.getGridItems(), 'Esta Seguro de guardar?', null, win);
+        });
+    },
+    winCrearItem: function (btn) {
+        var me = this;
+        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+        var form = Ext.create("App.View.Listas.FormItem", {botones: false, record: me.record});
         win.add(form);
         win.show();
         form.getForm().loadRecord(me.record);
+        form.cbx_estado.setReadOnly(true);
         win.btn_guardar.on('click', function () {
             Funciones.AjaxRequestWin('listas', 'listas_items', win, form, me.getGridItems(), 'Esta Seguro de guardar?', null, win);
         });

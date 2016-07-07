@@ -9,6 +9,7 @@ Ext.define('App.Model.Listas.ListasItems', {
         {type: "string", name: "codigo"},
         {type: "string", name: "valor"},
         {type: "string", name: "estado"},
+        {type: "string", name: "orden"},
     ]
 });
 

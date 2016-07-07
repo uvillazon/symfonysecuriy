@@ -18,9 +18,10 @@ Ext.define("App.View.Listas.GridListasItems", {
         me.CargarComponentes();
         me.columns = [
             { xtype: "rownumberer", width: 30, sortable: false },
-            { header: "Codigo", width: 100, sortable: true, dataIndex: "codigo" },
-            { header: "Valor", width: 200, sortable: true, dataIndex: "valor" },
-            { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
+            { header: "Codigo", width: 100, sortable: false, dataIndex: "codigo" },
+            { header: "Valor", width: 200, sortable: false, dataIndex: "valor" },
+            { header: "Orden", width: 70, sortable: false, dataIndex: "orden" },
+            { header: "Estado", width: 90, sortable: false, dataIndex: "estado" }
         ];
 
         this.callParent(arguments);

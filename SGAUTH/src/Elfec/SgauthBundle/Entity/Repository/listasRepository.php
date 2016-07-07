@@ -33,6 +33,8 @@ class listasRepository extends BaseRepository
             :p_mayus_minus::varchar,
             :p_estado::char,
             :p_id_aplic::numeric,
+            :p_ordenar_por::varchar,
+            :p_tipo_orden::varchar,
             :p_login_usr::VARCHAR);");
             $st->bindValue("p_id_lista", $this->getValueArray($data, "id_lista", 0));
             $st->bindValue("p_lista", $this->getValueArray($data, "lista", null));
@@ -41,6 +43,8 @@ class listasRepository extends BaseRepository
             $st->bindValue("p_tipo_valor", $this->getValueArray($data, "tipo_valor", null));
             $st->bindValue("p_mayus_minus", $this->getValueArray($data, "mayus_minus", null));
             $st->bindValue("p_id_aplic", $this->getValueArray($data, "id_aplic", 0));
+            $st->bindValue("p_ordenar_por", $this->getValueArray($data, "ordenar_por", null));
+            $st->bindValue("p_tipo_orden", $this->getValueArray($data, "tipo_orden", null));
             $st->bindValue("p_estado", $this->getValueArray($data, "estado", 0));
             $st->bindValue(":p_login_usr", $login);
             $st->execute();

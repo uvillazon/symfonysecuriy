@@ -30,12 +30,14 @@ class listasItemsRepository extends BaseRepository
             :p_codigo::varchar,
             :p_valor::varchar,
             :p_estado::char,
+            :p_orden::numeric,
             :p_login_usr::VARCHAR);");
             $st->bindValue("p_id_item", $this->getValueArray($data, "id_item", 0));
             $st->bindValue("p_id_lista", $this->getValueArray($data, "id_lista", 0));
             $st->bindValue("p_codigo", $this->getValueArray($data, "codigo", null));
             $st->bindValue("p_valor", $this->getValueArray($data, "valor", null));
             $st->bindValue("p_estado", $this->getValueArray($data, "estado", 0));
+            $st->bindValue("p_orden", $this->getValueArray($data, "orden", null));
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();

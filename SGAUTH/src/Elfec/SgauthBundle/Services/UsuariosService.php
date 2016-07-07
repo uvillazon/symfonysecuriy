@@ -193,10 +193,11 @@ class UsuariosService
      */
     public function obtenerUsuariosPorAplicacionPaginados($paginacion, $array)
     {
-
+//                                                  var_dump($array);die();
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:appUsr');
         $query = $repo->createQueryBuilder('usu');
+//        var_dump($query->getDQL());
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["estado"], $paginacion->contiene);
         }
@@ -205,7 +206,7 @@ class UsuariosService
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
         }
-//        var_dump($query->getDQL());
+
         $rows = array();
         /**
          * @var \Elfec\SgauthBundle\Entity\appUsr $obj

@@ -12,9 +12,8 @@ Ext.define('App.Model.Listas.Listas', {
         { type: "string", name: "mayus_minus" },
         { type: "string", name: "estado" },
         { type: "int", name: "id_aplic" },
-        { type: "string", name: "bd_drive" },
-        { type: "string", name: "app_host" },
-        { type: "string", name: "secret_key" }
+        { type: "string", name: "ordenar_por" },
+        { type: "string", name: "tipo_orden" }
     ]
 });
 
