@@ -31,13 +31,28 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             colspan: 2,
             width: 480,
         });
+
+
         me.txt_login = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Login",
             name: "login",
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            colspan: 2,
-            mayus : false
+            mayus: false
+        });
+
+        me.store_area = Ext.create("App.Store.Areas.Areas");
+
+
+        me.cbx_area = Ext.create("App.Config.Componente.ComboBase", {
+            fieldLabel: "Area",
+            name: "id_area",
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            displayField: 'nom_area',
+            valueField : 'id_area',
+            store: me.store_area.load()
+
         });
         me.txt_email = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Em@il",
@@ -62,7 +77,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
         me.items = [
             me.txt_id,
             me.txt_nombre,
-            me.txt_login,
+            me.txt_login, me.cbx_area,
             me.txt_email,
             me.cbx_estado,
         ];

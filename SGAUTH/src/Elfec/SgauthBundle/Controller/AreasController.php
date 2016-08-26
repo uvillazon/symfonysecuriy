@@ -8,17 +8,12 @@
 
 namespace Elfec\SgauthBundle\Controller;
 
-use Hateoas\Configuration\Route;
-use Hateoas\Representation\Factory\PagerfantaFactory;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Validator\Constraints\Date;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-class FreeServicesController extends BaseController
+
+class AreasController extends BaseController
 {
     /**
      * Obtener Aplicaciones Paginados
@@ -31,12 +26,12 @@ class FreeServicesController extends BaseController
      * propiedad de la tabla : valor , operador = AND o OR por defecto esta AND
      * por ejemplo para periodos quiero filtrar todos los periodos con etapa a REGIMEN y nro resolucion LL tengo que enviar
      * etapa : REGIMEN , nro_resolucion : lL
-     *  @Rest\Get("/aplicaciones/aplicaciones")
+     * @Rest\Get("/areas")
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener Aplicaciones Paginado",
      *   output = "Array",
-     *   authentication = false,
+     *   authentication = true,
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when the page is not found",
@@ -44,26 +39,12 @@ class FreeServicesController extends BaseController
      *   }
      * )
      */
-    public function getAplicacionesRestFreeAction(Request $request)
+    public function getAreasAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.aplicaciones_service');
+        $servicio= $this->get('sgauthbundle.areas_service');
         $array = $request->query;
-        $result = $servicio->obtenerAplicacionesPaginados($paginacion , $array);
-        return $result;
-    }
-
-    /**
-     * @param Request $request
-     * @Rest\Get("/areas")
-     * @return ResultPaginacion
-     */
-    public function getAreasSinAutenticacionAction(Request $request)
-    {
-        $paginacion = $this->obtenerPaginacion($request);
-        $servicio = $this->get('sgauthbundle.areas_service');
-        $array = $request->query;
-        $result = $servicio->obtenerAreasPaginados($paginacion, $array, false);
+        $result = $servicio->obtenerAreasPaginados($paginacion , $array);
         return $result;
     }
 }

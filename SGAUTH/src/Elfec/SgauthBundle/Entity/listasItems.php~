@@ -65,6 +65,13 @@ class listasItems
      */
     private $lista;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="listasItemsRel", mappedBy="hijo")
+     */
+    private $hijos;
+
+
 
 
     /**
@@ -203,5 +210,28 @@ class listasItems
     public function getLista()
     {
         return $this->lista;
+    }
+
+    /**
+     * Set orden
+     *
+     * @param string $orden
+     * @return listasItems
+     */
+    public function setOrden($orden)
+    {
+        $this->orden = $orden;
+    
+        return $this;
+    }
+
+    /**
+     * Get orden
+     *
+     * @return string 
+     */
+    public function getOrden()
+    {
+        return $this->orden;
     }
 }

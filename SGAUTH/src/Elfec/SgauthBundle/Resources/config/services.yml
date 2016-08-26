@@ -57,3 +57,8 @@ services:
     sgauthbundle.directorios_service:
             class: Elfec\SgauthBundle\Services\DirectoriosService
             arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]
+
+#   servicio para Areas
+    sgauthbundle.areas_service:
+            class: Elfec\SgauthBundle\Services\AreasService
+            arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]

@@ -28,6 +28,10 @@ listas:
     prefix: /listas
     resource: Elfec\SgauthBundle\Controller\ListasController
 
+areas:
+    type:   rest
+    resource: Elfec\SgauthBundle\Controller\AreasController
+
 #Directorios
 libretadireciones:
     type:   rest

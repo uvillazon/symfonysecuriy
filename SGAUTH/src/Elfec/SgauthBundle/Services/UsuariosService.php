@@ -201,6 +201,13 @@ class UsuariosService
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["estado"], $paginacion->contiene);
         }
+        if (!is_null($array->get("perfil"))) {
+            $query = $repo->filtrarPorPerfil($query, $array->get("perfil"));
+//            var_dump($query->getDQL());
+//            var_dump($array);
+//            die();
+        }
+
         $query = $repo->filtrarDatos($query, $array);
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {

@@ -99,6 +99,13 @@ class aplicaciones
      */
     private $secretKey;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tiempo_valido_token", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $tiempoValidoToken;
+
 
 
     /**
@@ -362,5 +369,41 @@ class aplicaciones
     public function getSecretKey()
     {
         return $this->secretKey;
+    }
+
+    /**
+     * Set idAplic
+     *
+     * @param string $idAplic
+     * @return aplicaciones
+     */
+    public function setIdAplic($idAplic)
+    {
+        $this->idAplic = $idAplic;
+    
+        return $this;
+    }
+
+    /**
+     * Set tiempoValidoToken
+     *
+     * @param string $tiempoValidoToken
+     * @return aplicaciones
+     */
+    public function setTiempoValidoToken($tiempoValidoToken)
+    {
+        $this->tiempoValidoToken = $tiempoValidoToken;
+    
+        return $this;
+    }
+
+    /**
+     * Get tiempoValidoToken
+     *
+     * @return string 
+     */
+    public function getTiempoValidoToken()
+    {
+        return $this->tiempoValidoToken;
     }
 }

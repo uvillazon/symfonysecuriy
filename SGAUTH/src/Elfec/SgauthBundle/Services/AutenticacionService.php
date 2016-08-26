@@ -16,6 +16,7 @@ use Elfec\SgauthBundle\Entity\appUsr;
 use Elfec\SgauthBundle\Entity\menuOpciones;
 use Elfec\SgauthBundle\Entity\perfilesOpciones;
 use Elfec\SgauthBundle\Entity\usuarios;
+use Elfec\SgauthBundle\Entity\usuariosAreas;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -44,8 +45,6 @@ class AutenticacionService
             $managerApp = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
 
             $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
-//            var_dump($data);
-//            var_dump(is_null($data->get('id_aplic')));
             $aplicacion = !is_null($data->get('id_aplic')) ? $managerApp->find($data->get('id_aplic')) : null;
 //            var_dump($aplicacion);
             if (is_null($obj)) {
@@ -59,8 +58,8 @@ class AutenticacionService
                     if (is_numeric($usrTest)) {
                         $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
-                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj ,$aplicacion);
-                        $result->data = !is_null($aplicacion) ?   $this->pushArrayApp($aplicacion,$result->data) : $result->data;
+                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj, $aplicacion);
+                        $result->data = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion, $result->data) : $result->data;
                     } else {
                         $result->msg = $usrTest;
                         $result->success = false;
@@ -109,7 +108,7 @@ class AutenticacionService
         $key = $app->getSecretKey();
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
         $token = [
-            "exp" => time() + 28800,
+            "exp" => time() + $app->getTiempoValidoToken() * 3600,
 
             "key" => $connect
 
@@ -127,21 +126,45 @@ class AutenticacionService
     }
 
 
+    private function obtenerAreas($idAplic)
+    {
+        $repoUsrArea = $this->em->getRepository('ElfecSgauthBundle:usuariosAreas');
+        /**
+         * @var usuariosAreas $area
+         */
+        $areas = $repoUsrArea->findBy(array("idUsuario" => $this->idUsr, "idAplic" => $idAplic));
+        $rows = array();
+        foreach ($areas as $area) {
+            $row = array(
+                "nom_area" => $area->getArea()->getNomArea(),
+                "id_area" => $area->getIdArea(),
+                "estado" => $area->getArea()->getEstado()
+            );
+            array_push($rows, $row);
+        }
+        return $rows;
+    }
+
     /**
      * @param $idPerfil
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
+     * * @param \Elfec\SgauthBundle\Entity\aplicaciones $aplicacion
      * @return array
      */
-    private function obtenerTokenPerfil($idPerfil, $app,$aplicacion)
+    private function obtenerTokenPerfil($idPerfil, $app, $aplicacion)
     {
         $key = $app->getSecretKey();
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
         $menus = $repoUsr->obtenerOpcionesMenuPorPerfil($idPerfil);
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:appUsr');
+
+
         /**
          * @var appUsr $usr
+         *
          */
         $usr = $repoUsr->findOneBy(array('perfil' => $idPerfil, 'usuario' => $this->idUsr));
+        $areas = $this->obtenerAreas($app->getIdAplic());
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
         $usuario = array(
             "login" => $usr->getIdUsuario()->getLogin(),
@@ -153,29 +176,33 @@ class AutenticacionService
             "estado" => $usr->getIdUsuario()->getEstado(),
             "aplicacion" => $usr->getIdAplic()->getNombre(),
             "codigoApp" => $usr->getIdAplic()->getCodigo(),
-            "id_aplic" => $usr->getIdAplic()->getIdAplic()
+            "id_aplic" => $usr->getIdAplic()->getIdAplic(),
+            "area" => $usr->getIdUsuario()->getArea()->getNomArea()
         );
         if ($app->getCodigo() === "SGCST") {
             $token = [
-                "exp" => time() + 28800,
+                "exp" => time() + $app->getTiempoValidoToken() * 3600,
                 "menu" => $menus,
                 "usuario" => $usuario,
+                "areas" => $areas,
                 "key" => $connect
 
             ];
         } else {
             $token = [
-                "exp" => time() + 28800,
+                "exp" => time() + $app->getTiempoValidoToken() * 3600,
                 "usuario" => $usuario,
+                "areas" => $areas,
                 "key" => $connect
             ];
         }
-        $token = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion,$token) : $token;
+        $token = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion, $token) : $token;
         $jwt = JWT::encode($token, $key);
         $result = array(
             "token" => $jwt,
             "menu" => $menus,
-            "usuario" => $usuario
+            "usuario" => $usuario,
+            "areas" => $areas
         );
         return $result;
     }

@@ -65,6 +65,13 @@ class listasItems
      */
     private $lista;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="listasItemsRel", mappedBy="padre")
+     */
+    private $hijos;
+
+
 
 
     /**
@@ -226,5 +233,45 @@ class listasItems
     public function getOrden()
     {
         return $this->orden;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->hijos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add hijos
+     *
+     * @param \Elfec\SgauthBundle\Entity\listasItemsRel $hijos
+     * @return listasItems
+     */
+    public function addHijo(\Elfec\SgauthBundle\Entity\listasItemsRel $hijos)
+    {
+        $this->hijos[] = $hijos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove hijos
+     *
+     * @param \Elfec\SgauthBundle\Entity\listasItemsRel $hijos
+     */
+    public function removeHijo(\Elfec\SgauthBundle\Entity\listasItemsRel $hijos)
+    {
+        $this->hijos->removeElement($hijos);
+    }
+
+    /**
+     * Get hijos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHijos()
+    {
+        return $this->hijos;
     }
 }
