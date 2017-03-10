@@ -1,5 +1,5 @@
 /**
- * Created by uvillazon on 30/07/2015.
+ * Created by uvillazon on 30/07/2016.
  */
 Ext.define("App.View.Perfiles.Principal", {
     extend: "App.Config.Abstract.PanelPrincipal",
