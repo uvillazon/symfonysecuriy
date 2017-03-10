@@ -10,6 +10,9 @@ Ext.onReady(function () {
         proxy: {
             type: 'rest',
             url: 'rest-api/aplicaciones/aplicaciones.json',
+            extraParams:{
+                estado : 'ACTIVO'
+            },
             reader: {
                 type: 'json',
                 root: 'rows'

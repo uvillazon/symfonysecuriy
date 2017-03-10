@@ -9,11 +9,11 @@ Ext.define("App.View.Aplicaciones.GridAplicaciones", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
+    classStore: 'App.Store.Aplicaciones.Aplicaciones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;
-
-        me.store = Ext.create("App.Store.Aplicaciones.Aplicaciones");
+        me.store = Ext.create(me.classStore);
         me.CargarComponentes();
         me.columns = [
             { xtype: "rownumberer", width: 30, sortable: false },

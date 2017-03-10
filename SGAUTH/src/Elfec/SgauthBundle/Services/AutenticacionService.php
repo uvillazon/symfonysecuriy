@@ -32,6 +32,7 @@ class AutenticacionService
         $this->em = $em;
     }
 
+
     public function generarTokenPorUsuarioApp($data, $header)
     {
 
@@ -46,6 +47,7 @@ class AutenticacionService
 
             $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
             $aplicacion = !is_null($data->get('id_aplic')) ? $managerApp->find($data->get('id_aplic')) : null;
+
 //            var_dump($aplicacion);
             if (is_null($obj)) {
                 $result->msg = "Codigo de Apliacion  no existe";
@@ -54,7 +56,7 @@ class AutenticacionService
                 $test = $this->testConnection($data->get('usuario'), $data->get('password'), $obj);
 //                var_dump($test);die();
                 if (is_numeric($test) && $data->get('codigoApp') != 'SISMAN') {
-                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic());
+                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic(), $aplicacion);
                     if (is_numeric($usrTest)) {
                         $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
@@ -177,12 +179,12 @@ class AutenticacionService
             "aplicacion" => $usr->getIdAplic()->getNombre(),
             "codigoApp" => $usr->getIdAplic()->getCodigo(),
             "id_aplic" => $usr->getIdAplic()->getIdAplic(),
-            "area" => $usr->getIdUsuario()->getArea()->getNomArea()
+            "area" => (is_null($usr->getIdUsuario()->getIdArea())) ? null : $usr->getIdUsuario()->getArea()->getNomArea()
         );
         if ($app->getCodigo() === "SGCST") {
             $token = [
                 "exp" => time() + $app->getTiempoValidoToken() * 3600,
-                "menu" => $menus,
+//                "menu" => $menus,
                 "usuario" => $usuario,
                 "areas" => $areas,
                 "key" => $connect
@@ -207,13 +209,19 @@ class AutenticacionService
         return $result;
     }
 
+
     /**
-     * @param string $usuario
+     * @param $usuario
+     * @param $idApp
+     * @param aplicaciones $aplicacion
      * @return string
      */
-    private function esUsuarioAppActivo($usuario, $idApp)
+    private function esUsuarioAppActivo($usuario, $idApp, $aplicacion)
     {
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:usuarios');
+        $repoPerfilApp = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
+//        $servicioPerfil = $this->get('sgauthbundle.perfiles_service');
+//        $apps = $servicioPerfil->obtenerAplicacionesPorPerfil($Usertoken->id_perfil);
         /**
          * @var usuarios $usr
          */
@@ -232,6 +240,12 @@ class AutenticacionService
                 if (is_null($usrApp)) {
                     $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion", $usuario);
                 } else {
+                    if (!is_null($aplicacion)) {
+                        $appPerfil = $repoPerfilApp->findOneBy(array("idPerfil" => $usrApp->getPerfil(), "idAplic" => $aplicacion->getIdAplic()));
+                        if (is_null($appPerfil)) {
+                            return sprintf("El usuario : %s no tiene permiso de administracion de la aplicacion %s", $usuario, $aplicacion->getCodigo());
+                        }
+                    }
                     if ($usrApp->getEstado() == "ACTIVO") {
                         $result = $usrApp->getIdPerfil()->getIdPerfil();
                         $usrArray = array(
@@ -280,8 +294,10 @@ class AutenticacionService
             $this->usrArray["dbConnect"] = $connectionParams;
 //            array_push($this->usrArray,$connectionParams);
             $result = 1;
-        } catch (Exception $ex) {
-            $result = $ex->getMessage();
+        } catch (\PDOException $ex) {
+//            var_dump($ex);
+            $result = "Error: autenticación de contraseña falló para el usuario :" . $usuario;
+//            $result = $ex->getMessage();
         }
         return $result;
     }

@@ -24,6 +24,7 @@
             }
         });
         me.on('change', me.limpiarCombo, this);
+        me.on('focus', me.onFocus, this);
         me.callParent(arguments); //y
     },
     setDisabled: function (disabled) {
@@ -35,5 +36,10 @@
         if (this.getValue() === null) {
             this.reset();
         }
+    },
+    onFocus: function (focus) {
+        var me = this;
+        me.getStore().load();
+        // cbx.getStore().load();
     }
 });

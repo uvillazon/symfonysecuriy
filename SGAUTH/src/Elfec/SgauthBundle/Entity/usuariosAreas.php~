@@ -65,6 +65,16 @@ class usuariosAreas
      */
     private $area;
 
+    /**
+     * @var \usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_usuario", referencedColumnName="id_usuario")
+     * })
+     */
+    private $usuario;
+
 
     /**
      * Set idUsrArea
@@ -202,5 +212,28 @@ class usuariosAreas
     public function getIdAplic()
     {
         return $this->idAplic;
+    }
+
+    /**
+     * Set area
+     *
+     * @param \Elfec\SgauthBundle\Entity\areas $area
+     * @return usuariosAreas
+     */
+    public function setArea(\Elfec\SgauthBundle\Entity\areas $area = null)
+    {
+        $this->area = $area;
+    
+        return $this;
+    }
+
+    /**
+     * Get area
+     *
+     * @return \Elfec\SgauthBundle\Entity\areas 
+     */
+    public function getArea()
+    {
+        return $this->area;
     }
 }

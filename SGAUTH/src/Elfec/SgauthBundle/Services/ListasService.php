@@ -35,10 +35,12 @@ class ListasService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listas');
         $query = $repo->createQueryBuilder('lis');
-        $query = $repo->filtrarDatos($query, $array);
+
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["lista", "descripcion"], $paginacion->contiene);
         }
+        $query = $repo->filtrarDatos($query, $array);
+//        var_dump($query->getDQL());
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
@@ -60,10 +62,11 @@ class ListasService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItems');
         $query = $repo->createQueryBuilder('item');
-        $query = $repo->filtrarDatos($query, $array);
+
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["codigo", "valor"], $paginacion->contiene);
         }
+        $query = $repo->filtrarDatos($query, $array);
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
@@ -131,7 +134,7 @@ class ListasService
                     }
                 }
                 $result->success = true;
-                
+
                 $result->rows = $repo->array_sort_by_column($rows, $lista->getOrdenarPor(), $lista->getTipoOrden() == 'ASC' ? SORT_ASC : SORT_DESC);
             } else {
                 $result->success = false;
@@ -248,6 +251,24 @@ class ListasService
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItems');
         $result = $repo->eliminarItem($data["id_item"], $login);
+        return $result;
+
+    }
+
+    public function grabarListasItemsRel($data, $login)
+    {
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        $repo = $this->em->getRepository('ElfecSgauthBundle:listasItemsRel');
+        $result = $repo->grabarListasItemsRel($data, $login);
+        return $result;
+
+    }
+
+    public function eliminarListaItemRel($data, $login)
+    {
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        $repo = $this->em->getRepository('ElfecSgauthBundle:listasItemsRel');
+        $result = $repo->eliminarItemRel($data["id_rel"], $login);
         return $result;
 
     }

@@ -33,9 +33,16 @@ class menuOpciones
     /**
      * @var string
      *
-     * @ORM\Column(name="link", type="string", length=100, nullable=false)
+     * @ORM\Column(name="link", type="string", length=100, nullable=true)
      */
     private $link;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="alias", type="string", length=100, nullable=true)
+     */
+    private $alias;
 
     /**
      * @var string
@@ -83,6 +90,14 @@ class menuOpciones
     private $idAplic;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $aplicacion;
+
+
+    /**
      * @var \menuOpciones
      *
      * @ORM\ManyToOne(targetEntity="menuOpciones")
@@ -91,6 +106,20 @@ class menuOpciones
      * })
      */
     private $idPadre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_padre", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $padre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="parametros", type="string", length=100, nullable=false)
+     */
+    private $parametros;
 
 
 
@@ -309,5 +338,28 @@ class menuOpciones
     public function getIdPadre()
     {
         return $this->idPadre;
+    }
+
+    /**
+     * Set parametros
+     *
+     * @param string $parametros
+     * @return menuOpciones
+     */
+    public function setParametros($parametros)
+    {
+        $this->parametros = $parametros;
+
+        return $this;
+    }
+
+    /**
+     * Get parametros
+     *
+     * @return string
+     */
+    public function getParametros()
+    {
+        return $this->parametros;
     }
 }

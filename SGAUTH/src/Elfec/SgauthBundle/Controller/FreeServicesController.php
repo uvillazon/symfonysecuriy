@@ -31,7 +31,7 @@ class FreeServicesController extends BaseController
      * propiedad de la tabla : valor , operador = AND o OR por defecto esta AND
      * por ejemplo para periodos quiero filtrar todos los periodos con etapa a REGIMEN y nro resolucion LL tengo que enviar
      * etapa : REGIMEN , nro_resolucion : lL
-     *  @Rest\Get("/aplicaciones/aplicaciones")
+     * @Rest\Get("/aplicaciones/aplicaciones")
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener Aplicaciones Paginado",
@@ -47,9 +47,9 @@ class FreeServicesController extends BaseController
     public function getAplicacionesRestFreeAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.aplicaciones_service');
+        $servicio = $this->get('sgauthbundle.aplicaciones_service');
         $array = $request->query;
-        $result = $servicio->obtenerAplicacionesPaginados($paginacion , $array);
+        $result = $servicio->obtenerAplicacionesPaginados($paginacion, $array);
         return $result;
     }
 
@@ -64,6 +64,30 @@ class FreeServicesController extends BaseController
         $servicio = $this->get('sgauthbundle.areas_service');
         $array = $request->query;
         $result = $servicio->obtenerAreasPaginados($paginacion, $array, false);
+        return $result;
+    }
+
+    /**
+     * @Rest\Post("/areas/{nomArea}")
+     * @param $nomArea
+     * @return RespuestaSP
+     */
+    public function getAreaPorNombreAction($nomArea){
+        $servicio = $this->get('sgauthbundle.areas_service');
+        return $servicio->obtenerAreaPorNombre($nomArea,false);
+    }
+
+    /**
+     * @param Request $request
+     * @Rest\Get("/usuarios/AD")
+     * @return ResultPaginacion
+     */
+    public function getUsuariosADAction(Request $request)
+    {
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $array = $request->query;
+        $result = $servicio->obtenerUsuariosActiveDirectory($paginacion, $array, false);
         return $result;
     }
 }

@@ -73,13 +73,14 @@ class perfilesOpcionesRepository extends BaseRepository
                 "opcion" => $opcion->getIdOpc()->getOpcion(),
                 "id" => $opcion->getIdOpc()->getIdOpc(),
                 "url" => $opcion->getIdOpc()->getLink(),
+                "alias" => $opcion->getIdOpc()->getAlias(),
                 "tooltip" => $opcion->getIdOpc()->getTooltip(),
                 "icono" => $opcion->getIdOpc()->getIcono(),
                 "estado" => $opcion->getIdOpc()->getEstado(),
                 "padre" => ($opcion->getIdOpc()->getIdPadre() != null) ? $opcion->getIdOpc()->getIdPadre()->getIdOpc() : null,
                 "estilo" => $opcion->getIdOpc()->getEstilo(),
                 "orden" => $opcion->getIdOpc()->getOrden(),
-                "parametros"=> $opcion->getIdOpc()->getParametros(),
+                "parametros" => $opcion->getIdOpc()->getParametros(),
                 "id_perfil" => $opcion->getIdPerfil()->getIdPerfil(),
                 "botones" => $this->obtenerBotonesPorPerfilOpcion($idPerfil, $opcion->getIdOpc()->getIdOpc())
 
@@ -110,6 +111,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->titulo = $menu['opcion'];
                 $opcion->iconcls = $menu['icono'];
                 $opcion->id = $menu['id'];
+                $opcion->alias = $menu['alias'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
                 $opcion->parametros = $menu['parametros'];
@@ -134,6 +136,7 @@ class perfilesOpcionesRepository extends BaseRepository
                 $opcion->titulo = $menu['opcion'];
                 $opcion->iconcls = $menu['icono'];
                 $opcion->id = $menu['id'];
+                $opcion->alias = $menu['alias'];
                 $opcion->tooltip = $menu['tooltip'];
                 $opcion->botones = $menu['botones'];
                 $opcion->parametros = $menu['parametros'];

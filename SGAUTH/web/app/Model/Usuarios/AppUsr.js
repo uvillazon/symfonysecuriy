@@ -11,7 +11,15 @@ Ext.define('App.Model.Usuarios.AppUsr', {
         { type: "date", name: "fch_baja" },
         { type: "string", name: "aplicacion" },
         { type: "int", name: "id_perfil" },
-        { type: "string", name: "perfil" }
+        { type: "string", name: "perfil" },
+        {
+            name: 'nom_area',
+            mapping: 'area.nom_area'
+        },
+        {
+            name: 'id_area',
+            mapping: 'area.id_area'
+        }
 
 
     ]

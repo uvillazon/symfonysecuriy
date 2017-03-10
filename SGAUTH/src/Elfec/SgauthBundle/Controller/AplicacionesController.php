@@ -46,9 +46,14 @@ class AplicacionesController extends BaseController
     public function getAplicacionesAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.aplicaciones_service');
+        $Usertoken = $this->container->get("JWTUser");
+//        var_dump($Usertoken);
+        $servicio = $this->get('sgauthbundle.aplicaciones_service');
+        $servicioPerfil = $this->get('sgauthbundle.perfiles_service');
+        $apps = $servicioPerfil->obtenerAplicacionesPorPerfil($Usertoken->id_perfil);
         $array = $request->query;
-        $result = $servicio->obtenerAplicacionesPaginados($paginacion , $array);
+        $array->set("aplicaciones", $apps);
+        $result = $servicio->obtenerAplicacionesPaginados($paginacion, $array);
         return $result;
     }
 
@@ -70,14 +75,15 @@ class AplicacionesController extends BaseController
      * )
      *
      */
-    public function postAplicacionesAction(Request $request) {
+    public function postAplicacionesAction(Request $request)
+    {
 
         $Usertoken = $this->container->get("JWTUser");
         $login = $Usertoken->login;
 
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.aplicaciones_service');
-        $result = $servicio->guardarAplicacion($data,$login);
+        $result = $servicio->guardarAplicacion($data, $login);
         return $result;
 //        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
 

@@ -14,9 +14,9 @@ Ext.define("App.View.Perfiles.Principal", {
     },
     CargarComponentes: function () {
         var me = this;
-        var cmpButton  = Ext.create("Ext.Toolbar",{
+        var cmpButton = Ext.create("Ext.Toolbar", {
             width: '100%',
-            height : 50,
+            height: 50,
             region: 'north',
             itemId: 'cmpButtonPerfil',
             layout: {
@@ -28,10 +28,10 @@ Ext.define("App.View.Perfiles.Principal", {
             pressed: true,
             iconCls: 'clock',
             tooltip: 'Historicos de Asociacio de Menu al Perfil',
-            itemId : 'btn_hist_perfiles',
+            itemId: 'btn_hist_perfiles',
             //enableToggle: true,
             scope: this,
-            text: 'Historicos',
+            text: 'Hist. Asociacion',
             tooltipType: 'qtip'
 
 
@@ -61,24 +61,38 @@ Ext.define("App.View.Perfiles.Principal", {
             items: [
                 {
                     xtype: 'gridOpciones',
-                    itemId : 'gridOpcionesPerfil',
-                    classStore : 'App.Store.Opciones.OpcionesPerfil',
-                    cargarStore : false,
+                    itemId: 'gridOpcionesPerfil',
+                    classStore: 'App.Store.Opciones.OpcionesPerfil',
+                    cargarStore: false,
                     busqueda: true,
-                    reportesHistoricoEstados : true,
-                    imprimir : true
+                    reportesHistoricoEstados: true,
+                    imprimir: true
                 },
                 {
                     xtype: 'gridBotones',
-                    itemId : 'gridBotonesPerfil',
-                    cargarStore : false,
-                    classStore : 'App.Store.Opciones.BotonesPerfil',
-                    reportesHistoricoEstados : true,
-                    imprimir : true
+                    itemId: 'gridBotonesPerfil',
+                    cargarStore: false,
+                    classStore: 'App.Store.Opciones.BotonesPerfil',
+                    reportesHistoricoEstados: true,
+                    imprimir: true
                 }
             ]
         });
         me.panel = me.form = Ext.create("App.Config.Abstract.FormPanel");
+
+        // console.log(Constantes);
+        // if (Constantes.APLICACION.codigo === "SGAUTH") {
+        var gridAplicaciones = Ext.create("App.View.Aplicaciones.GridAplicaciones", {
+            cargarStore: false,
+            itemId: 'gridAplicacionPerfil',
+            classStore: 'App.Store.Perfiles.Aplicaciones',
+            busqueda: true,
+            reportesHistoricoEstados: true,
+            imprimir: true,
+            hidden: !(Constantes.APLICACION.codigo === "SGAUTH")
+        });
+        tabPanel.add(gridAplicaciones);
+        // }
 
         me.form = Ext.create("App.View.Perfiles.FormPerfil");
         me.form.BloquearFormulario();

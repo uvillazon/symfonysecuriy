@@ -8,6 +8,7 @@
 
 namespace Elfec\SgauthBundle\Controller;
 
+use Elfec\SgauthBundle\Model\RespuestaSP;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -42,9 +43,23 @@ class AreasController extends BaseController
     public function getAreasAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.areas_service');
+        $servicio = $this->get('sgauthbundle.areas_service');
         $array = $request->query;
-        $result = $servicio->obtenerAreasPaginados($paginacion , $array);
+        $result = $servicio->obtenerAreasPaginados($paginacion, $array);
+        return $result;
+    }
+
+    /**
+     * @param Request $request
+     * @Rest\Get("/areas_usuarios")
+     * @return ResultPaginacion
+     */
+    public function getAreasAppAction(Request $request)
+    {
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.areas_service');
+        $array = $this->getTokenApp($request);
+        $result = $servicio->obtenerAreasUsuarioPaginados($paginacion, $array);
         return $result;
     }
 }
