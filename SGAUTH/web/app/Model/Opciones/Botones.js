@@ -14,11 +14,11 @@ Ext.define('App.Model.Opciones.Botones', {
         {type: "string", name: "estado"},
         {type: "int", name: "id_padre"},
         {type: "string", name: "padre"},
+        {type: "boolean", name: "disabled"},
         {
-            type: "string", name: "disabled", renderer: function (v, rec) {
-            var value = v == true ? 'HABILITADO' : 'INHABILITADO';
-            return value;
+            type: 'string', name: "disabled_s", mapping: function (raw) {
+            return raw.disabled ? 'SI' : 'NO';
         }
-        },
+        }
     ]
 });

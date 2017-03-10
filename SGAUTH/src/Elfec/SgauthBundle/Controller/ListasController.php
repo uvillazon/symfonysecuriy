@@ -241,5 +241,66 @@ class ListasController extends BaseController
 
     }
 
+    /**
+     * Este Metodo Guarda Listas Relacionadas
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @Rest\Post("/items_rel")
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Guardar Lista Rel",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postGuardarListasRelacionadassAction(Request $request)
+    {
+
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+        $data = $this->postTokenApp($request);
+        $servicio = $this->get('sgauthbundle.listas_service');
+        $result = $servicio->grabarListasItemsRel($data, $login);
+        return $result;
+
+    }
+
+    /**
+     * Este Metodo Elimina Listas Relacionadas
+     * como resultado devuelve los sig. datos{ success= true cuando esta correcto o false si ocurrio algun problema}
+     * msg = "mensaje de la accion" , id = "Id del objeto guardado" , data = datos del objeto guardado}
+     * Se debe enviar los nombres de las propiedades de las tablas de la BD
+     * @Rest\Post("/items_rel/eliminar")
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Guardar Lista Rel",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function postEliminarListasRelacionadassAction(Request $request)
+    {
+
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+        $data = $this->postTokenApp($request);
+        $servicio = $this->get('sgauthbundle.listas_service');
+        $result = $servicio->eliminarListaItemRel($data, $login);
+        return $result;
+
+    }
 
 }

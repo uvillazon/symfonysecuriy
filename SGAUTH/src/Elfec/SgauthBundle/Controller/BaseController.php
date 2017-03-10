@@ -48,8 +48,16 @@ class BaseController extends Controller
     {
 
         $array = $request->query;
+        if (!is_null($array->get("mostrar_todos"))) {
+
+            if ($array->get("mostrar_todos") === "SI") {
+//                var_dump($array);
+                return $array;
+            }
+        }
         $AppToke = $this->container->get("JWTApp");
         $array->set("id_aplic", $AppToke->id_aplic);
+
         return $array;
 
     }

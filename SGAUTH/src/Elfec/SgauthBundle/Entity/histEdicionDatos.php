@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * HistEdicionDatos
  *
- * @ORM\Table(name="hist_edicion_datos")
+ * @ORM\Table(name="historico_datos")
  * @ORM\Entity(repositoryClass="Elfec\SgauthBundle\Entity\Repository\histEdicionDatosRepository")
  */
 class histEdicionDatos

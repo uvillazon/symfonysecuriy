@@ -47,7 +47,13 @@ Ext.define("App.View.Listas.Principal", {
             cargarStore: false
         });
 
-        me.panel.add(me.gridItems);
+        me.gridItemsRel = Ext.create("App.View.Listas.GridListasItemsRel",{
+            width: '100%',
+            itemId : 'gridListaItemsRel',
+            cargarStore: false
+        });
+
+        me.panel.add([me.gridItems, me.gridItemsRel]);
 
         me.items = [panelCentral, me.panel];
     }

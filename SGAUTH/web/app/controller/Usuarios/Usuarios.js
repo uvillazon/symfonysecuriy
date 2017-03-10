@@ -34,7 +34,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         me.cargarEventos();
     },
     quitarUsrApp: function () {
-        Ext.Msg.alert("Aviso","Se esta implementando esta opcion...");
+        Ext.Msg.alert("Aviso", "Se esta implementando esta opcion...");
     },
     cargarEventos: function () {
         var me = this;
@@ -55,7 +55,10 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         Funciones.DisabledButton('btn_UsrApp', me.cmpPrincipal, disabled);
         if (!disabled) {
             me.cmpPrincipal.form.CargarDatos(me.record);
-            me.cmpPrincipal.gridAplicaciones.getStore().setExtraParams({id_usuario: me.record.get("id_usuario")});
+            me.cmpPrincipal.gridAplicaciones.getStore().setExtraParams({
+                id_usuario: me.record.get("id_usuario"),
+                mostrar_todos: "SI"
+            });
             me.cmpPrincipal.gridAplicaciones.getStore().load();
         }
         else {

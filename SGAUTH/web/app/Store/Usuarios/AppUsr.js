@@ -4,7 +4,7 @@
 Ext.define('App.Store.Usuarios.AppUsr', {
 
     model: 'App.Model.Usuarios.AppUsr',
-    url: 'usuarios/usuariosapp',
+    url: 'usuarios/usuarios_app',
     sortProperty: 'id_aplic',
     extend: 'App.Config.Abstract.Store'
 });

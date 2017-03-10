@@ -55,6 +55,7 @@ class MenuOpcionesService
                 "icono" => $obj->getIcono(),
                 "estilo" => $obj->getEstilo(),
                 "padre" => (is_null($obj->getIdPadre())) ? null : $obj->getIdPadre()->getOpcion(),
+                "id_padre"=> $obj->getPadre(),
                 "estado" => $obj->getEstado(),
                 "orden" => $obj->getOrden()
 
@@ -130,6 +131,7 @@ class MenuOpcionesService
                 "estilo" => $obj->getEstilo(),
                 "padre" => (is_null($obj->getPadre())) ? null : $obj->getPadre()->getBoton(),
                 "estado" => $obj->getEstado(),
+                "id_padre" => $obj->getIdPadre(),
                 "orden" => $obj->getOrden(),
                 "disabled" => $obj->getDisabled()
             ];
@@ -199,6 +201,7 @@ class MenuOpcionesService
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
+
             $st = $conection->prepare("SELECT elfec.grabar_boton(:p_id_boton::NUMERIC,:p_id_opc::NUMERIC,:p_boton::VARCHAR ,:p_tooltip::VARCHAR,:p_id_item::VARCHAR,:p_estilo::VARCHAR,:p_accion::VARCHAR, :p_icono::VARCHAR ,:p_orden::NUMERIC, :p_estado::VARCHAR , :p_id_padre::NUMERIC , :p_disabled::BOOLEAN, :p_login_usr::VARCHAR);");
             $st->bindValue(":p_id_opc", ($data["id_opc"] == '') ? 0 : $data["id_opc"]);
             $st->bindValue(":p_id_boton", ($data["id_boton"] == '') ? 0 : $data["id_boton"]);
@@ -210,7 +213,8 @@ class MenuOpcionesService
             $st->bindValue(":p_accion", $data["accion"]);
             $st->bindValue(":p_id_padre", ($data["id_padre"] == '') ? 0 : $data["id_padre"]);
             $st->bindValue(":p_orden", $data["orden"]);
-            $st->bindValue(":p_disabled", ($data["disabled"] === "HABILITADO") ? 0 : 1);
+            $st->bindValue(":p_disabled", ($data["disabled_s"] === "SI") ? true : false ,\PDO::PARAM_BOOL );
+
             $st->bindValue(":p_estado", $data["estado"]);
             $st->bindValue(":p_login_usr", $login);
             $st->execute();

@@ -68,7 +68,7 @@ Ext.define("App.View.Listas.FormItem", {
             name: 'codigo',
             itemId: 'codigo',
             afterLabelTextTpl: Constantes.REQUERIDO,
-            maxLength: 15,
+            maxLength: 10,
             allowBlank: false,
             mayus: opc,
             //margin: '10'sadsad

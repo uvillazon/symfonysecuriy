@@ -37,6 +37,7 @@ Ext.define("App.Config.Constantes", {
     UND_EJEC_SUB: 4,
     path: 'sgauth/',
     rutaBackend: 'backend/',
+    rutaBackendSGAUTH: 'api',
     UnidadesRequeridas: function (unidad, requerido) {
         if (requerido) {
             return '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span><span style="color:blue" data-qtip="Requerido">[' + unidad + ']</span>';

@@ -220,4 +220,67 @@ class BaseRepository extends EntityRepository
         }
         return null;
     }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param array $array
+     * @param string $campo
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function contieneInArray($query, $array, $campo)
+    {
+
+        if (is_array($array)) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $count = 0;
+            $where = sprintf("%s.%s  IN (:" . $fieldMapping . ")", $alias, $fieldMapping);
+
+            $query->andWhere($where);
+            $query->setParameter($fieldMapping, $array, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+        }
+        return $query;
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param array $array
+     * @param string $campo
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function noContieneInArray($query, $array, $campo)
+    {
+//        var_dump($array);
+        if (is_array($array)) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $count = 0;
+            $where = sprintf("%s.%s  NOT IN (:notIn)", $alias, $fieldMapping);
+
+            $query->andWhere($where);
+            $query->setParameter('notIn', $array, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+        }
+        return $query;
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param string $campo
+     * @param bool $isnull
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function isOrNotNull($query, $campo, $isnull)
+    {
+//        var_dump($isnull);
+        if (strlen($campo) > 0) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $where = sprintf("%s.%s  %s", $alias, $fieldMapping, ($isnull) ? 'IS NULL' : 'IS NOT NULL');
+            $query->andWhere($where);
+
+        }
+        return $query;
+    }
 }

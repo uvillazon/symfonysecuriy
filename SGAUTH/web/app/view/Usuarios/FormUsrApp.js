@@ -21,6 +21,12 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             name: 'id_usuario',
         });
 
+        me.hid_id_app = Ext.widget('hiddenfield', {
+            name: 'id_aplic',
+            value : Constantes.APLICACION.id_aplic,
+
+        });
+
         me.txt_nombre = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Nombre Completo",
             name: "nombre",
@@ -40,23 +46,18 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             readOnly: true,
             labelWidth : 70
         });
-        me.store_app = Ext.create("App.Store.Aplicaciones.Aplicaciones");
-        me.cbx_app = Ext.create("App.Config.Componente.ComboAutoBase", {
-            fieldLabel: 'Aplicacion',
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            afterLabelTextTpl: Constantes.REQUERIDO,
-            allowBlank: false,
-            name: 'id_aplic',
+
+        me.txt_aplicacion = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: "Aplicacion",
+            name: "aplicacion",
+            readOnly: true,
             colspan: 2,
+            value : Constantes.APLICACION.aplicacion,
             width: 480,
-            store: me.store_app,
-            textoTpl: function () {
-                return '<h4>{codigo}</h4>  {nombre}';
-            }
         });
+
         me.store_perfil = Ext.create("App.Store.Perfiles.Perfiles");
-        me.cbx_perfil = Ext.create("App.Config.Componente.ComboBase", {
+        me.cbx_perfil = Ext.create("App.Config.Componente.ComboAutoBase", {
             fieldLabel: 'Perfil',
             displayField: 'nombre',
             valueField: 'id_perfil',
@@ -65,7 +66,6 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             name: 'id_perfil',
             colspan: 2,
             width: 480,
-            disabled: true,
             store: me.store_perfil,
             textoTpl: function () {
                 return '<h4>{nombre}</h4>  {descripcion}';
@@ -83,9 +83,10 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
         });
         me.items = [
             me.hid_id_usuario,
+            me.hid_id_app,
             me.txt_nombre,
             me.txt_login, me.txt_email,
-            me.cbx_app,
+            me.txt_aplicacion,
             me.cbx_perfil,
             me.cbx_estado,
         ];
@@ -94,12 +95,7 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
     },
     cargarEventos: function () {
         var me = this;
-        me.cbx_app.on('select', function (cbx, record) {
-            me.cbx_perfil.setDisabled(false);
-            me.cbx_perfil.clearValue();
-            me.cbx_perfil.getStore().setExtraParams({id_aplic: record.get('id_aplic')});
-            me.cbx_perfil.getStore().load();
-        });
+
     }
 
 });

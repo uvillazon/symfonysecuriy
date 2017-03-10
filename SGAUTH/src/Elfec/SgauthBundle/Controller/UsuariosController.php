@@ -31,6 +31,7 @@ class UsuariosController extends BaseController
      * propiedad de la tabla : valor , operador = AND o OR por defecto esta AND
      * por ejemplo para periodos quiero filtrar todos los periodos con etapa a REGIMEN y nro resolucion LL tengo que enviar
      * etapa : REGIMEN , nro_resolucion : lL
+     * @Rest\Get("/usuarios")
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener Usuarios Paginados",
@@ -46,9 +47,9 @@ class UsuariosController extends BaseController
     public function getUsuariosAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.usuarios_service');
+        $servicio = $this->get('sgauthbundle.usuarios_service');
         $array = $request->query;
-        $result = $servicio->obtenerUsuariosPaginados($paginacion , $array);
+        $result = $servicio->obtenerUsuariosPaginados($paginacion, $array);
         return $result;
     }
 
@@ -57,6 +58,7 @@ class UsuariosController extends BaseController
      * Obtener Un Usuario dado un id
      * formato de respuesta
      * {success : (true o false) , msg : Mensaje de accion  , data : objecto solicitado }
+     * @Rest\Get("/usuarios/{id}")
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener un usuario",
@@ -96,12 +98,13 @@ class UsuariosController extends BaseController
      * )
      *
      */
-    public function postUsuariosAction(Request $request) {
+    public function postUsuariosAction(Request $request)
+    {
 
         $login = "SHC";
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.usuarios_service');
-        $result = $servicio->guardarUsuario($data,$login);
+        $result = $servicio->guardarUsuario($data, $login);
         return $result;
 //        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
 
@@ -120,6 +123,7 @@ class UsuariosController extends BaseController
      * propiedad de la tabla : valor , operador = AND o OR por defecto esta AND
      * por ejemplo para periodos quiero filtrar todos los periodos con etapa a REGIMEN y nro resolucion LL tengo que enviar
      * etapa : REGIMEN , nro_resolucion : lL
+     * @Rest\Get("/usuarios_app")
      * @ApiDoc(
      *   resource = true,
      *   description = "Obtener Usuarios APP",
@@ -132,12 +136,31 @@ class UsuariosController extends BaseController
      *   }
      * )
      */
-    public function getUsuariosappAction(Request $request)
+    public function getUsuariosappaaAction(Request $request)
     {
         $paginacion = $this->obtenerPaginacion($request);
-        $servicio= $this->get('sgauthbundle.usuarios_service');
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+
+        $array = $this->getTokenApp($request);
+        $result = $servicio->obtenerAppUsrPaginados($paginacion, $array);
+        return $result;
+    }
+
+//
+
+
+    /**
+     * @param Request $request
+     * @Rest\Get("/usuariosAD")
+     * @return ResultPaginacion
+     */
+    public function getUsuariosActiveDirectoryAction(Request $request)
+    {
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.usuarios_service');
         $array = $request->query;
-        $result = $servicio->obtenerAppUsrPaginados($paginacion , $array);
+//        var_dump($array);
+        $result = $servicio->obtenerUsuariosActiveDirectory($paginacion, $array, false);
         return $result;
     }
 
@@ -159,13 +182,14 @@ class UsuariosController extends BaseController
      * )
      *
      */
-    public function postUsuariosappAction(Request $request) {
+    public function postUsuariosappAction(Request $request)
+    {
 
         $Usertoken = $this->container->get("JWTUser");
         $login = $Usertoken->login;
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.usuarios_service');
-        $result = $servicio->guardarUsuarioPorApp($data,$login);
+        $result = $servicio->guardarUsuarioPorApp($data, $login);
         return $result;
 //        return ["success" => true , "msg" => "Proceso Ejecutado Correctamente"];
 
@@ -189,7 +213,8 @@ class UsuariosController extends BaseController
      * )
      *
      */
-    public function postCambiarcontrasenaAction(Request $request) {
+    public function postCambiarcontrasenaAction(Request $request)
+    {
 
         $Usertoken = $this->container->get("JWTUser");
         $servicio = $this->get('sgauthbundle.recuperacion_service');
@@ -197,17 +222,47 @@ class UsuariosController extends BaseController
 //        var_dump($data)
         $data["usuario"] = $Usertoken->login;
         $result = $servicio->cambiar_password_sc($data);
-        if($result->success){
-            $servicio= $this->get('sgauthbundle.autenticacion_service');
+        if ($result->success) {
+            $servicio = $this->get('sgauthbundle.autenticacion_service');
             $array = $request->query;
             $array1 = $request->request->all();
-            $array->set("codigoApp",$Usertoken->codigoApp);
-            $array->set("usuario",$Usertoken->login);
-            $array->set("password",$array1['password']);
+            $array->set("codigoApp", $Usertoken->codigoApp);
+            $array->set("usuario", $Usertoken->login);
+            $array->set("password", $array1['password']);
             $header = $request->headers;
-            $result = $servicio->generarTokenPorUsuarioApp($array,$header);
+            $result = $servicio->generarTokenPorUsuarioApp($array, $header);
         }
         return $result;
     }
 
+    /**
+     * @Rest\Post("/usuarios_areas")
+     * @param Request $request
+     * @return mixed
+     */
+    public function postGrabarUsuarioAreaAction(Request $request)
+    {
+
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+        $data = $this->postTokenApp($request);
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $result = $servicio->grabarUsuarioArea($data, $login);
+        return $result;
+    }
+
+    /**
+     * @Rest\Post("/usuarios_areas/eliminar")
+     * @param Request $request
+     * @return mixed
+     */
+    public function postEliminarUsuarioAreaAction(Request $request)
+    {
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+        $data = $this->postTokenApp($request);
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $result = $servicio->eliminarUsuarioArea($data["id"]);
+        return $result;
+    }
 }
