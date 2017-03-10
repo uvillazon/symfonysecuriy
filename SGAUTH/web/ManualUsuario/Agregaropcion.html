@@ -3,7 +3,9 @@
 <head>
 	<title>Agregar opcion</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 3.6.0.345">
+    <meta name="generator" content="HelpNDoc Personal Edition 4.9.2.132">
+	<meta name="keywords" content="">
+	
 	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
@@ -19,23 +21,36 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/hnd.js"></script>
 	<script type="text/javascript">
-		if (top.frames.length == 0)
+		$(document).ready(function()
 		{
-			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
-			top.location.href = "SGAUTH.html?" + sTopicUrl;
-		}
-		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
-		{
-			top.FrameTOC.SelectTocItem("Agregaropcion");
-		}
+			if (top.frames.length == 0)
+			{
+				var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+				top.location.href = "SGAUTH.html?" + sTopicUrl;
+			}
+			else
+			{
+				var bTocSelected = false;
+				(function waitForTOC()
+				{
+					if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+					{
+						top.FrameTOC.SelectTocItem("Agregaropcion");
+						bTocSelected = true;
+					}
+					if (!bTocSelected) setTimeout(function() { waitForTOC(); }, 300);
+				})();
+			}
+		});
 	</script>
-</head>
+	
+	</head>
 
 <body>
 
-	<div id="topic_header">
+<div id="topic_header">
 			<div id="topic_header_content">
-				<h1>Agregar opcion</h1>
+				<h1 id="topic_header_text">Agregar opcion</h1>
 				
 				<div id="topic_breadcrumb">
 					<a href="Administracion.html">Administracion</a> &rsaquo;&rsaquo; <a href="Perfiles2.html">Perfiles</a> &rsaquo;&rsaquo; </div>
@@ -52,25 +67,26 @@
 		</div>
 	<div id="topic_content">
 		
+<p></p>
 <p class="rvps3"><span class="rvts8"><br/></span></p>
 <p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts8">Inicialmente el menu de opciones se encuentra bloqueado </span><img alt="" style="padding : 1px;" src="lib/NewItem57.png"/><span class="rvts8">, se debe seleccionar un registro de perfil para desbloquearlo.</span></p>
-<p class="rvps3"><span class="rvts8">Una vez seleccionado el registro a editar se desbloqueara </span><img alt="" style="padding : 1px;" src="lib/NewItem59.png"/><span class="rvts8">, una vez realizado un click en el boton se visualizara ventana emergente con los datos del registro seleccionado:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem60.png"/></p>
-<p class="rvps3"><span class="rvts9">Los campos que tienen un asterisco </span><span class="rvts12">*</span><span class="rvts9"> son obligatorios.</span></p>
+<p class="rvps3"><span class="rvts8">Inicialmente el menu de opciones se encuentra bloqueado </span><img alt="" style="padding : 1px;" src="lib/NewItem159.png"><span class="rvts8">, se debe seleccionar un registro de perfil para desbloquearlo.</span></p>
+<p class="rvps3"><span class="rvts8">Una vez seleccionado el registro se desbloqueara </span><img alt="" style="padding : 1px;" src="lib/NewItem164.png"><span class="rvts8">, haciendo un click en el boton se visualizara ventana emergente con los datos del registro seleccionado:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem165.png"></p>
+<p class="rvps3"><span class="rvts8">Los campos que tienen un asterisco </span><span class="rvts11">*</span><span class="rvts8"> son obligatorios.</span></p>
 <p class="rvps3"><span class="rvts8">Si no se ingresan los datos obligatorios se visualizara:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem26.png"/></p>
-<p class="rvps3"><span class="rvts8">Una vez introducidos los datos se debe hacer click en </span><img alt="" style="padding : 1px;" src="lib/NewItem27.png"/><span class="rvts8"> se mostrara un mensaje de confirmacion:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem28.png"/></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem125.png"></p>
+<p class="rvps3"><span class="rvts8">Una vez introducidos los datos se debe hacer click en </span><img alt="" style="padding : 1px;" src="lib/NewItem126.png"><span class="rvts8"> se mostrara un mensaje de confirmacion:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem170.png"></p>
 <p class="rvps3"><span class="rvts8">Si todo salio bien saldra el mensaje de confirmacion:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem29.png"/></p>
-<p class="rvps3"><span class="rvts8">Caso contrario saldra un mensaje de error especifico o referenciado para TI(Tecnologias de Informacion):</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem61.png"/></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem128.png"></p>
+<p class="rvps3"><span class="rvts8">Caso contrario saldra un mensaje de error especifico o referenciado para TI(Tecnologias de Informacion).</span></p>
 <p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts9"><br/></span></p>
 <p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts9"><br/></span></p>
-<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com">Free CHM Help documentation generator</a></p>
+<p class="rvps3"><span class="rvts8"><br/></span></p>
+<p class="rvps3"><span class="rvts8"><br/></span></p>
+<p></p>
+<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/feature-tour/create-ebooks-for-amazon-kindle">Full-featured Kindle eBooks generator</a></p>
 </div>
 	
 	<div id="topic_footer">
