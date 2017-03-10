@@ -47,7 +47,7 @@ class MenuOpcionesController extends BaseController
     {
         $paginacion = $this->obtenerPaginacion($request);
         $servicio= $this->get('sgauthbundle.MenuOpciones_service');
-        $array = $request->query;
+        $array = $this->getTokenApp($request);
         $result = $servicio->obtenerOpcionesaginados($paginacion , $array);
         return $result;
     }
@@ -131,7 +131,7 @@ class MenuOpcionesController extends BaseController
 
         $Usertoken = $this->container->get("JWTUser");
         $login = $Usertoken->login;
-        $data = $request->request->all();
+        $data = $this->postTokenApp($request);
         $servicio = $this->get('sgauthbundle.MenuOpciones_service');
         $result = $servicio->guardarOpcion($data,$login);
         return $result;
@@ -161,7 +161,7 @@ class MenuOpcionesController extends BaseController
 
         $Usertoken = $this->container->get("JWTUser");
         $login = $Usertoken->login;
-        $data = $request->request->all();
+        $data = $this->postTokenApp($request);
         $servicio = $this->get('sgauthbundle.MenuOpciones_service');
         $result = $servicio->guardarBoton($data,$login);
         return $result;

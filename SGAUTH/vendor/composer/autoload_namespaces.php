@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'Toyota\\Component\\Ldap\\' => array($vendorDir . '/tiesa/ldap'),
     'Sensio\\Bundle\\GeneratorBundle' => array($vendorDir . '/sensio/generator-bundle'),
     'Sensio\\Bundle\\DistributionBundle' => array($vendorDir . '/sensio/distribution-bundle'),
     'SensioLabs\\Security' => array($vendorDir . '/sensiolabs/security-checker'),
@@ -17,6 +18,7 @@ return array(
     'Nelmio\\ApiDocBundle' => array($vendorDir . '/nelmio/api-doc-bundle'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),
     'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
+    'Lilweb\\LdapBundle' => array($vendorDir . '/lilweb/ldap-bundle'),
     'JsonpCallbackValidator' => array($vendorDir . '/willdurand/jsonp-callback-validator/src'),
     'Jaspersoft' => array($vendorDir . '/jaspersoft/rest-client/src'),
     'JMS\\SerializerBundle' => array($vendorDir . '/jms/serializer-bundle'),

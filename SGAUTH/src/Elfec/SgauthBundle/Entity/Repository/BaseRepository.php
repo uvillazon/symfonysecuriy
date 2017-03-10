@@ -26,7 +26,7 @@ class BaseRepository extends EntityRepository
 //         var_dump($this->getClassMetadata()->getFieldMapping());die();
         $alias = $query->getRootAlias();
         foreach ($fields as $field) {
-            if (!is_null($array->get($field))) {
+            if (!is_null($array->get($field)) && strlen($array->get($field)) > 0) {
                 $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
                 if (trim(strtoupper($operador)) === "AND") {
                     $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
@@ -39,6 +39,7 @@ class BaseRepository extends EntityRepository
                 }
             }
         }
+//        var_dump($query->getDQL()) ;
         return $query;
     }
 
@@ -55,6 +56,7 @@ class BaseRepository extends EntityRepository
             $fields = array_keys($this->getClassMetadata()->fieldNames);
             $alias = $query->getRootAlias();
             $count = 0;
+//            var_dump($query->getState());
             foreach ($array as $field) {
                 $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
                 $where = sprintf("UPPER(%s.%s) LIKE :condicion", $alias, $fieldMapping);
@@ -148,5 +150,137 @@ class BaseRepository extends EntityRepository
             return $retval;
         });
         return $data;
+    }
+
+    /**
+     * @param $arr
+     * @param $col
+     * @param int $dir
+     * @return mixed
+     */
+    function array_sort_by_column($arr, $col, $dir = SORT_ASC)
+    {
+        $sort_col = array();
+        foreach ($arr as $key => $row) {
+
+            $sort_col[$key] = is_string($row[$col]) ? strtoupper($row[$col]) : $row[$col];
+        }
+//        var_dump($sort_col);
+        array_multisort($sort_col, $dir, $arr);
+        return $arr;
+    }
+
+    /**
+     * @param $array
+     * @param $index
+     * @param $default
+     * @return int|null|string
+     */
+    public function getValueArray($array, $index, $default)
+    {
+        if ($default === 0) {
+//            var_dump(array_key_exists($index, $array) ? $array[$index] === '' ? 0 : $array[$index] : 0);
+            return array_key_exists($index, $array) ? $array[$index] === '' ? 0 : $array[$index] : 0;
+        } else {
+//            var_dump(array_key_exists($index, $array) ? $array[$index] : null);
+            return array_key_exists($index, $array) ? $array[$index] === '' ? null : $array[$index] : null;
+        }
+
+    }
+
+    /**
+     * @param $response
+     * @return \Elfec\SgauthBundle\Model\RespuestaSP
+     */
+    public function respuestaSP($response)
+    {
+
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        if (count($response) > 0) {
+            if (is_numeric($this->getValueToArray($response[0]))) {
+                $result->success = true;
+                $result->msg = "Proceso Ejectuado Correctamente";
+                $result->id = $this->getValueToArray($response[0]);
+            } else {
+                $result->success = false;
+                $result->msg = $this->getValueToArray($response[0]);
+            }
+        } else {
+            $result->success = false;
+            $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+        }
+
+        return $result;
+    }
+
+    private function getValueToArray($array)
+    {
+        foreach ($array as $key => $value) {
+            return $value;
+        }
+        return null;
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param array $array
+     * @param string $campo
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function contieneInArray($query, $array, $campo)
+    {
+
+        if (is_array($array)) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $count = 0;
+            $where = sprintf("%s.%s  IN (:" . $fieldMapping . ")", $alias, $fieldMapping);
+
+            $query->andWhere($where);
+            $query->setParameter($fieldMapping, $array, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+        }
+        return $query;
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param array $array
+     * @param string $campo
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function noContieneInArray($query, $array, $campo)
+    {
+//        var_dump($array);
+        if (is_array($array)) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $count = 0;
+            $where = sprintf("%s.%s  NOT IN (:notIn)", $alias, $fieldMapping);
+
+            $query->andWhere($where);
+            $query->setParameter('notIn', $array, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+        }
+        return $query;
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param string $campo
+     * @param bool $isnull
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function isOrNotNull($query, $campo, $isnull)
+    {
+//        var_dump($isnull);
+        if (strlen($campo) > 0) {
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($campo);
+            $alias = $query->getRootAlias();
+            $where = sprintf("%s.%s  %s", $alias, $fieldMapping, ($isnull) ? 'IS NULL' : 'IS NOT NULL');
+            $query->andWhere($where);
+
+        }
+        return $query;
     }
 }

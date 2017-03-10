@@ -40,6 +40,13 @@ class menuOpciones
     /**
      * @var string
      *
+     * @ORM\Column(name="alias", type="string", length=100, nullable=true)
+     */
+    private $alias;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="tooltip", type="string", length=250, nullable=true)
      */
     private $tooltip;
@@ -354,5 +361,74 @@ class menuOpciones
     public function getParametros()
     {
         return $this->parametros;
+    }
+
+    /**
+     * Set alias
+     *
+     * @param string $alias
+     * @return menuOpciones
+     */
+    public function setAlias($alias)
+    {
+        $this->alias = $alias;
+    
+        return $this;
+    }
+
+    /**
+     * Get alias
+     *
+     * @return string 
+     */
+    public function getAlias()
+    {
+        return $this->alias;
+    }
+
+    /**
+     * Set aplicacion
+     *
+     * @param string $aplicacion
+     * @return menuOpciones
+     */
+    public function setAplicacion($aplicacion)
+    {
+        $this->aplicacion = $aplicacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get aplicacion
+     *
+     * @return string 
+     */
+    public function getAplicacion()
+    {
+        return $this->aplicacion;
+    }
+
+    /**
+     * Set padre
+     *
+     * @param string $padre
+     * @return menuOpciones
+     */
+    public function setPadre($padre)
+    {
+        $this->padre = $padre;
+    
+        return $this;
+    }
+
+    /**
+     * Get padre
+     *
+     * @return string 
+     */
+    public function getPadre()
+    {
+        return $this->padre;
     }
 }

@@ -9,11 +9,11 @@ Ext.define("App.View.Aplicaciones.GridAplicaciones", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
+    classStore: 'App.Store.Aplicaciones.Aplicaciones',
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
         var me = this;
-
-        me.store = Ext.create("App.Store.Aplicaciones.Aplicaciones");
+        me.store = Ext.create(me.classStore);
         me.CargarComponentes();
         me.columns = [
             { xtype: "rownumberer", width: 30, sortable: false },
@@ -27,6 +27,7 @@ Ext.define("App.View.Aplicaciones.GridAplicaciones", {
             { header: "Drive", width: 90, sortable: true, dataIndex: "bd_drive" },
             { header: "Host", width: 90, sortable: true, dataIndex: "app_host" },
             { header: "Secret Key", width: 90, sortable: true, dataIndex: "secret_key" },
+            { header: "Duracion <br>Token(Hrs)", width: 90, sortable: true, dataIndex: "tiempo_valido_token" },
 
             { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
         ];

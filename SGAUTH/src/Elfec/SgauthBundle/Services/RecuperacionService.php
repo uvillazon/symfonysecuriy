@@ -62,8 +62,7 @@ class RecuperacionService
             $data["id_aplic"] = $aplicacion->getIdAplic();
         }
         $result = $repo->guardarRecuperacionCnt($data);
-        if ($result->success)
-        {
+        if ($result->success) {
             /**
              * @var \Elfec\SgauthBundle\Entity\recuperacionCnt $email
              */
@@ -71,11 +70,11 @@ class RecuperacionService
             //vamos a enviar un correo si todo esta ok
             $valor = sprintf("%s|%s|%s|%s", $result->id, $data["id_aplic"], $data["usuario"], $data["ip_solic"]);
             $encript = $this->nzo->encrypt($valor);
-            $datos = array("usuario"=>$email->getUsuario() , "fecha_exp"=>$email->getFechaExp()->format("d/m/Y H:i:s") , "navegador"=> $email->getClienteSolic(),"ip"=>$email->getIpSolic());
+            $datos = array("usuario" => $email->getUsuario(), "fecha_exp" => $email->getFechaExp()->format("d/m/Y H:i:s"), "navegador" => $email->getClienteSolic(), "ip" => $email->getIpSolic());
 
             $result->msg = "se le envio el codigo de control a su correo electronico asociado a su cuenta : " . $data["usuario"];
             try {
-                $this->correo->enviarCorreos("Recuperacion de Correos", $email->getEmail(), null, $encript, array(), $email->getEmail(),$datos);
+                $this->correo->enviarCorreos("Recuperacion de Correos", $email->getEmail(), null, $encript, array(), $email->getEmail(), $datos);
             } catch (\Exception $e) {
                 var_dump($e->getMessage());
             }
@@ -89,13 +88,19 @@ class RecuperacionService
     public function cambiar_password($data)
     {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
-        $decrypt = $this->nzo->decrypt($data["codigo"]);
-        $array = explode('|', $decrypt);
-        $data["usuario"] = $array[2];
-        $data["codigo"] = $array[0];
+        try {
+            $decrypt = $this->nzo->decrypt($data["codigo"]);
+            $array = explode('|', $decrypt);
+            $data["usuario"] = $array[2];
+            $data["codigo"] = $array[0];
 //        var_dump($decrypt);die();
-        $repo = $this->em->getRepository('ElfecSgauthBundle:recuperacionCnt');
-        $result = $repo->cambiar_password($data);
+            $repo = $this->em->getRepository('ElfecSgauthBundle:recuperacionCnt');
+            $result = $repo->cambiar_password($data);
+        } catch (\Exception $e) {
+            $result->success = false;
+//            var_dump($e->getTraceAsString());
+            $result->msg = "El codigo no corresponde para cambiar el password.";
+        }
         return $result;
 
     }

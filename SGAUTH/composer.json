@@ -26,7 +26,9 @@
         "willdurand/hateoas-bundle": "0.5.*",
         "firebase/php-jwt": "dev-master",
         "jaspersoft/rest-client": "v2.0.0",
-        "nzo/url-encryptor-bundle": "~1.0"
+        "nzo/url-encryptor-bundle": "~1.0",
+        "tiesa/ldap": "dev-master",
+        "lilweb/ldap-bundle": "0.1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

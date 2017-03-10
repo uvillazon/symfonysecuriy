@@ -14,34 +14,24 @@ Ext.define("App.View.Perfiles.Principal", {
     },
     CargarComponentes: function () {
         var me = this;
-        var cmpButton  = Ext.create("Ext.Toolbar",{
+        var cmpButton = Ext.create("Ext.Toolbar", {
             width: '100%',
-            height : 50,
+            height: 50,
             region: 'north',
             itemId: 'cmpButtonPerfil',
             layout: {
                 overflowHandler: 'Menu'
             },
         });
-        me.store_app = Ext.create("App.Store.Aplicaciones.Aplicaciones");
-        me.store_app.load();
-        me.cbx_app = Ext.create("App.Config.Componente.ComboBase", {
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            name: 'id_aplic',
-            emptyText: 'Seleccione Aplicacion',
-            width: 150,
-            itemId : 'per_cbx_app',
-            store: me.store_app
-        });
+
         me.btn_historico_cambios = Ext.create('Ext.Button', {
             pressed: true,
             iconCls: 'clock',
             tooltip: 'Historicos de Asociacio de Menu al Perfil',
-            itemId : 'btn_hist_perfiles',
+            itemId: 'btn_hist_perfiles',
             //enableToggle: true,
             scope: this,
-            text: 'Historicos',
+            text: 'Hist. Asociacion',
             tooltipType: 'qtip'
 
 
@@ -52,7 +42,6 @@ Ext.define("App.View.Perfiles.Principal", {
             itemId: 'grid123',
             borrarParametros: true,
         });
-        me.grid.AgregarBtnToolbar(me.cbx_app);
         me.grid.AgregarBtnToolbar(me.btn_historico_cambios);
 
         //me.grid.addDocked(me.cbx_app, 1);
@@ -72,24 +61,38 @@ Ext.define("App.View.Perfiles.Principal", {
             items: [
                 {
                     xtype: 'gridOpciones',
-                    itemId : 'gridOpcionesPerfil',
-                    classStore : 'App.Store.Opciones.OpcionesPerfil',
-                    cargarStore : false,
+                    itemId: 'gridOpcionesPerfil',
+                    classStore: 'App.Store.Opciones.OpcionesPerfil',
+                    cargarStore: false,
                     busqueda: true,
-                    reportesHistoricoEstados : true,
-                    imprimir : true
+                    reportesHistoricoEstados: true,
+                    imprimir: true
                 },
                 {
                     xtype: 'gridBotones',
-                    itemId : 'gridBotonesPerfil',
-                    cargarStore : false,
-                    classStore : 'App.Store.Opciones.BotonesPerfil',
-                    reportesHistoricoEstados : true,
-                    imprimir : true
+                    itemId: 'gridBotonesPerfil',
+                    cargarStore: false,
+                    classStore: 'App.Store.Opciones.BotonesPerfil',
+                    reportesHistoricoEstados: true,
+                    imprimir: true
                 }
             ]
         });
         me.panel = me.form = Ext.create("App.Config.Abstract.FormPanel");
+
+        // console.log(Constantes);
+        // if (Constantes.APLICACION.codigo === "SGAUTH") {
+        var gridAplicaciones = Ext.create("App.View.Aplicaciones.GridAplicaciones", {
+            cargarStore: false,
+            itemId: 'gridAplicacionPerfil',
+            classStore: 'App.Store.Perfiles.Aplicaciones',
+            busqueda: true,
+            reportesHistoricoEstados: true,
+            imprimir: true,
+            hidden: !(Constantes.APLICACION.codigo === "SGAUTH")
+        });
+        tabPanel.add(gridAplicaciones);
+        // }
 
         me.form = Ext.create("App.View.Perfiles.FormPerfil");
         me.form.BloquearFormulario();

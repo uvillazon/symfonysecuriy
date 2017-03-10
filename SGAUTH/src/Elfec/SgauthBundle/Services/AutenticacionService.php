@@ -16,6 +16,7 @@ use Elfec\SgauthBundle\Entity\appUsr;
 use Elfec\SgauthBundle\Entity\menuOpciones;
 use Elfec\SgauthBundle\Entity\perfilesOpciones;
 use Elfec\SgauthBundle\Entity\usuarios;
+use Elfec\SgauthBundle\Entity\usuariosAreas;
 use Exception;
 use Firebase\JWT\JWT;
 
@@ -31,6 +32,7 @@ class AutenticacionService
         $this->em = $em;
     }
 
+
     public function generarTokenPorUsuarioApp($data, $header)
     {
 
@@ -44,6 +46,9 @@ class AutenticacionService
             $managerApp = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
 
             $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
+            $aplicacion = !is_null($data->get('id_aplic')) ? $managerApp->find($data->get('id_aplic')) : null;
+
+//            var_dump($aplicacion);
             if (is_null($obj)) {
                 $result->msg = "Codigo de Apliacion  no existe";
                 $result->success = false;
@@ -51,11 +56,12 @@ class AutenticacionService
                 $test = $this->testConnection($data->get('usuario'), $data->get('password'), $obj);
 //                var_dump($test);die();
                 if (is_numeric($test) && $data->get('codigoApp') != 'SISMAN') {
-                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic());
+                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic(), $aplicacion);
                     if (is_numeric($usrTest)) {
                         $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
-                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj);
+                        $result->data = $this->obtenerTokenPerfil($usrTest, $obj, $aplicacion);
+                        $result->data = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion, $result->data) : $result->data;
                     } else {
                         $result->msg = $usrTest;
                         $result->success = false;
@@ -75,6 +81,28 @@ class AutenticacionService
     }
 
     /**
+     * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
+     * @param array $array
+     * @return array
+     */
+    private function pushArrayApp($app, $array)
+    {
+//        var_dump($array);
+        $row = array(
+            "codigo" => $app->getCodigo(),
+            "aplicacion" => $app->getNombre(),
+            "id_aplic" => $app->getIdAplic()
+
+        );
+
+        $array["aplicacion"] = $row;
+//        array_push($array, $row);
+
+//            var_dump($array);
+        return $array;
+    }
+
+    /**
      * metodo temporal para obtener
      */
     private function obtenerTokenSisman($app, $data)
@@ -82,7 +110,7 @@ class AutenticacionService
         $key = $app->getSecretKey();
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
         $token = [
-            "exp" => time() + 28800,
+            "exp" => time() + $app->getTiempoValidoToken() * 3600,
 
             "key" => $connect
 
@@ -100,21 +128,45 @@ class AutenticacionService
     }
 
 
+    private function obtenerAreas($idAplic)
+    {
+        $repoUsrArea = $this->em->getRepository('ElfecSgauthBundle:usuariosAreas');
+        /**
+         * @var usuariosAreas $area
+         */
+        $areas = $repoUsrArea->findBy(array("idUsuario" => $this->idUsr, "idAplic" => $idAplic));
+        $rows = array();
+        foreach ($areas as $area) {
+            $row = array(
+                "nom_area" => $area->getArea()->getNomArea(),
+                "id_area" => $area->getIdArea(),
+                "estado" => $area->getArea()->getEstado()
+            );
+            array_push($rows, $row);
+        }
+        return $rows;
+    }
+
     /**
      * @param $idPerfil
      * @param \Elfec\SgauthBundle\Entity\aplicaciones $app
+     * * @param \Elfec\SgauthBundle\Entity\aplicaciones $aplicacion
      * @return array
      */
-    private function obtenerTokenPerfil($idPerfil, $app)
+    private function obtenerTokenPerfil($idPerfil, $app, $aplicacion)
     {
         $key = $app->getSecretKey();
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
         $menus = $repoUsr->obtenerOpcionesMenuPorPerfil($idPerfil);
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:appUsr');
+
+
         /**
          * @var appUsr $usr
+         *
          */
         $usr = $repoUsr->findOneBy(array('perfil' => $idPerfil, 'usuario' => $this->idUsr));
+        $areas = $this->obtenerAreas($app->getIdAplic());
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
         $usuario = array(
             "login" => $usr->getIdUsuario()->getLogin(),
@@ -126,39 +178,50 @@ class AutenticacionService
             "estado" => $usr->getIdUsuario()->getEstado(),
             "aplicacion" => $usr->getIdAplic()->getNombre(),
             "codigoApp" => $usr->getIdAplic()->getCodigo(),
-            "id_aplic" => $usr->getIdAplic()->getIdAplic()
+            "id_aplic" => $usr->getIdAplic()->getIdAplic(),
+            "area" => (is_null($usr->getIdUsuario()->getIdArea())) ? null : $usr->getIdUsuario()->getArea()->getNomArea()
         );
         if ($app->getCodigo() === "SGCST") {
             $token = [
-                "exp" => time() + 28800,
-                "menu" => $menus,
+                "exp" => time() + $app->getTiempoValidoToken() * 3600,
+//                "menu" => $menus,
                 "usuario" => $usuario,
+                "areas" => $areas,
                 "key" => $connect
 
             ];
         } else {
             $token = [
-                "exp" => time() + 28800,
+                "exp" => time() + $app->getTiempoValidoToken() * 3600,
                 "usuario" => $usuario,
+                "areas" => $areas,
                 "key" => $connect
             ];
         }
+        $token = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion, $token) : $token;
         $jwt = JWT::encode($token, $key);
         $result = array(
             "token" => $jwt,
             "menu" => $menus,
-            "usuario" => $usuario
+            "usuario" => $usuario,
+            "areas" => $areas
         );
         return $result;
     }
 
+
     /**
-     * @param string $usuario
+     * @param $usuario
+     * @param $idApp
+     * @param aplicaciones $aplicacion
      * @return string
      */
-    private function esUsuarioAppActivo($usuario, $idApp)
+    private function esUsuarioAppActivo($usuario, $idApp, $aplicacion)
     {
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:usuarios');
+        $repoPerfilApp = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
+//        $servicioPerfil = $this->get('sgauthbundle.perfiles_service');
+//        $apps = $servicioPerfil->obtenerAplicacionesPorPerfil($Usertoken->id_perfil);
         /**
          * @var usuarios $usr
          */
@@ -177,6 +240,12 @@ class AutenticacionService
                 if (is_null($usrApp)) {
                     $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion", $usuario);
                 } else {
+                    if (!is_null($aplicacion)) {
+                        $appPerfil = $repoPerfilApp->findOneBy(array("idPerfil" => $usrApp->getPerfil(), "idAplic" => $aplicacion->getIdAplic()));
+                        if (is_null($appPerfil)) {
+                            return sprintf("El usuario : %s no tiene permiso de administracion de la aplicacion %s", $usuario, $aplicacion->getCodigo());
+                        }
+                    }
                     if ($usrApp->getEstado() == "ACTIVO") {
                         $result = $usrApp->getIdPerfil()->getIdPerfil();
                         $usrArray = array(
@@ -225,8 +294,10 @@ class AutenticacionService
             $this->usrArray["dbConnect"] = $connectionParams;
 //            array_push($this->usrArray,$connectionParams);
             $result = 1;
-        } catch (Exception $ex) {
-            $result = $ex->getMessage();
+        } catch (\PDOException $ex) {
+//            var_dump($ex);
+            $result = "Error: autenticación de contraseña falló para el usuario :" . $usuario;
+//            $result = $ex->getMessage();
         }
         return $result;
     }

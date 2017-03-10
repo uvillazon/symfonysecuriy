@@ -18,8 +18,7 @@ class aplicaciones
      *
      * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="elfec.aplicaciones_id_aplic_seq", allocationSize=1, initialValue=1)
+     
      */
     private $idAplic;
 
@@ -99,6 +98,13 @@ class aplicaciones
      * @ORM\Column(name="secret_key", type="string",  nullable=false)
      */
     private $secretKey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tiempo_valido_token", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $tiempoValidoToken;
 
 
 
@@ -363,5 +369,41 @@ class aplicaciones
     public function getSecretKey()
     {
         return $this->secretKey;
+    }
+
+    /**
+     * Set idAplic
+     *
+     * @param string $idAplic
+     * @return aplicaciones
+     */
+    public function setIdAplic($idAplic)
+    {
+        $this->idAplic = $idAplic;
+    
+        return $this;
+    }
+
+    /**
+     * Set tiempoValidoToken
+     *
+     * @param string $tiempoValidoToken
+     * @return aplicaciones
+     */
+    public function setTiempoValidoToken($tiempoValidoToken)
+    {
+        $this->tiempoValidoToken = $tiempoValidoToken;
+    
+        return $this;
+    }
+
+    /**
+     * Get tiempoValidoToken
+     *
+     * @return string 
+     */
+    public function getTiempoValidoToken()
+    {
+        return $this->tiempoValidoToken;
     }
 }

@@ -84,12 +84,12 @@ Ext.define("App.View.Opciones.FormBoton", {
 
         });
         me.cbx_habilitar = Ext.create("App.Config.Componente.ComboBase", {
-            fieldLabel: "Habilitado",
-            name: "disabled",
+            fieldLabel: "Deshabilitado",
+            name: "disabled_s",
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
-            value: 'HABILITADO',
-            store: ['HABILITADO', 'INHABILITADO'],
+            value: 'SI',
+            store: ['SI', 'NO'],
 
         });
 

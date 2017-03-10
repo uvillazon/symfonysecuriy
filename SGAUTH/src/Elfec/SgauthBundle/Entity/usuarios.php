@@ -72,12 +72,28 @@ class usuarios
      */
     private $estado;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_area", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $idArea;
+
+    /**
+     * @var \areas
+     *
+     * @ORM\ManyToOne(targetEntity="areas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_area", referencedColumnName="id_area")
+     * })
+     */
+    private $area;
 
 
     /**
      * Get idUsuario
      *
-     * @return string 
+     * @return string
      */
     public function getIdUsuario()
     {
@@ -100,7 +116,7 @@ class usuarios
     /**
      * Get login
      *
-     * @return string 
+     * @return string
      */
     public function getLogin()
     {
@@ -123,7 +139,7 @@ class usuarios
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -146,7 +162,7 @@ class usuarios
     /**
      * Get clave
      *
-     * @return string 
+     * @return string
      */
     public function getClave()
     {
@@ -169,7 +185,7 @@ class usuarios
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -192,7 +208,7 @@ class usuarios
     /**
      * Get fchAlta
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFchAlta()
     {
@@ -215,7 +231,7 @@ class usuarios
     /**
      * Get fchBaja
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFchBaja()
     {
@@ -238,10 +254,56 @@ class usuarios
     /**
      * Get estado
      *
-     * @return string 
+     * @return string
      */
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * Set idArea
+     *
+     * @param string $idArea
+     * @return usuarios
+     */
+    public function setIdArea($idArea)
+    {
+        $this->idArea = $idArea;
+    
+        return $this;
+    }
+
+    /**
+     * Get idArea
+     *
+     * @return string 
+     */
+    public function getIdArea()
+    {
+        return $this->idArea;
+    }
+
+    /**
+     * Set area
+     *
+     * @param \Elfec\SgauthBundle\Entity\areas $area
+     * @return usuarios
+     */
+    public function setArea(\Elfec\SgauthBundle\Entity\areas $area = null)
+    {
+        $this->area = $area;
+    
+        return $this;
+    }
+
+    /**
+     * Get area
+     *
+     * @return \Elfec\SgauthBundle\Entity\areas 
+     */
+    public function getArea()
+    {
+        return $this->area;
     }
 }

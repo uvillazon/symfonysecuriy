@@ -1,0 +1,173 @@
+<?php
+
+namespace Elfec\SgauthBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * perfilesAplicaciones
+ *
+ * @ORM\Table(name="elfec.perfiles_aplicaciones")
+ * @ORM\Entity(repositoryClass="Elfec\SgauthBundle\Entity\Repository\perfilesAplicacionesRepository")
+ */
+class perfilesAplicaciones
+{
+
+
+    /**
+     * @var string
+     * @ORM\Id
+     * @ORM\Column(name="id_prf_app", type="decimal")
+     */
+    private $idPrfApp;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_perfil", type="decimal")
+     */
+    private $idPerfil;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_aplic", type="decimal")
+     */
+    private $idAplic;
+
+
+    /**
+     * @var \aplicaciones
+     *
+     * @ORM\ManyToOne(targetEntity="aplicaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_aplic", referencedColumnName="id_aplic")
+     * })
+     */
+    private $aplicaciones;
+
+    /**
+     * @var \perfiles
+     *
+     * @ORM\ManyToOne(targetEntity="perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_perfil", referencedColumnName="id_perfil")
+     * })
+     */
+    private $perfiles;
+
+    /**
+     * Set idPrfApp
+     *
+     * @param string $idPrfApp
+     * @return perfilesAplicaciones
+     */
+    public function setIdPrfApp($idPrfApp)
+    {
+        $this->idPrfApp = $idPrfApp;
+    
+        return $this;
+    }
+
+    /**
+     * Get idPrfApp
+     *
+     * @return string 
+     */
+    public function getIdPrfApp()
+    {
+        return $this->idPrfApp;
+    }
+
+    /**
+     * Set idPerfil
+     *
+     * @param string $idPerfil
+     * @return perfilesAplicaciones
+     */
+    public function setIdPerfil($idPerfil)
+    {
+        $this->idPerfil = $idPerfil;
+    
+        return $this;
+    }
+
+    /**
+     * Get idPerfil
+     *
+     * @return string 
+     */
+    public function getIdPerfil()
+    {
+        return $this->idPerfil;
+    }
+
+    /**
+     * Set idAplic
+     *
+     * @param string $idAplic
+     * @return perfilesAplicaciones
+     */
+    public function setIdAplic($idAplic)
+    {
+        $this->idAplic = $idAplic;
+    
+        return $this;
+    }
+
+    /**
+     * Get idAplic
+     *
+     * @return string 
+     */
+    public function getIdAplic()
+    {
+        return $this->idAplic;
+    }
+
+    /**
+     * Set aplicaciones
+     *
+     * @param \Elfec\SgauthBundle\Entity\aplicaciones $aplicaciones
+     * @return perfilesAplicaciones
+     */
+    public function setAplicaciones(\Elfec\SgauthBundle\Entity\aplicaciones $aplicaciones = null)
+    {
+        $this->aplicaciones = $aplicaciones;
+    
+        return $this;
+    }
+
+    /**
+     * Get aplicaciones
+     *
+     * @return \Elfec\SgauthBundle\Entity\aplicaciones 
+     */
+    public function getAplicaciones()
+    {
+        return $this->aplicaciones;
+    }
+
+    /**
+     * Set perfiles
+     *
+     * @param \Elfec\SgauthBundle\Entity\perfiles $perfiles
+     * @return perfilesAplicaciones
+     */
+    public function setPerfiles(\Elfec\SgauthBundle\Entity\perfiles $perfiles = null)
+    {
+        $this->perfiles = $perfiles;
+    
+        return $this;
+    }
+
+    /**
+     * Get perfiles
+     *
+     * @return \Elfec\SgauthBundle\Entity\perfiles 
+     */
+    public function getPerfiles()
+    {
+        return $this->perfiles;
+    }
+}

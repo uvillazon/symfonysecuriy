@@ -18,12 +18,6 @@ Ext.define("App.View.Opciones.FormOpcion", {
         me.cbx_padre.on('select', function (cbx, rec) {
             me.hid_idPadre.setValue(rec.get('id_opc'));
         });
-        me.cbx_aplicacion.on('select', function (cbx, rec) {
-            me.cbx_padre.setDisabled(false);
-            me.cbx_padre.getStore().setExtraParams({id_aplic : rec.get('id_aplic')});
-            me.cbx_padre.getStore().load();
-            me.hid_idApp.setValue(rec.get('id_aplic'));
-        });
     },
     cargarComponentes: function () {
         var me = this;
@@ -45,18 +39,6 @@ Ext.define("App.View.Opciones.FormOpcion", {
             colspan: 2,
             width: 480,
             mayus : false
-        });
-        me.store_aplicacion = Ext.create("App.Store.Aplicaciones.Aplicaciones").load();
-        me.cbx_aplicacion = Ext.create("App.Config.Componente.ComboBase", {
-            fieldLabel: 'Aplicacion',
-            displayField: 'nombre',
-            valueField: 'id_aplic',
-            name: 'aplicacion',
-            colspan: 2,
-            width: 480,
-            afterLabelTextTpl: Constantes.REQUERIDO,
-            allowBlank: false,
-            store: me.store_aplicacion
         });
         me.txt_link = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "link (Controller)",
@@ -99,7 +81,6 @@ Ext.define("App.View.Opciones.FormOpcion", {
             name: 'padre',
             colspan: 2,
             width: 480,
-            disabled : true,
             store: me.store_opcion.load()
         });
 
@@ -116,7 +97,6 @@ Ext.define("App.View.Opciones.FormOpcion", {
         me.items = [
             me.hid_id, me.hid_idPadre,me.hid_idApp,
             me.txt_nombre,
-            me.cbx_aplicacion,
             me.txt_link,
             me.txt_tooltip,
             me.txt_icono, me.txt_estilo,

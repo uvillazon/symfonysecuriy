@@ -69,6 +69,20 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             allowBlank: false
 
         });
+
+        me.store = Ext.create("App.Store.Listas.Item");
+        me.store.setExtraParams({condicion : "BD_DRIVER"});
+
+        me.cbx_bd_driver = Ext.create("App.Config.Componente.ComboBase", {
+            fieldLabel: "BD Drive",
+            name: "bd_drive",
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            displayField : 'valor',
+            store: me.store
+
+        });
+
         me.txt_bd_drive = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "BD Drive",
             name: "bd_drive",
@@ -105,6 +119,18 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             colspan: 2,
             width: 480,
         });
+
+        me.num_tiempo_token = Ext.create("App.Config.Componente.NumberFieldBase", {
+            fieldLabel: 'Duracion Token (Hrs)',
+            name: 'tiempo_valido_token',
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            decimalSeparator: '.',
+            allowDecimals: true,
+            allowBlank: false
+
+        });
+
+
         me.items = [
             me.txt_id,
             me.txt_codigo,
@@ -113,10 +139,11 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             me.txt_bd,
             me.txt_bd_port,
             me.txt_bd_host,
-            me.txt_bd_drive,
+            me.cbx_bd_driver,
             me.txt_host,
-            me.cbx_estado,
-            me.txt_secret
+            me.num_tiempo_token,
+            me.txt_secret,
+            me.cbx_estado
         ];
 
 

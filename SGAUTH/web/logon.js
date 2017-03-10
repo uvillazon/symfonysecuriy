@@ -5,6 +5,21 @@ Ext.onReady(function () {
     function RecuperarPassword(num) {
         Ext.Msg.alert("Enbtro amgo  " + num);
     };
+    var storeApp = Ext.create('Ext.data.Store', {
+        fields: ['id_aplic', 'codigo'],
+        proxy: {
+            type: 'rest',
+            url: 'rest-api/aplicaciones/aplicaciones.json',
+            extraParams:{
+                estado : 'ACTIVO'
+            },
+            reader: {
+                type: 'json',
+                root: 'rows'
+            }
+        },
+        autoLoad: true
+    });
     // Create a variable to hold our EXT Form Panel. 
     // Assign various config options as seen.	 
     var login = new Ext.FormPanel({
@@ -52,9 +67,10 @@ Ext.onReady(function () {
                                 waitTitle: 'Conectando',
                                 waitMsg: 'Verificando credenciales...',
                                 success: function (form,action) {
-                                    window.localStorage.setItem("token",action.result.data.token);
-                                    window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
-                                    window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));
+                                    window.localStorage.setItem("token_sgauth",action.result.data.token);
+                                    window.localStorage.setItem("usuario_sgauth",JSON.stringify(action.result.data.usuario));
+                                    window.localStorage.setItem("menu_sgauth",JSON.stringify(action.result.data.menu));
+                                    window.localStorage.setItem("aplicacion_sgauth",JSON.stringify(action.result.data.aplicacion));
                                     window.location =Constantes.obtenerHost();
                                     win.hide();
                                 },
@@ -74,6 +90,16 @@ Ext.onReady(function () {
                 }
 
             },
+            {
+                xtype : 'combobox'    ,
+                fieldLabel: 'Aplicacion',
+                itemId: 'aplicacion',
+                name: 'id_aplic',
+                displayField: 'codigo',
+                valueField : 'id_aplic',
+                allowBlank: false     ,
+                store : storeApp
+            }   ,
             {
                 xtype: 'component',
                 autoEl: {
@@ -108,9 +134,10 @@ Ext.onReady(function () {
                     // you define as redirect. 
 
                     success: function (form,action) {
-                        window.localStorage.setItem("token",action.result.data.token);
-                        window.localStorage.setItem("usuario",JSON.stringify(action.result.data.usuario));
-                        window.localStorage.setItem("menu",JSON.stringify(action.result.data.menu));
+                        window.localStorage.setItem("token_sgauth",action.result.data.token);
+                        window.localStorage.setItem("usuario_sgauth",JSON.stringify(action.result.data.usuario));
+                        window.localStorage.setItem("menu_sgauth",JSON.stringify(action.result.data.menu));
+                        window.localStorage.setItem("aplicacion_sgauth",JSON.stringify(action.result.data.aplicacion));
                         window.location =Constantes.obtenerHost();
                         win.hide();
                     },

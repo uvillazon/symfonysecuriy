@@ -11,6 +11,9 @@ Ext.define('App.controller.Perfiles.Perfiles', {
     }, {
         ref: 'gridOpciones',
         selector: '#gridOpcionesPerfil'
+    }, {
+        ref: 'gridAplicacion',
+        selector: '#gridAplicacionPerfil'
     }
     ],
     init: function () {
@@ -45,6 +48,9 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             },
             'grid[itemId=gridBotonesPerfil]': {
                 selectionchange: me.cargarOpciones
+            },
+            '#btn_agregar_app': {
+                click: me.winAgregarApp
             }
 
         });
@@ -71,12 +77,16 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         me.record = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_editarPerfil', me.cmpPrincipal, disabled);
         Funciones.DisabledButton('btn_agregarOpcion', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_agregar_app', me.cmpPrincipal, disabled);
+
         if (!disabled) {
             me.cmpPrincipal.form.CargarDatos(me.record);
             me.getGridOpciones().getStore().setExtraParams({id_perfil: me.record.get("id_perfil")});
             me.getGridOpciones().getStore().load();
             me.getGridBotones().getStore().setExtraParams({id_perfil: me.record.get("id_perfil")});
             me.getGridBotones().getStore().load();
+            me.getGridAplicacion().getStore().setExtraParams({id_perfil: me.record.get("id_perfil")});
+            me.getGridAplicacion().getStore().load();
         }
         else {
             me.cmpPrincipal.form.getForm().reset();
@@ -84,6 +94,8 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             me.getGridOpciones().getStore().load();
             me.getGridBotones().getStore().setExtraParams({id_perfil: 0});
             me.getGridBotones().getStore().load();
+            me.getGridAplicacion().getStore().setExtraParams({id_perfil: 0});
+            me.getGridAplicacion().getStore().load();
         }
     }
     ,
@@ -179,6 +191,18 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             Ext.Msg.alert("Aviso", "Seleccione un Registro...");
 
         }
-    }
+    },
+    winAgregarApp: function () {
+        var me = this;
+        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+        var form = Ext.create("App.View.Perfiles.FormAppPerfil", {botones: false});
+        form.getForm().loadRecord(me.record);
+        win.add(form);
+        win.show();
+        win.btn_guardar.on('click', function () {
+            Funciones.AjaxRequestWin('perfiles', 'aplicaciones', win, form, me.getGridAplicacion(), 'Esta Seguro de guardar los datos', null, win);
+        });
+        //App.View.Perfiles.FormBotonPerfil"
+    },
 })
 ;

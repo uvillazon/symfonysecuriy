@@ -14,6 +14,7 @@ class menuOpcionesModel
     public $titulo;
     public $iconcls;
     public $href;
+    public $alias;
     public $id;
     public $tooltip;
     public $parametros;

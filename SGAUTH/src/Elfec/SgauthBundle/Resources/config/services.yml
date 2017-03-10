@@ -11,7 +11,7 @@ services:
 #    servicios para usuarios
     sgauthbundle.usuarios_service:
         class: Elfec\SgauthBundle\Services\UsuariosService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager","@doctrine.orm.sgauth_entity_manager"]
 
 #    servicios para usuarios
     sgauthbundle.perfiles_service:
@@ -47,3 +47,18 @@ services:
     sgauthbundle.recuperacion_service:
             class: Elfec\SgauthBundle\Services\RecuperacionService
             arguments: ["@doctrine.orm.sgauth_entity_manager" , "@nzo_url_encryptor" , "@sgauthbundle.correo_service"]
+
+#   servicio para listas
+    sgauthbundle.listas_service:
+            class: Elfec\SgauthBundle\Services\ListasService
+            arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]
+
+#DirectoriosService
+    sgauthbundle.directorios_service:
+            class: Elfec\SgauthBundle\Services\DirectoriosService
+            arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]
+
+#   servicio para Areas
+    sgauthbundle.areas_service:
+            class: Elfec\SgauthBundle\Services\AreasService
+            arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]

@@ -14,7 +14,7 @@ Ext.define("App.Config.Funciones", {
     nameReport: '',
     paramsReport: '',
     //token: "",
-    token: {'Authorization': "Bearer " + window.localStorage.token},
+    token: {'Authorization': "Bearer " + window.localStorage.token_sgauth},
     Fecha: function (value, record) {
         if (value == null) {
             return null;

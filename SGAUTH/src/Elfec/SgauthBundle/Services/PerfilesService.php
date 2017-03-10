@@ -9,6 +9,8 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Elfec\SgauthBundle\Entity\perfilesAplicaciones;
+
 class PerfilesService
 {
     protected $em;
@@ -30,10 +32,11 @@ class PerfilesService
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:perfiles');
         $query = $repo->createQueryBuilder('per');
-        $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["nombre", "descripcion", "estado"], $paginacion->contiene);
         }
+        $query = $repo->filtrarDatos($query, $array);
+
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
@@ -97,5 +100,45 @@ class PerfilesService
 
     }
 
+    public function obtenerAplicacionesPorPerfil($idPerfil){
+        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $repo = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
+        /**
+         * @var perfilesAplicaciones $app
+         */
+        $apps= $repo->findBy(array("idPerfil"=>$idPerfil));
+        $array = array();
+        foreach ($apps as $app) {
+            array_push($array,$app->getIdAplic());
+        }
+//        var_dump($array);
+        return $array;
+    }
+
+    /**
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @param array $array
+     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     */
+    public function obtenerAplicacionesPerfilesPaginados($paginacion,$array){
+
+        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $repo = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
+        $query = $repo->createQueryBuilder('app');
+        $query = $repo->filtrarDatos($query,$array);
+        $result->total=$repo->total($query);
+        if(!$paginacion->isEmpty()){
+            $query = $repo->obtenerElementosPaginados($query,$paginacion);
+        }
+        $result->rows = $query->getQuery()->getResult();
+        $result->success = true;
+        return $result;
+    }
+
+    public function grabarPerfilApp($data, $login)
+    {
+        $repo = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
+        return $repo->grabarPerfilApp($data, $login);
+    }
 //
 }

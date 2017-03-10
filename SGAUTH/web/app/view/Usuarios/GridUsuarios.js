@@ -22,6 +22,7 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
             { header: "Login", width: 90, sortable: true, dataIndex: "login" },
             { header: "Nombre", width: 150, sortable: true, dataIndex: "nombre" },
             { header: "Email", width: 150, sortable: true, dataIndex: "email" },
+            { header: "Area", width: 150, sortable: true, dataIndex: "nom_area" },
             { header: "Fecha Alta", width: 90, sortable: true, dataIndex: "fch_alta", renderer: Ext.util.Format.dateRenderer('d/m/Y') },
             { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
         ];

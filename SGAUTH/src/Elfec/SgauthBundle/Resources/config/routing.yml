@@ -22,3 +22,18 @@ historicos:
     type:   rest
     prefix: /historicos
     resource: Elfec\SgauthBundle\Controller\HistoricosController
+
+listas:
+    type:   rest
+    prefix: /listas
+    resource: Elfec\SgauthBundle\Controller\ListasController
+
+areas:
+    type:   rest
+    resource: Elfec\SgauthBundle\Controller\AreasController
+
+#Directorios
+libretadireciones:
+    type:   rest
+    prefix: /directorios
+    resource: Elfec\SgauthBundle\Controller\DirectoriosController

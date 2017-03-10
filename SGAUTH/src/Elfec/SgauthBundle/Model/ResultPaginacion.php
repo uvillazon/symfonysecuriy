@@ -16,4 +16,16 @@ class ResultPaginacion
     public $total;
     public $page;
     public $msg;
+
+    /**
+     * ResultPaginacion constructor.
+     * @param $rows
+     * @param $total
+     */
+    public function __construct($rows = array(), $total = 0, $msg = "Proceso Ejectuado Correctamente")
+    {
+        $this->rows = $rows;
+        $this->total = $total;
+        $this->msg = $msg;
+    }
 }
