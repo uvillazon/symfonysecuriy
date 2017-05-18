@@ -82,8 +82,8 @@ Ext.define("App.View.Usuarios.FormUsuario", {
         me.txt_email = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Em@il",
             name: "email",
-            afterLabelTextTpl: Constantes.REQUERIDO,
-            allowBlank: false,
+            // afterLabelTextTpl: Constantes.REQUERIDO,
+            // allowBlank: false,
             width: 480,
             vtype: 'email',
             colspan: 2
