@@ -47,29 +47,41 @@ a.rvts7, span.rvts7 /* Font Style */
  color: #6666ff;
  text-decoration: underline;
 }
-span.rvts8 /* Font Style */
+span.rvts8
 {
 }
 span.rvts9
 {
+ font-weight: bold;
 }
 span.rvts10
 {
- font-weight: bold;
+ color: #ff0000;
 }
 span.rvts11
 {
+ font-weight: bold;
  color: #ff0000;
 }
 span.rvts12
 {
  font-weight: bold;
- color: #ff0000;
+ color: #0000ff;
 }
 span.rvts13
 {
  font-weight: bold;
- color: #ff0000;
+ color: #000080;
+}
+span.rvts14
+{
+ font-style: italic;
+ color: #800000;
+}
+a.rvts15, span.rvts15
+{
+ color: #008000;
+ text-decoration: underline;
 }
 /* ========== Para Styles ========== */
 p,ul,ol /* Paragraph Style */
@@ -94,9 +106,10 @@ p,ul,ol /* Paragraph Style */
  padding: 2px 0px 2px 0px;
  margin: 7px 0px 7px 0px;
 }
-.rvps3 /* Paragraph Style */
+.rvps3
 {
 }
 .rvps4
 {
+ text-align: center;
 }

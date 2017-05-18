@@ -3,7 +3,9 @@
 <head>
 	<title>Usuarios</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 3.6.0.345">
+    <meta name="generator" content="HelpNDoc Personal Edition 4.9.2.132">
+	<meta name="keywords" content="">
+	
 	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
@@ -19,23 +21,36 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/hnd.js"></script>
 	<script type="text/javascript">
-		if (top.frames.length == 0)
+		$(document).ready(function()
 		{
-			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
-			top.location.href = "SGAUTH.html?" + sTopicUrl;
-		}
-		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
-		{
-			top.FrameTOC.SelectTocItem("Usuarios");
-		}
+			if (top.frames.length == 0)
+			{
+				var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+				top.location.href = "SGAUTH.html?" + sTopicUrl;
+			}
+			else
+			{
+				var bTocSelected = false;
+				(function waitForTOC()
+				{
+					if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+					{
+						top.FrameTOC.SelectTocItem("Usuarios");
+						bTocSelected = true;
+					}
+					if (!bTocSelected) setTimeout(function() { waitForTOC(); }, 300);
+				})();
+			}
+		});
 	</script>
-</head>
+	
+	</head>
 
 <body>
 
-	<div id="topic_header">
+<div id="topic_header">
 			<div id="topic_header_content">
-				<h1>Usuarios</h1>
+				<h1 id="topic_header_text">Usuarios</h1>
 				
 				<div id="topic_breadcrumb">
 					<a href="Administracion.html">Administracion</a> &rsaquo;&rsaquo; </div>
@@ -52,20 +67,33 @@
 		</div>
 	<div id="topic_content">
 		
+<p></p>
 <p class="rvps3"><span class="rvts8">Se ingresa mediante:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem15.png"/></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem113.png"></p>
 <p class="rvps3"><span class="rvts8">Posee las siguientes secciones:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem18.png"/></p>
-<p class="rvps4"><span class="rvts12">1:</span><span class="rvts9"> Opciones del Adm. Usuario como ser: Crear, Editar, Agregar Usr a App.</span></p>
-<p class="rvps4"><span class="rvts12">2:</span><span class="rvts9"> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. Tambien opcion de impresion </span><img alt="" style="padding : 1px;" src="lib/NewItem20.png"/><span class="rvts9">:</span></p>
-<p class="rvps4"><img alt="" style="padding : 1px;" src="lib/NewItem39.png"/></p>
-<p class="rvps4"><span class="rvts12">3:</span><span class="rvts9"> Sección del grid, donde se muestran todos los usuarios existentes en la Base de Datos, con la opciones:</span></p>
-<p class="rvps4"><img alt="" style="padding : 1px;" src="lib/NewItem21.png"/><span class="rvts9">Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps4"><img alt="" style="padding : 1px;" src="lib/NewItem22.png"/><span class="rvts9">Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps4"><span class="rvts12">4:</span><span class="rvts9"> Paginacion del grid.</span></p>
-<p class="rvps4"><span class="rvts12">5:</span><span class="rvts9"> Formulario de usuario, donde se visualizan mas detalles del usuario. (Campos con asterisco son obligatorios)</span></p>
-<p class="rvps4"><span class="rvts12">6:</span><span class="rvts9"> Grid relacion usuario con las aplicaciones, se visualiza de acuerdo al usuario seleccionado las aplicaciones a las cuales tiene acceso.</span></p>
-<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/help-authoring-tool">Create HTML Help, DOC, PDF and print manuals from 1 single source</a></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem119.png"></p>
+<p class="rvps3"><span class="rvts11">1:</span><span class="rvts8"> Opciones del Adm. Usuario como ser: Crear, Editar, Agregar Usr a App y Quitar Usr a App.</span></p>
+<p class="rvps3"><span class="rvts11">2:</span><span class="rvts8"> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. </span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem120.png"></p>
+<p class="rvps3"><span class="rvts8">Para que limpie el filtro y que muestre todos los datos se debe solo borrar el valor introducido y hacer click en el boton BUSCAR:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem121.png"></p>
+<p class="rvps3"><span class="rvts8">Mostrando todos los datos existentes.</span></p>
+<p class="rvps3"><span class="rvts8">La opcion de impresion </span><img alt="" style="padding : 1px;" src="lib/NewItem20.png"><span class="rvts8">:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem39.png"></p>
+<p class="rvps3"><span class="rvts8">Para visualizar los historicos mediante </span><img alt="" style="padding : 1px;" src="lib/NewItem93.png"><span class="rvts8"> se debe seleccionar un registro de usuario inicialmente caso contrario:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem133.png"></p>
+<p class="rvps3"><span class="rvts8">Una vez seleccionado el usuario se visualizara:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem134.png"></p>
+<p class="rvps3"><span class="rvts11">3:</span><span class="rvts8"> Sección del grid, donde se muestran todos los usuarios existentes en la Base de Datos, con la opciones:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem21.png"><span class="rvts8">Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem22.png"><span class="rvts8">Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</span></p>
+<p class="rvps3"><span class="rvts8">Cada columna posee la propiedad de ordenarse ASCENDENTE o DESCENDENTE solo se debe hacer click sobre la cabecera de la columna:</span></p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem122.png"></p>
+<p class="rvps3"><span class="rvts11">4:</span><span class="rvts8"> Paginacion del grid.</span></p>
+<p class="rvps3"><span class="rvts11">5:</span><span class="rvts8"> Formulario de usuario, donde se visualizan mas detalles del usuario. (Campos con asterisco son obligatorios)</span></p>
+<p class="rvps3"><span class="rvts11">6:</span><span class="rvts8"> Grid relacion usuario con las aplicaciones, se visualiza de acuerdo al usuario seleccionado las aplicaciones a las cuales tiene acceso.</span></p>
+<p></p>
+<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/help-authoring-tool">Easy to use tool to create HTML Help files and Help web sites</a></p>
 </div>
 	
 	<div id="topic_footer">

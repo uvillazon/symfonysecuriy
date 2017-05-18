@@ -4,7 +4,7 @@
 <head>
 	<title>SGAUTH- Table of Contents</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 3.6.0.345">
+    <meta name="generator" content="HelpNDoc Personal Edition 4.9.2.132">
 	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/silver-theme/jquery-ui-1.8.12.custom.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/dynatree/chm/ui.dynatree.css" />
@@ -27,12 +27,14 @@
 	<script type="text/javascript" src="js/hndjsse.js"></script>
 	<script type="text/javascript">
 	
-		var bSearchDataLoaded = false;
+		window.bSearchDataLoaded = false;
 		var sHelpIdToActivate = '';
 	
 		$(document).ready(function()
 		{
-			var sAnchorName = top.location.href.substring(top.location.href.lastIndexOf("#") + 1, top.location.href.length);
+			var sAnchorName = '';
+			try { sAnchorName = top.location.href.substring(top.location.href.lastIndexOf("#") + 1, top.location.href.length); }
+			catch(err) { sAnchorName = ''; }
 			var nSelectedTab = 0;
 			if (sAnchorName == '_index') nSelectedTab = 1
 			else if (sAnchorName == '_search') nSelectedTab = 2;			
@@ -94,9 +96,11 @@
 				}
 			
 			// Load search data
-			$.getScript("js/searchdata.js",	function() {
-				bSearchDataLoaded = true;
-			});
+			(function() {
+				var se = document.createElement('script'); se.type = 'text/javascript'; se.async = true;
+				se.src = 'js/hndsd.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(se, s);
+			})();
 		});
 		
 		$('body').click(function() {
@@ -159,6 +163,10 @@
 		
 		function PerformSearch()
 		{
+			if (!window.bSearchDataLoaded) {
+				$("#search_results").html("Search engine data hasn't been fully loaded yet or an error occurred while loading it. This usually happens when documentation is browsed locally.");
+				return;
+			}
 			sValue = $("#search_value").val();
 			$("#search_results").html('Searching...');
 			var oSearchEngine = new HndJsSe;
@@ -174,7 +182,10 @@
 				var oUl = $("#search_results_content").append("<ul id='lr'></ul>").find("ul");
 				for (var nCnt = 0; nCnt < oSearchEngine.aResults.length; nCnt++)
 				{
-					oUl.append("<li><a href='" + aTl[oSearchEngine.aResults[nCnt]][0] + "?search=" + escape(sValue) + "' target='FrameMain'>" + unescape(aTl[oSearchEngine.aResults[nCnt]][1]) + "</a></li>");
+					if (oSearchEngine.aResults[nCnt][0] < aTl.length)
+					{
+						oUl.append("<li><a href='" + aTl[oSearchEngine.aResults[nCnt][0]][0] + "?search=" + escape(sValue) + "' target='FrameMain'>" + unescape(aTl[oSearchEngine.aResults[nCnt][0]][1]) + "</a></li>");
+					}
 				}
 				// Tree
 				$("#search_results_content").dynatree({
@@ -259,11 +270,17 @@
 							target="FrameMain">
 								Aplicaciones</a>
 
-				<ul><li class="" id="Visualizarusuariosapp" data="icon: '10.png'">
+				<ul><li class="" id="CrearAplicacion" data="icon: '10.png'">
 							<a
-							href="Visualizarusuariosapp.html"
+							href="CrearAplicacion.html"
 							target="FrameMain">
-								Visualizar usuarios - app</a>
+								Crear Aplicacion</a>
+
+				</li><li class="" id="EditarAplicacion" data="icon: '10.png'">
+							<a
+							href="EditarAplicacion.html"
+							target="FrameMain">
+								Editar Aplicacion</a>
 
 				</li></ul></li><li class="folder" id="Perfiles2" data="">
 							<a
@@ -307,7 +324,127 @@
 							target="FrameMain">
 								Quitar boton</a>
 
-				</li></ul></li></ul></li><li class="folder" id="AdmOpcionesdeMenu2" data="">
+				</li><li class="" id="AdmAplicaciones" data="icon: '10.png'">
+							<a
+							href="AdmAplicaciones.html"
+							target="FrameMain">
+								Adm Aplicaciones</a>
+
+				</li></ul></li><li class="folder" id="Listas" data="">
+							<a
+							href="Listas.html"
+							target="FrameMain">
+								Listas</a>
+
+				<ul><li class="" id="CrearLista" data="icon: '10.png'">
+							<a
+							href="CrearLista.html"
+							target="FrameMain">
+								Crear Lista</a>
+
+				</li><li class="" id="EditarLista" data="icon: '10.png'">
+							<a
+							href="EditarLista.html"
+							target="FrameMain">
+								Editar Lista</a>
+
+				</li><li class="" id="EliminarLista" data="icon: '10.png'">
+							<a
+							href="EliminarLista.html"
+							target="FrameMain">
+								Eliminar Lista</a>
+
+				</li><li class="" id="CrearItem" data="icon: '10.png'">
+							<a
+							href="CrearItem.html"
+							target="FrameMain">
+								Crear Item</a>
+
+				</li><li class="" id="EditarItem" data="icon: '10.png'">
+							<a
+							href="EditarItem.html"
+							target="FrameMain">
+								Editar Item</a>
+
+				</li><li class="" id="EliminarItem" data="icon: '10.png'">
+							<a
+							href="EliminarItem.html"
+							target="FrameMain">
+								Eliminar Item</a>
+
+				</li><li class="" id="CrearItemRel" data="icon: '10.png'">
+							<a
+							href="CrearItemRel.html"
+							target="FrameMain">
+								Crear Item Rel</a>
+
+				</li></ul></li><li class="folder" id="UsuariosporApp" data="">
+							<a
+							href="UsuariosporApp.html"
+							target="FrameMain">
+								Usuarios por App</a>
+
+				<ul><li class="" id="AgregarAreaUsr" data="icon: '10.png'">
+							<a
+							href="AgregarAreaUsr.html"
+							target="FrameMain">
+								Agregar Area Usr</a>
+
+				</li><li class="" id="QuitarAreaUsr" data="icon: '10.png'">
+							<a
+							href="QuitarAreaUsr.html"
+							target="FrameMain">
+								Quitar Area Usr</a>
+
+				</li></ul></li><li class="folder" id="AdmLibretadeDirecciones" data="">
+							<a
+							href="AdmLibretadeDirecciones.html"
+							target="FrameMain">
+								Adm Libreta de Direcciones</a>
+
+				<ul><li class="" id="CrearDestinatario" data="icon: '10.png'">
+							<a
+							href="CrearDestinatario.html"
+							target="FrameMain">
+								Crear Destinatario</a>
+
+				</li><li class="" id="EditarDestinatario" data="icon: '10.png'">
+							<a
+							href="EditarDestinatario.html"
+							target="FrameMain">
+								Editar Destinatario</a>
+
+				</li><li class="" id="CrearGrupo" data="icon: '10.png'">
+							<a
+							href="CrearGrupo.html"
+							target="FrameMain">
+								Crear Grupo</a>
+
+				</li><li class="" id="EditarGrupo" data="icon: '10.png'">
+							<a
+							href="EditarGrupo.html"
+							target="FrameMain">
+								Editar Grupo</a>
+
+				</li><li class="folder" id="AdmGrpDest1" data="">
+							<a
+							href="AdmGrpDest1.html"
+							target="FrameMain">
+								Adm Grp Dest</a>
+
+				<ul><li class="" id="AgregarDestinatario" data="icon: '10.png'">
+							<a
+							href="AgregarDestinatario.html"
+							target="FrameMain">
+								Agregar Destinatario</a>
+
+				</li><li class="" id="QuitarDestinatario" data="icon: '10.png'">
+							<a
+							href="QuitarDestinatario.html"
+							target="FrameMain">
+								Quitar Destinatario</a>
+
+				</li></ul></li></ul></li></ul></li><li class="folder" id="AdmOpcionesdeMenu2" data="">
 							<a
 							href="AdmOpcionesdeMenu2.html"
 							target="FrameMain">
@@ -337,7 +474,19 @@
 							target="FrameMain">
 								Editar boton</a>
 
-				</li></ul></li></ul>
+				</li><li class="" id="Eliminarboton" data="icon: '10.png'">
+							<a
+							href="Eliminarboton.html"
+							target="FrameMain">
+								Eliminar boton</a>
+
+				</li></ul></li><li class="" id="Ayuda" data="icon: '10.png'">
+							<a
+							href="Ayuda.html"
+							target="FrameMain">
+								Ayuda</a>
+
+				</li></ul>
 		</div>
 		
 		<div id="tab-keywords">
