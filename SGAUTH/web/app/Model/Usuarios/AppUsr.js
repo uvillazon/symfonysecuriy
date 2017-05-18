@@ -13,10 +13,12 @@ Ext.define('App.Model.Usuarios.AppUsr', {
         { type: "int", name: "id_perfil" },
         { type: "string", name: "perfil" },
         {
+            type: "string",
             name: 'nom_area',
             mapping: 'area.nom_area'
         },
         {
+            type: "int",
             name: 'id_area',
             mapping: 'area.id_area'
         }

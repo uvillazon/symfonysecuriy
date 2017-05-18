@@ -10,6 +10,7 @@ Ext.define('App.Model.Usuarios.Usuarios', {
         {type: "string", name: "estado"},
         {type: "int", name: "id_area"},
         {
+			type: "string",
             name: 'nom_area',
             mapping: 'area.nom_area'
         },

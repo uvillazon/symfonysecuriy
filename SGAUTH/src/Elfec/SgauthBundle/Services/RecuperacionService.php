@@ -114,5 +114,12 @@ class RecuperacionService
 
     }
 
+    public function cambiarPasswordPorAplicacion($data){
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        $repo = $this->em->getRepository('ElfecSgauthBundle:recuperacionCnt');
+        $result = $repo->cambiarPasswordPorAplicacion($data);
+        return $result;
+    }
+
 //
 }

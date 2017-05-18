@@ -76,10 +76,11 @@ Ext.define("App.View.Listas.FormItemRel", {
     cargarEventos: function () {
         var me = this;
         me.cbx_tipo_lista.on('select', function (cmb, record, index) {
-            console.log(record);
-            me.store_lista_item.load(
-                {params: {id_lista: record.get('id_lista')}}
-            );
+            // console.log(record);
+            me.store_lista_item.setExtraParams( {id_lista: record.get('id_lista')});
+            // me.store_lista_item.load(
+            //     {params: {id_lista: record.get('id_lista')}}
+            // );
             me.cbx_lista.clearValue();
         })
     }

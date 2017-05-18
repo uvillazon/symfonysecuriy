@@ -8,6 +8,7 @@ Ext.define("App.View.UsuariosApp.GridUsuarios", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
+	excel : false,
     tabla : 'usuarios',
     id_tabla : 'id_usuario',
     reportesHistoricoEstados: false,

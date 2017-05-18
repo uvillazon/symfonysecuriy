@@ -125,7 +125,7 @@ Ext.define("App.Config.ux.excelFormatter.Worksheet", {
                     //title = col.text;
                     title = col.text.replace(/<br>/g, " ");
                     //title = title.replace(/<b>/g, " ");
-                    //title = title.replace(/<¬||||b>/g, " ");
+                    //title = title.replace(/<ï¿½||||b>/g, " ");
                     //</b>
                     //alert(title);
                 } else if (col.name) {
@@ -162,7 +162,7 @@ Ext.define("App.Config.ux.excelFormatter.Worksheet", {
                         type = "String";
                     value = value.toString().search("<a") != -1 ? record.get(name) : value;
                 } else {
-
+console.log( record.get(name));
                     var value = record.get(name),
                         type = this.typeMappings[col.type || record.fields.get(name).type.type];
                 }

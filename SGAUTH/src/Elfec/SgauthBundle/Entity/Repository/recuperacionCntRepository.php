@@ -4,6 +4,7 @@ namespace Elfec\SgauthBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Elfec\SgauthBundle\Entity\Repository\BaseRepository;
+
 /**
  * recuperacionCntRepository
  *
@@ -12,43 +13,45 @@ use Elfec\SgauthBundle\Entity\Repository\BaseRepository;
  */
 class recuperacionCntRepository extends BaseRepository
 {
-    public function guardarRecuperacionCnt($data){
+    public function guardarRecuperacionCnt($data)
+    {
 
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
-            try {
-                $conection = $this->_em->getConnection();
-                $st = $conection->prepare("SELECT elfec.guardar_recuperacioncnt (
+        try {
+            $conection = $this->_em->getConnection();
+            $st = $conection->prepare("SELECT elfec.guardar_recuperacioncnt (
   :p_id_aplic::numeric,
   :p_usuario::varchar,
   :p_ip_solic::varchar,
   :p_cliente_solic::varchar);");
-                $st->bindValue(":p_id_aplic", array_key_exists('id_aplic', $data) ? $data["id_aplic"] : 0);
-                $st->bindValue(":p_usuario", array_key_exists('usuario', $data) ? $data["usuario"] : null);
-                $st->bindValue(":p_ip_solic", array_key_exists('ip_solic', $data) ? $data["ip_solic"] : 0);
-                $st->bindValue(":p_cliente_solic", array_key_exists('cliente_solic', $data) ? $data["cliente_solic"] : 0);
-                $st->execute();
-                $response = $st->fetchAll();
-                if (count($response) > 0) {
-                    if (is_numeric($response[0]["guardar_recuperacioncnt"])) {
-                        $result->success = true;
-                        $result->msg = "Proceso Ejectuado Correctamente";
-                        $result->id = $response[0]["guardar_recuperacioncnt"];
-                    } else {
-                        $result->success = false;
-                        $result->msg = $response[0]["guardar_recuperacioncnt"];
-                    }
+            $st->bindValue(":p_id_aplic", array_key_exists('id_aplic', $data) ? $data["id_aplic"] : 0);
+            $st->bindValue(":p_usuario", array_key_exists('usuario', $data) ? $data["usuario"] : null);
+            $st->bindValue(":p_ip_solic", array_key_exists('ip_solic', $data) ? $data["ip_solic"] : 0);
+            $st->bindValue(":p_cliente_solic", array_key_exists('cliente_solic', $data) ? $data["cliente_solic"] : 0);
+            $st->execute();
+            $response = $st->fetchAll();
+            if (count($response) > 0) {
+                if (is_numeric($response[0]["guardar_recuperacioncnt"])) {
+                    $result->success = true;
+                    $result->msg = "Proceso Ejectuado Correctamente";
+                    $result->id = $response[0]["guardar_recuperacioncnt"];
                 } else {
                     $result->success = false;
-                    $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+                    $result->msg = $response[0]["guardar_recuperacioncnt"];
                 }
-            } catch (Exception $e) {
+            } else {
                 $result->success = false;
-                $result->msg = $e->getMessage();
+                $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
             }
+        } catch (\Exception $e) {
+            $result->success = false;
+            $result->msg = $e->getMessage();
+        }
         return $result;
     }
 
-    public function cambiar_password($data){
+    public function cambiar_password($data)
+    {
 
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
@@ -77,14 +80,15 @@ class recuperacionCntRepository extends BaseRepository
                 $result->success = false;
                 $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $result->success = false;
             $result->msg = $e->getMessage();
         }
         return $result;
     }
 
-    public function cambiar_password_sc($data){
+    public function cambiar_password_sc($data)
+    {
 
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
@@ -109,7 +113,43 @@ class recuperacionCntRepository extends BaseRepository
                 $result->success = false;
                 $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            $result->success = false;
+            $result->msg = $e->getMessage();
+        }
+        return $result;
+    }
+
+    public function verificarCambioPassword($data)
+    {
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP(false);
+        $repoUsuario = $this->_em->getRepository("ElfecSgauthBundle:usuarios");
+
+        try {
+            $usuario = array_key_exists('usuario', $data) ? $data["usuario"] : null;
+            $nuevo_password = array_key_exists('new_password', $data) ? $data["new_password"] : null;
+            $password = array_key_exists('password', $data) ? $data["password"] : null;
+            $repassword = array_key_exists('re_password', $data) ? $data["re_password"] : null;
+            if($nuevo_password != $repassword){
+                $result->msg = "Las contraseñas no son iguales";
+                return $result;
+            }
+            
+
+        } catch (\Exception $e) {
+            $result->msg = $e->getMessage();
+            $result->success = false;
+        }
+        return $result;
+    }
+
+    public function cambiarPasswordPorAplicacion($data)
+    {
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        try {
+
+
+        } catch (\Exception $e) {
             $result->success = false;
             $result->msg = $e->getMessage();
         }
