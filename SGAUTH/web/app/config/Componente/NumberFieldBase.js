@@ -1,7 +1,7 @@
 ﻿Ext.define("App.Config.Componente.NumberFieldBase", {
     extend: "Ext.form.NumberField",
     alias: 'widget.NumberFieldBase',
-    decimalPrecision: 2,
+    // decimalPrecision: 2,
     emptyText:'Introduzca...',
     decimalSeparator : '.',
     maxValue: 999999,

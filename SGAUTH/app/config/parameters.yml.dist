@@ -5,16 +5,16 @@ parameters:
     database_driver: pdo_pgsql
     database_host:     elflbd01
     database_port:     5432
-    database_name: 'autenticacion'
-    database_user: postgres
-    database_password: postgres
+    database_name: autenticacion
+    database_user: uvillazon
+    database_password: uvillazon
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
-    mailer_transport:  smtp
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport: mail
+    mailer_host: elfmex01.elfec.com
+    mailer_user: sisman@elfec.bo
+    mailer_password: Agto.2013E
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

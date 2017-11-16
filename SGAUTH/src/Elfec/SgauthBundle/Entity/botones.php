@@ -83,7 +83,9 @@ class botones
      *
      * @ORM\Column(name="disabled", type="boolean", nullable=false)
      */
-    private $disabled;
+    private $disabledA;
+
+   
 
     /**
      * @var \botones

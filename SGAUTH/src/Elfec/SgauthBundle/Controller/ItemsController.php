@@ -45,7 +45,8 @@ class ItemsController extends BaseController
         $paginacion = $this->obtenerPaginacion($request);
         $servicio = $this->get('sgauthbundle.listas_service');
         $array = $request->query;
-        $result = $servicio->obtenerItemsPorLista($paginacion, $array, $id_aplic);
+        $result = $servicio->obtenerItemsPorListaV1($paginacion, $array, $id_aplic);
+//        $result = $servicio->obtenerItemsPorLista($paginacion, $array, $id_aplic);
         return $result;
     }
 
@@ -148,5 +149,34 @@ class ItemsController extends BaseController
 
     }
 
-    
+    /**
+     * @Rest\Get("/directorios/grupos")
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Listas  Usuarios Paginados Por Aplicacion",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function getGrupoDirectoriosAction(Request $request)
+    {
+
+
+        $Usertoken = $this->container->get("JWTUser");
+        $id_aplic = $Usertoken->id_aplic;
+        $array = $request->query;
+        $array->set("id_aplic", $id_aplic);
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.directorios_service');
+        $result = $servicio->obtenerGruposPaginados($paginacion, $array, false);
+        return $result;
+    }
+
+
 }

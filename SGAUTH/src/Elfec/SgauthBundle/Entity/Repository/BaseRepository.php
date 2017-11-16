@@ -12,6 +12,9 @@ use Doctrine\ORM\EntityRepository;
 
 class BaseRepository extends EntityRepository
 {
+    protected $arraySearch = array("'");
+    protected $arrayReplece = array(" ");
+
     /**
      * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
      * @param array $array
@@ -26,20 +29,29 @@ class BaseRepository extends EntityRepository
 //         var_dump($this->getClassMetadata()->getFieldMapping());die();
         $alias = $query->getRootAlias();
         foreach ($fields as $field) {
-            if (!is_null($array->get($field)) && strlen($array->get($field)) > 0) {
-                $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
-                if (trim(strtoupper($operador)) === "AND") {
-                    $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
-                    $query->andWhere($where);
-                    $query->setParameter($field, $array->get($field));
-                } else {
-                    $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
-                    $query->orWhere($where);
-                    $query->setParameter($field, $array->get($field));
+//            var_dump($array);
+//            die();
+            $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
+            if (is_array($array->get($field))) {
+               $query = $this->contieneInArray($query, $array->get($field), $field);
+
+
+            } else {
+                if (!is_null($array->get($field)) && strlen($array->get($field)) > 0) {
+//                var_dump($field);
+                    if (trim(strtoupper($operador)) === "AND") {
+                        $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
+                        $query->andWhere($where);
+                        $query->setParameter($field, $array->get($field));
+                    } else {
+                        $where = sprintf("%s.%s = :%s", $alias, $fieldMapping, $field);
+                        $query->orWhere($where);
+                        $query->setParameter($field, $array->get($field));
+                    }
                 }
             }
         }
-//        var_dump($query->getDQL()) ;
+//        var_dump($query->getDQL());
         return $query;
     }
 
@@ -282,5 +294,15 @@ class BaseRepository extends EntityRepository
 
         }
         return $query;
+    }
+
+    public function replace($val)
+    {
+        $valor = mb_convert_encoding($val, "ISO-8859-1", "UTF-8");
+        $val1 = str_replace(
+            $this->arraySearch,
+            $this->arrayReplece,
+            $val);
+        return $val1;
     }
 }

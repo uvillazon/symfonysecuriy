@@ -9,6 +9,8 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Elfec\SgauthBundle\Entity\listasItems;
+use Elfec\SgauthBundle\Model\ResultPaginacion;
 use Jaspersoft\Service\Result\SearchResourcesResult;
 
 class ListasService
@@ -26,13 +28,13 @@ class ListasService
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param array $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     * @return ResultPaginacion
      */
     public function obtenerListasPaginados($paginacion, $array)
     {
 //        var_dump($this->correo);
 
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $result = new ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listas');
         $query = $repo->createQueryBuilder('lis');
 
@@ -54,12 +56,12 @@ class ListasService
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     * @return ResultPaginacion
      */
     public function obtenerListasItemsPaginados($paginacion, $array)
     {
 
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $result = new ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItems');
         $query = $repo->createQueryBuilder('item');
 
@@ -79,12 +81,12 @@ class ListasService
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     * @return ResultPaginacion
      */
     public function obtenerListasItemsRelPaginados($paginacion, $array)
     {
 
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $result = new ResultPaginacion();
         $repo = $this->em->getRepository('ElfecSgauthBundle:listasItemsRel');
         $query = $repo->createQueryBuilder('item');
         if (!is_null($paginacion->contiene)) {
@@ -104,12 +106,83 @@ class ListasService
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     * @param $id_aplic
+     * @return ResultPaginacion
+     */
+
+    public function obtenerItemsPorListaV1($paginacion, $array, $id_aplic)
+    {
+        $result = new ResultPaginacion();
+        if (!is_null($paginacion->condicion) && is_numeric($id_aplic)) {
+            $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:listas');
+            /**
+             * @var \Elfec\SgauthBundle\Entity\listas $lista
+             */
+            $lista = $repo->findOneBy(array("lista" => $paginacion->condicion, "idAplic" => $id_aplic));
+            if (!is_null($lista)) {
+                $repoItem = $this->emSgauth->getRepository('ElfecSgauthBundle:listasItems');
+                $query = $repoItem->createQueryBuilder('item');
+                $array->set('id_lista', $lista->getIdLista());
+                $array->set('estado', 'A');
+                $query = $repoItem->filtrarDatos($query, $array);
+                if (!is_null($paginacion->contiene)) {
+                    $query = $repoItem->consultaContiene($query, ["valor"], $paginacion->contiene);
+                }
+                $result->total = $repoItem->total($query);
+                $paginacion->limit = $result->total;
+                $paginacion->sort = $lista->getOrdenarPor();
+                $paginacion->dir = $lista->getTipoOrden();
+                $query = $repoItem->obtenerElementosPaginados($query, $paginacion);
+                $result->rows = $query->getQuery()->getResult();
+                $result->success = true;
+            } else {
+                $result->success = false;
+                $result->msg = "No Existe La Lista en la aplicacion Seleccionada";
+            }
+
+        } else {
+//            var_dump($array);
+            $repoItem = $this->emSgauth->getRepository('ElfecSgauthBundle:listasItems');
+            $query = $repoItem->createQueryBuilder('item');
+            $array->set('estado', 'A');
+            $query = $repoItem->filtrarPorAplicacion($query, $id_aplic);
+            $query = $repoItem->filtrarDatos($query, $array);
+            if (!is_null($paginacion->contiene)) {
+                $query = $repoItem->consultaContiene($query, ["valor"], $paginacion->contiene);
+            }
+//            var_dump($query->getDQL());
+            /**
+             * @var listasItems $item
+             */
+            $rows = array();
+            foreach ($query->getQuery()->getResult() as $item) {
+                array_push($rows, array(
+                    "id_lista"=> $item->getIdItem(),
+                    "codigo" => $item->getCodigo(),
+                    "valor" => $item->getValor(),
+                    "lista" => $item->getLista()->getLista(),
+                    "orden" => $item->getOrden(),
+                    "estado" => $item->getEstado()
+                ));
+            }
+            $result->total = $repoItem->total($query);
+            $result->rows = $rows;
+            $result->success = true;
+            $result->msg = "Proceso Ejecutado Correctamente";
+        }
+        return $result;
+    }
+
+    /**
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @param $array
+     * @param $id_aplic
+     * @return ResultPaginacion
      */
     public function obtenerItemsPorLista($paginacion, $array, $id_aplic)
     {
 //                                                                    var_dump($id_aplic);die();
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $result = new ResultPaginacion();
         if (!is_null($paginacion->condicion) && is_numeric($id_aplic)) {
             $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:listas');
             /**
@@ -150,13 +223,13 @@ class ListasService
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param $array
-     * @return \Elfec\SgauthBundle\Model\ResultPaginacion
+     * @return ResultPaginacion
      */
     public function obtenerItemsRelPorPadre($paginacion, $array, $id_aplic)
     {
 //        var_dump($array);
 //                                                                    var_dump($id_aplic);die();
-        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        $result = new ResultPaginacion();
 //        var_dump($id_aplic);
         if ((is_numeric($id_aplic)) && (!is_null($array->get('id_padre')) && is_numeric($array->get('id_padre')))) {
             $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:listasItemsRel');

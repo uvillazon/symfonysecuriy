@@ -15,6 +15,22 @@ class listasItemsRepository extends BaseRepository
 {
 
     /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param int $idAplic
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function filtrarPorAplicacion($query, $idAplic)
+    {
+        $alias = $query->getRootAlias();
+        $query->innerJoin($alias . '.lista', 'lis');
+        $query->andWhere('lis.idAplic = :idAplic');
+        $query->setParameter("idAplic", $idAplic);
+        return $query;
+
+    }
+
+
+    /**
      * @param $data
      * @param $login
      * @return \Elfec\SgauthBundle\Model\RespuestaSP

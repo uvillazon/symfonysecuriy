@@ -55,8 +55,11 @@ class BaseController extends Controller
                 return $array;
             }
         }
+
         $AppToke = $this->container->get("JWTApp");
-        $array->set("id_aplic", $AppToke->id_aplic);
+        if (is_null($array->get("id_aplic"))) {
+            $array->set("id_aplic", $AppToke->id_aplic);
+        }
 
         return $array;
 

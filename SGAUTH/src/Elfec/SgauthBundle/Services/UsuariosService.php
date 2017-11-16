@@ -114,8 +114,10 @@ class UsuariosService
         return $result;
     }
 
+
     public function guardarUsuario($data, $login)
     {
+        $repo = $this->em->getRepository('ElfecSgauthBundle:appUsr');
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
@@ -131,7 +133,7 @@ class UsuariosService
             :p_login_usr::VARCHAR);");
             $st->bindValue(":p_id_usuario", ($data["id_usuario"] == '') ? 0 : $data["id_usuario"]);
             $st->bindValue(":p_login", strtolower($data["login"]));
-            $st->bindValue(":p_nombre", $data["nombre"]);
+            $st->bindValue(":p_nombre", $repo->replace($data["nombre"]));
             $st->bindValue(":p_clave", NULL);
             $st->bindValue(":p_email", $data["email"]);
             $st->bindValue(":p_fch_baja", NULL);
@@ -215,12 +217,11 @@ class UsuariosService
         }
         if (!is_null($array->get("perfil"))) {
             $query = $repo->filtrarPorPerfil($query, $array->get("perfil"));
-//            var_dump($query->getDQL());
-//            var_dump($array);
-//            die();
         }
 
         $query = $repo->filtrarDatos($query, $array);
+
+
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);

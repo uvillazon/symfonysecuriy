@@ -30,11 +30,15 @@ class DirectoriosService
      * @param array $array
      * @return \Elfec\SgauthBundle\Model\ResultPaginacion
      */
-    public function obtenerGruposPaginados($paginacion, $array)
+    public function obtenerGruposPaginados($paginacion, $array, $token = true)
     {
 
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
-        $repo = $this->em->getRepository('ElfecSgauthBundle:gruposCorreos');
+        if ($token) {
+            $repo = $this->em->getRepository('ElfecSgauthBundle:gruposCorreos');
+        } else {
+            $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:gruposCorreos');
+        }
         $query = $repo->createQueryBuilder('app');
         if (!is_null($paginacion->contiene)) {
             $query = $repo->consultaContiene($query, ["nombre", "estado"], $paginacion->contiene);
@@ -118,16 +122,16 @@ class DirectoriosService
             /**
              * @var gruposDestCorreo $item
              */
-              $row = array(
-                  "id" => $item->getId(),
-                  "nombre" => $item->getDestinatarioCorreo()->getNombre(),
-                  "apellido" => $item->getDestinatarioCorreo()->getApellido(),
-                  "correo" => $item->getDestinatarioCorreo()->getCorreo(),
-                  "grupo" => $item->getGrupoCorreo()->getNombre()         ,
-                  "tipo_msg_dest"=>$item->getTipoMsgDest()
+            $row = array(
+                "id" => $item->getId(),
+                "nombre" => $item->getDestinatarioCorreo()->getNombre(),
+                "apellido" => $item->getDestinatarioCorreo()->getApellido(),
+                "correo" => $item->getDestinatarioCorreo()->getCorreo(),
+                "grupo" => $item->getGrupoCorreo()->getNombre(),
+                "tipo_msg_dest" => $item->getTipoMsgDest()
 
-              );
-            array_push($rows,$row);
+            );
+            array_push($rows, $row);
         }
 
 //        $result->rows = $query->getQuery()->getResult();
