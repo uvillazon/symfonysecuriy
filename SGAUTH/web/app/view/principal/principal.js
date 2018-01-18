@@ -2,7 +2,7 @@
     extend: "Ext.Viewport",
     alias: "widget.PanelPrincipal",
     requires: [
-		"App.Config.Constantes",
+        "App.Config.Constantes",
         "App.Config.Funciones",
         //"app.config.consultas",
         //"app.Config.Extensible"
@@ -14,29 +14,29 @@
         split: false
     },
     code: 'es',
-    app : null,
+    app: null,
     initComponent: function () {
         var me = this;
         //funcion encargada de enviar el token
-        Ext.util.Observable.observe(Ext.data.Connection, {
-            requestexception: function(conn, response, options) {
-                if(response.status == '403'){
-                    Ext.Msg.alert("Error",response.responseText, function () {
-                        window.location =  Constantes.obtenerHost()+'logon';
-                    });
-                }
-            }
-            //,
-                //beforerequest : function (conn, response, options) {
-            //    var token = {'Authorization': "Bearer " + window.localStorage.token};
-            //    response.headers = token;
-            //}
-        });
+        // Ext.util.Observable.observe(Ext.data.Connection, {
+        //     requestexception: function(conn, response, options) {
+        //         if(response.status == '403'){
+        //             Ext.Msg.alert("Error",response.responseText, function () {
+        //                 window.location =  Constantes.obtenerHost()+'logon';
+        //             });
+        //         }
+        //     }
+        //     //,
+        //         //beforerequest : function (conn, response, options) {
+        //     //    var token = {'Authorization': "Bearer " + window.localStorage.token};
+        //     //    response.headers = token;
+        //     //}
+        // });
         //creamos un componente
-        Constantes.CargarTamano();
-        Constantes.CargarLocalStorage();
-        Constantes.CargarHost();
-        Funciones.cargarValidaciones();
+        // Constantes.CargarTamano();
+        // Constantes.CargarLocalStorage();
+        // Constantes.CargarHost();
+        // Funciones.cargarValidaciones();
         me.bbar_pie = new Ext.Toolbar({
             iconCls: 'an-icon',
             statusAlign: 'right',
@@ -50,18 +50,18 @@
                     //                iconCls         : 'time',
                     text: Ext.Date.format(new Date(), 'g:i:s A')
                 },
-                        {
-                            xtype: 'label',
-                            //width: 800,
-                            padding: '0 100 0 0',
-                            autoHeight: true,
-                            html: Constantes.PIEPAGINA,
-                            border: false
+                {
+                    xtype: 'label',
+                    //width: 800,
+                    padding: '0 100 0 0',
+                    autoHeight: true,
+                    html: Constantes.PIEPAGINA,
+                    border: false
 
-                        },
+                },
 
-                         '->'
-                        , me.progress
+                '->'
+                , me.progress
 
             ]
 
@@ -77,7 +77,7 @@
             plain: false,
             maxTabWidth: 230,
             border: false,
-            defaults: { autoScroll: true, layout: 'fit' },
+            defaults: {autoScroll: true, layout: 'fit'},
             items: [{
                 title: 'AUTH',
                 iconCls: 'application_home',
@@ -88,7 +88,7 @@
             ]
 
         });
-        me.panel_cabecera = Ext.create("App.View.Principal.Cabecera", { tabPanel: me.panel_centro , app : me.app});
+        me.panel_cabecera = Ext.create("App.View.Principal.Cabecera", {tabPanel: me.panel_centro, app: me.app});
         me.panel_pie = new Ext.Panel({
             region: 'south',
             border: true,

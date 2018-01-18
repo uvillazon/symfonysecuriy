@@ -104,7 +104,7 @@ class JWTListener implements ListenerInterface
                 } else {
 //                    var_dump($encoder);
                     $response->setContent($a->getMessage() + " " + $encoder);
-                    var_dump($a->getMessage());
+//                    var_dump($a->getMessage());
                     $response->setStatusCode(Response::HTTP_FAILED_DEPENDENCY);
                     $event->setResponse($response);
                 }

@@ -3,13 +3,13 @@
     background: #7F99BE url(images/layout-browser-hd-bg.gif) repeat-x center;
 }
 
-    #header h1 {
-        font-size: 16px;
-        color: #fff;
-        font-weight: normal;
-        padding: 5px 10px;
-        margin: 0;
-    }
+#header h1 {
+    font-size: 16px;
+    color: #fff;
+    font-weight: normal;
+    padding: 5px 10px;
+    margin: 0;
+}
 
 .x-grid-row-over .x-grid-cell-inner {
     font-weight: bold;
@@ -76,27 +76,27 @@
     color: Black;
 }
 
-    .DisabledClase input {
-        background: #FFFECB;
-    }
+.DisabledClase input {
+    background: #FFFECB;
+}
 
-    .DisabledClase textarea {
-        background: #FFFECB;
-    }
+.DisabledClase textarea {
+    background: #FFFECB;
+}
 
 .DisabledClase1 {
     color: Black;
 }
 
-    .DisabledClase1 input {
-        font-weight: bold;
-        border: 1px solid #04408C;
-    }
+.DisabledClase1 input {
+    font-weight: bold;
+    border: 1px solid #04408C;
+}
 
-        .DisabledClase1 input:hover {
-            border: 2px solid #04408C;
-            background: #FFFECB;
-        }
+.DisabledClase1 input:hover {
+    border: 2px solid #04408C;
+    background: #FFFECB;
+}
 
 .ReadOnlyCss input {
     font-weight: bold;
@@ -107,24 +107,24 @@
     color: Black;
 }
 
-    .DisabledClaseReadOnly input {
-        background: #EAF0DC;
-        border: 1px solid #04408C;
-        font-weight: bold;
-    }
+.DisabledClaseReadOnly input {
+    background: #EAF0DC;
+    border: 1px solid #04408C;
+    font-weight: bold;
+}
 
-    .DisabledClaseReadOnly textarea {
-        background: #EAF0DC;
-        border: 1px solid #04408C;
-        font-weight: bold;
-    }
+.DisabledClaseReadOnly textarea {
+    background: #EAF0DC;
+    border: 1px solid #04408C;
+    font-weight: bold;
+}
 
 .botones1 .x-btn-inner {
     -moz-box-shadow: inset 0px 0px 0px 0px #bee2f9;
     -webkit-box-shadow: inset 0px 0px 0px 0px #bee2f9;
     box-shadow: inset 0px 0px 0px 0px #bee2f9;
-    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf) );
-    background: -moz-linear-gradient( center top, #63b8ee 5%, #468ccf 100% );
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf));
+    background: -moz-linear-gradient(center top, #63b8ee 5%, #468ccf 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf');
     background-color: #63b8ee;
     -webkit-border-top-left-radius: 10px;
@@ -157,8 +157,8 @@
     -moz-box-shadow: inset 0px 0px 0px 0px #7A9AC4;
     -webkit-box-shadow: inset 0px 0px 0px 0px #7A9AC4;
     box-shadow: inset 0px 0px 0px 0px #C1D2E6;
-    background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #9BC7F4), color-stop(1, #C1D2E6) );
-    background: -moz-linear-gradient( center top, #C1D2E6 5%, #9BC7F4 100% );
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #9BC7F4), color-stop(1, #C1D2E6));
+    background: -moz-linear-gradient(center top, #C1D2E6 5%, #9BC7F4 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C1D2E6', endColorstr='#9BC7F4');
     text-indent: 0;
     border: 1px solid #3866a3;
@@ -229,21 +229,21 @@
     height: auto;
 }
 
-    #loading a {
-        color: #225588;
-    }
+#loading a {
+    color: #225588;
+}
 
-    #loading .loading-indicator {
-        background: white;
-        color: #444;
-        font: bold 13px tahoma,arial,helvetica;
-        padding: 10px;
-        margin: 0;
-        height: auto;
-    }
+#loading .loading-indicator {
+    background: white;
+    color: #444;
+    font: bold 13px tahoma, arial, helvetica;
+    padding: 10px;
+    margin: 0;
+    height: auto;
+}
 
 #loading-msg {
-    font: normal 10px arial,tahoma,sans-serif;
+    font: normal 10px arial, tahoma, sans-serif;
 }
 
 #img-chooser-dlg .details {
@@ -258,71 +258,71 @@
     text-align: left;
 }
 
-    #img-chooser-dlg .details-info b {
-        color: #555555;
-        display: block;
-        margin-bottom: 4px;
-        margin-left: 5px;
-    }
+#img-chooser-dlg .details-info b {
+    color: #555555;
+    display: block;
+    margin-bottom: 4px;
+    margin-left: 5px;
+}
 
-    #img-chooser-dlg .details-info span {
-        display: block;
-        margin-bottom: 5px;
-        margin-left: 10px;
-    }
+#img-chooser-dlg .details-info span {
+    display: block;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
 
 .img-chooser-view {
     background: white;
     font: 11px Arial, Helvetica, sans-serif;
 }
 
-    .img-chooser-view .thumb {
-        padding: 3px;
-        height: 203px;
-        width: 203px;
-    }
+.img-chooser-view .thumb {
+    padding: 3px;
+    height: 203px;
+    width: 203px;
+}
 
-    .img-chooser-view .thumb-wrap {
-        float: left;
-        margin: 4px;
-        margin-right: 0;
-        padding: 5px;
-    }
+.img-chooser-view .thumb-wrap {
+    float: left;
+    margin: 4px;
+    margin-right: 0;
+    padding: 5px;
+}
 
-        .img-chooser-view .thumb-wrap span {
-            display: block;
-            overflow: hidden;
-            text-align: center;
-        }
+.img-chooser-view .thumb-wrap span {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
 
-    .img-chooser-view .x-view-over {
-        border: 1px solid #dddddd;
-        background-color: #efefef;
-        padding: 4px;
-    }
+.img-chooser-view .x-view-over {
+    border: 1px solid #dddddd;
+    background-color: #efefef;
+    padding: 4px;
+}
 
-    .img-chooser-view .x-item-selected {
-        background: #DFEDFF;
-        border: 1px solid #6593cf;
-        padding: 4px;
-    }
+.img-chooser-view .x-item-selected {
+    background: #DFEDFF;
+    border: 1px solid #6593cf;
+    padding: 4px;
+}
 
-        .img-chooser-view .x-item-selected .thumb {
-            background: transparent;
-        }
+.img-chooser-view .x-item-selected .thumb {
+    background: transparent;
+}
 
-        .img-chooser-view .x-item-selected span {
-            color: #1A4D8F;
-        }
+.img-chooser-view .x-item-selected span {
+    color: #1A4D8F;
+}
 
-    .img-chooser-view .loading-indicator {
-        font-size: 11px;
-        background-image: url('../../resources/images/grid/loading.gif');
-        background-repeat: no-repeat;
-        background-position: left;
-        padding-left: 20px;
-        margin: 10px;
-    }
+.img-chooser-view .loading-indicator {
+    font-size: 11px;
+    background-image: url('../../resources/images/grid/loading.gif');
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 20px;
+    margin: 10px;
+}
 
 #images img {
     margin: 20px;
@@ -343,6 +343,7 @@
     font-weight: bold;
     background-color: red;
 }
+
 /*Estilo para los combo con imagenes*/
 .image_thumb {
     float: left;
@@ -357,6 +358,7 @@
     padding: 0;
     width: 330px;
 }
+
 /*fin estilo*/
 /* Iconos de componentes modulo Reporte de Trabajo Diario*/
 .icon-exclamation {
@@ -450,6 +452,7 @@
 .icon-reportepdf {
     background-image: url(../Content/Iconos/pdf-document.png) !important;
 }
+
 /* Estilo al label de la ventana de reiteracion*/
 .my-label-style {
     text-align: left;
@@ -458,6 +461,7 @@
     margin-left: 1.6em;
     margin-right: 1.2em;
 }
+
 /*Estilos para el view Personal Movil*/
 .personalmovil {
     float: left;
@@ -480,6 +484,7 @@
     float: left;
     padding: 0 5px 0 0;
 }
+
 /*Esitlo view UC*/
 .unidadconstructiva {
     float: left;
@@ -508,6 +513,7 @@
     font-size: 16px !important;
     color: #000022;
 }
+
 /*Estilos para view Elementos Intervenidos Contratista*/
 .thumb-wrap {
     float: left;
@@ -555,13 +561,14 @@
     padding: 1px;
 }
 
-    .x-item-selected .thumb {
-        background: transparent;
-    }
+.x-item-selected .thumb {
+    background: transparent;
+}
 
-    .x-item-selected span {
-        color: #1A4D8F;
-    }
+.x-item-selected span {
+    color: #1A4D8F;
+}
+
 /* Este efecto se utiliza para darle un efecto de boton a la seleccion
 .x-item-selected{
     background: #eff5fb no-repeat right bottom;
@@ -589,8 +596,6 @@
     position: relative;
     overflow: hidden;
 }
-
-
 
 /*Colorespara Estados OT*/
 .OTNueva .x-grid-cell {
@@ -624,11 +629,13 @@
     background: -o-linear-gradient(bottom, #FFF2CC 30%, #E2001D 250%);
     background: linear-gradient(bottom, #FFF2CC 30%, #E2001D 250%);
 }
+
 .OTConPresupuesto .x-grid-cell {
     background-color: #BEE296 !important;
     color: #000000;
     /*font-weight: bold;*/
 }
+
 .OTAsignada .x-grid-cell {
     background-color: #FBE5D5 !important;
     color: #000000;
@@ -687,7 +694,6 @@
     background: linear-gradient(bottom, #CBFEFF 30%, #E2001D 250%);
 }
 
-
 .OTPagada .x-grid-cell {
     /*font-weight: bold;*/
     background-color: #7DFEFF !important;
@@ -701,6 +707,7 @@
     background: -o-linear-gradient(bottom, #7DFEFF 30%, #E2001D 250%);
     background: linear-gradient(bottom, #7DFEFF 30%, #E2001D 250%);
 }
+
 /*Fin Estados*/
 /*Colorespara Estados SM*/
 .SMNueva .x-grid-cell {
@@ -744,6 +751,7 @@
     color: #000000;
     /*font-weight: bold;*/
 }
+
 /*Fin Estados*/
 .EditarDetalleOT .x-grid-cell {
     color: #AA3830;
@@ -822,26 +830,26 @@ body .ux-notification-light {
     background: url(../Content/Iconos/map_go.png) no-repeat;
 }
 
-    .href_css:link {
-        color: #04408C;
-    }
+.href_css:link {
+    color: #04408C;
+}
 
-    /* visited link */
-    .href_css:visited {
-        color: #04408C;
-        font-weight: bold;
-    }
+/* visited link */
+.href_css:visited {
+    color: #04408C;
+    font-weight: bold;
+}
 
-    /* mouse over link */
-    .href_css:hover {
-        color: #003BFB;
-        font-weight: bold;
-    }
+/* mouse over link */
+.href_css:hover {
+    color: #003BFB;
+    font-weight: bold;
+}
 
-    /* selected link */
-    .href_css:active {
-        color: #04408C;
-    }
+/* selected link */
+.href_css:active {
+    color: #04408C;
+}
 
 .href_cssSM {
     padding: 0 2px 1px 20px;
@@ -849,26 +857,26 @@ body .ux-notification-light {
     font-weight: bold;
 }
 
-    .href_cssSM:link {
-        color: #04408C;
-    }
+.href_cssSM:link {
+    color: #04408C;
+}
 
-    /* visited link */
-    .href_cssSM:visited {
-        color: #04408C;
-        font-weight: bold;
-    }
+/* visited link */
+.href_cssSM:visited {
+    color: #04408C;
+    font-weight: bold;
+}
 
-    /* mouse over link */
-    .href_cssSM:hover {
-        color: #003BFB;
-        font-weight: bold;
-    }
+/* mouse over link */
+.href_cssSM:hover {
+    color: #003BFB;
+    font-weight: bold;
+}
 
-    /* selected link */
-    .href_cssSM:active {
-        color: #04408C;
-    }
+/* selected link */
+.href_cssSM:active {
+    color: #04408C;
+}
 
 /* Styles used by Ext.ux.form.ItemSelector */
 
@@ -927,14 +935,20 @@ body .ux-notification-light {
     /*border: 1px solid black;*/
     /*white-space: nowrap;*/
 }
+
 .x-grid-cell.category-matching {
-   background-color: yellow;color:blue;font-weight:bold;
-}
-.x-grid-cell.category-not-matching {
-    background-color: red;color:white;font-weight:bold;
+    background-color: yellow;
+    color: blue;
+    font-weight: bold;
 }
 
-.rowFuenteColorAmbar .x-grid-cell{
-    color:#FF8000;
-     font-weight: bold;
+.x-grid-cell.category-not-matching {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+.rowFuenteColorAmbar .x-grid-cell {
+    color: #FF8000;
+    font-weight: bold;
 }

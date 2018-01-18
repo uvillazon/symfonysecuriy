@@ -2,7 +2,7 @@
 parameters:
     database_driver: pdo_pgsql
     database_host: elflbd01
-    database_port: 5432
+    database_port: 5430
     database_name: autenticacion
     database_user: uvillazon
     database_password: uvillazon
@@ -11,3 +11,4 @@ parameters:
     mailer_user: sisman@elfec.bo
     mailer_password: Agto.2013E
     secret: 3111e61950247274fda396917825f017a3d99b08
+    msg : 'ATENCION: AL INGRESAR A ESTE SISTEMA, USTED SE COMPROMETE A CUMPLIR CON LO ESTABLECIDO EN LA POLITICA DE  SEGURIDAD DE  INFORMACIÓN DE LA EMPRESA  Y CERTIFICA SER EL USUARIO DE INGRESO'

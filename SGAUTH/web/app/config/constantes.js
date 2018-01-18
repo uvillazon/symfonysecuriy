@@ -38,6 +38,21 @@ Ext.define("App.Config.Constantes", {
     path: 'sgauth/',
     rutaBackend: 'backend/',
     rutaBackendSGAUTH: 'api',
+    endpoints: {
+        login: 'login/tokens',
+        'aplicacion-st': 'rest-api/aplicaciones/aplicaciones'
+    },
+    constructor: function (config) {
+        if (config == null) {
+            config = {};
+        }
+        this.initConfig(config);
+        this.CargarTamano();
+        this.CargarLocalStorage();
+        this.CargarHost();
+        this.CargarHostSinSeguridad();
+        return this.callParent(arguments);
+    },
     UnidadesRequeridas: function (unidad, requerido) {
         if (requerido) {
             return '<span style="color:red;font-weight:bold" data-qtip="Requerido">*</span><span style="color:blue" data-qtip="Requerido">[' + unidad + ']</span>';
@@ -47,6 +62,7 @@ Ext.define("App.Config.Constantes", {
         }
     },
     CargarTamano: function () {
+        console.log('cargarTamano');
         this.ALTO = document.documentElement.clientHeight - 130;
         //this.MAXALTO = document.documentElement.clientHeight - 40;
         this.MAXANCHO = document.documentElement.clientWidth - 50;
@@ -57,6 +73,7 @@ Ext.define("App.Config.Constantes", {
         Ext.Msg.alert("Entrooo");
     },
     CargarLocalStorage: function () {
+        console.log('CargarLocalStorage');
         try {
             this.USUARIO = JSON.parse(window.localStorage["usuario_sgauth"]);
             this.MENU = JSON.parse(window.localStorage["menu_sgauth"]);
@@ -64,7 +81,9 @@ Ext.define("App.Config.Constantes", {
             this.TOKEN = window.localStorage["token_sgauth"];
         }
         catch (e) {
-            document.location = 'logon';
+            // document.location = 'logon';
+            // window.location.reload();
+            console.log(e);
         }
     },
     obtenerHost: function () {
@@ -77,6 +96,7 @@ Ext.define("App.Config.Constantes", {
         return host;
     },
     CargarHost: function () {
+        console.log('CargarHost');
         if (window.location.hostname == 'localhost') {
             this.HOST = window.location.origin + '/' + this.rutaBackend;
         }
@@ -85,7 +105,7 @@ Ext.define("App.Config.Constantes", {
         }
     },
     CargarHostSinSeguridad: function () {
-        console.dir(window.location);
+        // console.dir(window.location);
         if (window.location.hostname == 'localhost') {
             this.HOST_TOKEN = window.location.origin + '/';
         }
@@ -102,5 +122,15 @@ Ext.define("App.Config.Constantes", {
             return window.location.origin + '/' + this.path + '' + urlDoc;
         }
         //ManualUsuario/SGAUTH.html
+    },
+    getEndpoint: function (endpointName) {
+        switch (endpointName) {
+            case 'aplicacion-st' : {
+                return this.HOST_TOKEN + '' + this.endpoints[endpointName];
+            }
+            default:
+                return this.HOST + "" + endpointName;
+                break;
+        }
     }
 });

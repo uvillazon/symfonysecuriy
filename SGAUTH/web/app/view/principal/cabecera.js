@@ -65,7 +65,7 @@ Ext.define("App.View.Principal.Cabecera", {
         var me = this;
         if (Constantes.MENU == null) {
             alert("Error al Recuperar los Datos de las Opciones del Menu.");
-            document.location = '/login';
+            document.location.reload();
         }
         else {
             me.CrearMenu(me.tb, Constantes.MENU);
@@ -114,7 +114,7 @@ Ext.define("App.View.Principal.Cabecera", {
         Ext.Msg.confirm("Confirmar", "Esta seguro salir de la aplicación?", function (btn) {
             if (btn === "yes") {
                 window.localStorage.clear();
-                document.location = Constantes.obtenerHost() + 'logon';
+                document.location.reload();
 
             }
         });

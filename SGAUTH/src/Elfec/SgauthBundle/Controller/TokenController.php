@@ -2,6 +2,7 @@
 
 namespace Elfec\SgauthBundle\Controller;
 
+use Elfec\SgauthBundle\Model\RespuestaSP;
 use Hateoas\Configuration\Route;
 use Hateoas\Representation\Factory\PagerfantaFactory;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -65,18 +66,22 @@ class TokenController extends BaseController
      */
     public function postTokenAction(Request $request)
     {
-        $servicio = $this->get('sgauthbundle.autenticacion_service');
-        $array = $request->query;
-        $array1 = $request->request->all();
+        try {
+            $servicio = $this->get('sgauthbundle.autenticacion_service');
+            $array = $request->query;
+            $array1 = $request->request->all();
 //        var_dump($array1);
-        array_key_exists('id_aplic',$array1) ? $array->set('id_aplic',$array1['id_aplic']) : null;
-        $array->set("codigoApp", $array1["codigoApp"]);
-        $array->set("usuario", $array1['username']);
-        $array->set("password", $array1['password']);
+            array_key_exists('id_aplic', $array1) ? $array->set('id_aplic', $array1['id_aplic']) : null;
+            $array->set("codigoApp", $array1["codigoApp"]);
+            $array->set("usuario", $array1['username']);
+            $array->set("password", $array1['password']);
 //        var_dump($array);
-        $header = $request->headers;
-        $result = $servicio->generarTokenPorUsuarioApp($array, $header);
-        return $result;
+            $header = $request->headers;
+            $result = $servicio->generarTokenPorUsuarioApp($array, $header);
+            return $result;
+        } catch (\Exception $e) {
+            return new RespuestaSP(false, $e->getMessage());
+        }
     }
 
     /**
@@ -104,11 +109,10 @@ class TokenController extends BaseController
         $data["cliente_solic"] = $header->get('user-agent');
         try {
             $result = $servicio->guardarRecuperacionCnt($data);
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             var_dump($e->getMessage());
         }
-            return $result;
+        return $result;
     }
 
     /**

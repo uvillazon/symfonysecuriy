@@ -33,7 +33,7 @@ class BaseRepository extends EntityRepository
 //            die();
             $fieldMapping = $this->getClassMetadata()->getFieldForColumn($field);
             if (is_array($array->get($field))) {
-               $query = $this->contieneInArray($query, $array->get($field), $field);
+                $query = $this->contieneInArray($query, $array->get($field), $field);
 
 
             } else {
@@ -91,12 +91,13 @@ class BaseRepository extends EntityRepository
     public function total($query)
     {
         $queryTmp = clone $query;
-        $alias = $query->getRootAlias();
-//        var_dump($query->getDQL());
-        $total = $queryTmp->select('COUNT(' . $alias . ')')
+        $alias = $query->getRootAliases()[0];
+        $idTable = $this->getClassMetadata()->getIdentifier()[0];
+//        $queryTmp->select('COUNT(' . $alias . ')');
+//        var_dump($queryTmp->getDQL());
+        $total = $queryTmp->select('COUNT(' . $alias . '.' . $idTable . ')')
             ->getQuery()
             ->getSingleScalarResult();
-//        var_dump($total);
         return $total;
 
 

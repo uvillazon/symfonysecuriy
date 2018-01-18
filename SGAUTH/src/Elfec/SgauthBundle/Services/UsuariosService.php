@@ -210,7 +210,7 @@ class UsuariosService
 //                                                  var_dump($array);die();
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:appUsr');
-        $query = $repo->createQueryBuilder('usu');
+        $query = $repo->createQueryBuilder('app');
         if (!is_null($paginacion->contiene)) {
             $query = $repo->contieneUsuario($query, ["login", "nombre", "email"], $paginacion->contiene);
 
@@ -220,12 +220,10 @@ class UsuariosService
         }
 
         $query = $repo->filtrarDatos($query, $array);
-
-
         $result->total = $repo->total($query);
-        if (!$paginacion->isEmpty()) {
-            $query = $repo->obtenerElementosPaginados($query, $paginacion);
-        }
+//        if (!$paginacion->isEmpty()) {
+//            $query = $repo->obtenerElementosPaginados($query, $paginacion);
+//        }
 
         $rows = array();
         /**

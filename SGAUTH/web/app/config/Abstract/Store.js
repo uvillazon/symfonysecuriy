@@ -18,11 +18,12 @@ Ext.define("App.Config.Abstract.Store", {
     sortDirection: 'DESC',
     pageSize: 100,
     type: 'rest',
+
     url: '',
     urlCreate: '',
     urlUpdate: '',
     urlDestroy: '',
-    //model : '',
+    // model : '',
     constructor: function (config) {
         var me = this;
         var defaults = {
@@ -37,10 +38,10 @@ Ext.define("App.Config.Abstract.Store", {
                 type: "rest",
                 headers: {'Authorization': "Bearer " + Constantes.TOKEN},
                 api: {
-                    read: Constantes.HOST + "" + me.url,
-                    create: Constantes.HOST + "" + me.urlCreate,
-                    update: Constantes.HOST + "" + me.urlUpdate,
-                    destroy: Constantes.HOST + "" + me.urlDestroy,
+                    read: Constantes.getEndpoint(me.url),
+                    create: Constantes.getEndpoint(me.urlCreate),
+                    update: Constantes.getEndpoint(me.urlUpdate),
+                    destroy: Constantes.getEndpoint(me.urlDestroy),
                 },
                 reader: {
                     type: "json",

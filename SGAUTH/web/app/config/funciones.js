@@ -15,6 +15,14 @@ Ext.define("App.Config.Funciones", {
     paramsReport: '',
     //token: "",
     token: {'Authorization': "Bearer " + window.localStorage.token_sgauth},
+    constructor: function (config) {
+        if (config == null) {
+            config = {};
+        }
+        this.initConfig(config);
+        this.cargarValidaciones();
+        return this.callParent(arguments);
+    },
     Fecha: function (value, record) {
         if (value == null) {
             return null;
@@ -656,6 +664,7 @@ Ext.define("App.Config.Funciones", {
         });
     },
     cargarValidaciones: function () {
+        console.log('cargarValidaciones');
         Ext.apply(Ext.form.VTypes, {
             validacionNumero: function (value, field) {
                 return /[0-9]/.test(value);
