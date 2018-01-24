@@ -11,7 +11,7 @@ services:
 #    servicios para usuarios
     sgauthbundle.usuarios_service:
         class: Elfec\SgauthBundle\Services\UsuariosService
-        arguments: ["@doctrine.orm.entity_manager","@doctrine.orm.sgauth_entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager","@doctrine.orm.sgauth_entity_manager","@request_stack"]
 
 #    servicios para usuarios
     sgauthbundle.perfiles_service:

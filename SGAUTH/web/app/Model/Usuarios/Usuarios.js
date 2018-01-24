@@ -9,6 +9,7 @@ Ext.define('App.Model.Usuarios.Usuarios', {
         {type: "date", name: "fch_baja"},
         {type: "string", name: "estado"},
         {type: "int", name: "id_area"},
+        {type: "boolean", name: "tiene_certificado"},
         {
 			type: "string",
             name: 'nom_area',

@@ -265,4 +265,17 @@ class UsuariosController extends BaseController
         $result = $servicio->eliminarUsuarioArea($data["id"]);
         return $result;
     }
+
+    /**
+     * @Rest\Post("/certificado")
+     * @param Request $request
+     * @return mixed
+     */
+    public function postGuardarCertificadoAction(Request $request)
+    {
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
+        return $this->get('sgauthbundle.usuarios_service')->guardarCertificado($login);
+
+    }
 }

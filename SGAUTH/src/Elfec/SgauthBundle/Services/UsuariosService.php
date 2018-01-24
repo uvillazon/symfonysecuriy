@@ -9,18 +9,29 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Elfec\SgauthBundle\Entity\usuarios;
+use Elfec\SgauthBundle\Model\RespuestaSP;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RequestStack;
+
 class UsuariosService
 {
     protected $em;
     protected $emSgauth;
     protected $repoUsuariosAreas;
+    /**
+     * @var RequestStack
+     */
+    protected $request;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth)
+
+    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth, RequestStack $request)
     {
 
         $this->em = $em;
         $this->emSgauth = $emSgauth;
         $this->repoUsuariosAreas = $em->getRepository("ElfecSgauthBundle:usuariosAreas");
+        $this->request = $request;
     }
 
 
@@ -42,6 +53,13 @@ class UsuariosService
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
+        }
+        /**
+         * @var usuarios $item
+         */
+        foreach ($query->getQuery()->getResult() as $item) {
+            $today = new \DateTime();
+            $item->tieneCertificado = (!is_null($item->getCertBase64()) && $item->getFchCertCaducidad() > $today) ? true : false;
         }
         $result->rows = $query->getQuery()->getResult();
         $result->success = true;
@@ -315,6 +333,72 @@ class UsuariosService
     public function eliminarUsuarioArea($id)
     {
         return $this->repoUsuariosAreas->eliminarUsuarioArea($id);
+    }
+
+    protected $directory = "uploads/certificados/";
+
+    public function guardarCertificado($login)
+    {
+        $result = new RespuestaSP();
+
+        $data = $this->request->getMasterRequest()->request->all();
+//        var_dump($data);
+        try {
+            $files = $this->request->getMasterRequest()->files;
+            if (count($files)) {
+                /**
+                 * @var UploadedFile $uploadedFile
+                 */
+                $uploadedFile = $files->get('archivo');
+                $nombre = $this->directory . "" . $uploadedFile->getClientOriginalName();
+                $rename = file_exists($nombre) ? time() . "-" . $uploadedFile->getClientOriginalName() : $uploadedFile->getClientOriginalName();
+                $uploadedFile->move($this->directory, $rename);
+                $url = $this->directory . "" . $rename;
+
+                if (!$cert_store = file_get_contents($url)) {
+                    return new RespuestaSP(false, "Error: Unable to read the cert file\n");
+                }
+                if (openssl_pkcs12_read($cert_store, $cert_info, $data["cert_pwd_base64"])) {
+//                   var_dump($cert_info);
+                    $data["cert_base64"] = base64_encode($cert_store);
+                    return $this->em->getRepository('ElfecSgauthBundle:usuarios')->actuliazarCertificado($data, $login);
+
+                } else {
+                    return new RespuestaSP(false, "no se puede leer el certificado");
+                }
+            }
+        } catch (\Exception $e) {
+            $result->success = false;
+            $result->msg = $e->getMessage();
+        }
+        return $result;
+
+    }
+
+    public function obtenerCertificado($login)
+    {
+        try {
+            /**
+             * @var usuarios $usuario
+             */
+            $usuario = $this->emSgauth->getRepository('ElfecSgauthBundle:usuarios')->findOneBy(array("login" => $login));
+            if (empty($usuario)) {
+                return new RespuestaSP(false, 'No Existe usuario ni certificado');
+            }
+            $today = new \DateTime();
+            $usuario->tieneCertificado = (!is_null($usuario->getCertBase64()) && $usuario->getFchCertCaducidad() > $today) ? true : false;
+            if ($usuario->tieneCertificado) {
+                $data = array(
+                    "p12" => $usuario->getCertBase64(),
+                    "pws" => $usuario->getCertPwdBase64()
+                );
+                return new RespuestaSP(true, 'Proceso Ejecutado Correctamente', $data);
+            } else {
+                return new RespuestaSP(false, 'Certificado Caducado o no Existe');
+            }
+        } catch (\Exception $e) {
+            return new RespuestaSP(false, $e->getMessage());
+        }
     }
 
 }

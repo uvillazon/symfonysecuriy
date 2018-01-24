@@ -23,8 +23,10 @@ Ext.define('App.controller.Usuarios.Usuarios', {
             },
             'button[itemId=btn_QuitarUsrApp]': {
                 click: me.quitarUsrApp
-            }
-            ,
+            },
+            'button[itemId=btn_firma_electronica]': {
+                click: me.onFirmaElectronica
+            },
             '#gridUsrAplicciones': {
                 selectionchange: me.cargarGridApp
             }
@@ -32,6 +34,42 @@ Ext.define('App.controller.Usuarios.Usuarios', {
 
         this.callParent();
         me.cargarEventos();
+    },
+    onFirmaElectronica: function () {
+        var me = this;
+        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+        var form = Ext.create("App.View.Usuarios.FormFirmaDigital", {botones: false});
+        win.add(form);
+        win.show();
+        form.getForm().loadRecord(me.record);
+        win.btn_guardar.on('click', function () {
+            fn.getRequestAjax("usuarios/certificado", form, 'POST').then({
+                success: function (res) {
+                    if (res.success) {
+                        win.close();
+                        me.cmpPrincipal.grid.getStore().load();
+                        Ext.Msg.alert("Exito", res.msg);
+                    }
+                    else{
+                        Ext.Msg.alert("Error", res.msg);
+
+                    }
+                    // return notificationService.success("Success", res.msg);
+                },
+                failure: function (errorMessage) {
+                    Ext.Msg.alert("Error", errorMessage);
+                    // return notificationService.error("Error", errorMessage);
+                }
+            }).always(function () {
+                return win.setLoading(false);
+            });
+
+            // fn.getRequestAjax(accion, form, method, params, validUpload).then({
+            //
+            // });
+            // Funciones.AjaxRequestWin('usuarios', 'usuariosapps', win, form, me.getGridApp(), 'Esta Seguro de guardar el Usuarios', null, win);
+        });
+        //
     },
     quitarUsrApp: function () {
         Ext.Msg.alert("Aviso", "Se esta implementando esta opcion...");
@@ -53,6 +91,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         me.record = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_editarUsuario', me.cmpPrincipal, disabled);
         Funciones.DisabledButton('btn_UsrApp', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_firma_electronica', me.cmpPrincipal, disabled);
         if (!disabled) {
             me.cmpPrincipal.form.CargarDatos(me.record);
             me.cmpPrincipal.gridAplicaciones.getStore().setExtraParams({

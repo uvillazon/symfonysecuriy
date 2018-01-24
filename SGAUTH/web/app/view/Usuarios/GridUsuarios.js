@@ -8,8 +8,8 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
     opcion: '',
     paramsStore: null,
     noLimpiar: null,
-    tabla : 'usuarios',
-    id_tabla : 'id_usuario',
+    tabla: 'usuarios',
+    id_tabla: 'id_usuario',
     reportesHistoricoEstados: false,
     //parametros obligados para mostrar reporte de historico de estados por tabla
     initComponent: function () {
@@ -18,13 +18,28 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
         me.store = Ext.create("App.Store.Usuarios.Usuarios");
         me.CargarComponentes();
         me.columns = [
-            { xtype: "rownumberer", width: 30, sortable: false },
-            { header: "Login", width: 90, sortable: true, dataIndex: "login" },
-            { header: "Nombre", width: 150, sortable: true, dataIndex: "nombre" },
-            { header: "Email", width: 150, sortable: true, dataIndex: "email" },
-            { header: "Area", width: 150, sortable: true, dataIndex: "nom_area" },
-            { header: "Fecha Alta", width: 90, sortable: true, dataIndex: "fch_alta", renderer: Ext.util.Format.dateRenderer('d/m/Y') },
-            { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
+            {xtype: "rownumberer", width: 30, sortable: false},
+            {
+                header: "Con<br>Certificado",
+                width: 60,
+                sortable: true,
+                dataIndex: "tiene_certificado",
+                renderer: function (value, metaData, record) {
+                    return value === true ? '<img data-qtip="' + value + '", src="' + Constantes.obtenerHost() + '/Content/Iconos/key.png" />' : null;
+                }
+            },
+            {header: "Login", width: 90, sortable: true, dataIndex: "login"},
+            {header: "Nombre", width: 150, sortable: true, dataIndex: "nombre"},
+            {header: "Email", width: 150, sortable: true, dataIndex: "email"},
+            {header: "Area", width: 150, sortable: true, dataIndex: "nom_area"},
+            {
+                header: "Fecha Alta",
+                width: 90,
+                sortable: true,
+                dataIndex: "fch_alta",
+                renderer: Ext.util.Format.dateRenderer('d/m/Y')
+            },
+            {header: "Estado", width: 90, sortable: true, dataIndex: "estado"}
         ];
 
         this.callParent(arguments);
