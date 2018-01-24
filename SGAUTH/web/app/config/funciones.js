@@ -1052,6 +1052,97 @@ Ext.define("App.Config.Funciones", {
 
         });
         return rec;
-    }
+    },
+    getRequestAjax: function (accion, form, method, params, validUpload) {
+        var me = this;
+        var formData = new FormData();
+        var deferred = new Ext.Deferred();
+        if (Ext.isObject(params)) {
+            Ext.Object.each(params, function (key, value, myself) {
+                formData.append(key, value);
+            });
+        }
+        form.getForm().getFields().each(function (field) {
+            if (field.rendered && field.isFileUpload()) {
+                formData.append('archivo', field.extractFileInput().files[0]);
+            }
+            else {
+                // console.log(field.xtype + '  -  ' + field.getValue());
+                if (!Ext.isEmpty(field.getValue())) {
+                    if (field.xtype == 'datefield') {
+                        console.log(field);
+                        formData.append(field.getName(), Ext.Date.format(field.getValue(), 'Y-m-d'));
+                    }
+                    else {
+                        formData.append(field.getName(), field.getValue());
+                    }
+
+                }
+
+            }
+        });
+        // console.log(formData);
+        if (me.isValidFiles(validUpload, formData)) {
+            // console.log('entroo');
+            // console.dir($.ajax);
+            $.ajax({
+                // url: appConfig.getEndpoint(accion).url,
+                url: Constantes.HOST + '' + accion + '',
+                type: method,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', "Bearer " + window.localStorage.token_sgauth);
+                },
+                xhr: function () {
+                    var xhr = $.ajaxSettings.xhr();
+                    return xhr;
+                },
+                success: function (data) {
+                    deferred.resolve(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    // alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    deferred.reject(errorThrown);
+                },
+                // error: function (response) {
+                //     var res = Ext.JSON.decode(response.responseText);
+                //     deferred.reject(res.msg);
+                // },
+
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            }, 'json');
+        }
+        else {
+            //caso validar el tamaño del archivo
+            tamArchivo = validUpload.hasOwnProperty('maxSize') ? validUpload.maxSize : null;
+            if (tamArchivo != null)
+                deferred.reject("El tamaño excede el limite " + validUpload.maxSize + "MB");
+        }
+
+        return deferred.promise;
+    },
+    isValidFiles: function (validUpload, form) {
+        if (Ext.isObject(validUpload)) {
+            maxSize = validUpload.hasOwnProperty('maxSize') ? validUpload.maxSize : null;
+            if (maxSize != null) {
+                // console.dir(form.get('archivo'));
+                var size = form.get('archivo').size;
+                if (size > (maxSize * 1024 * 1024)) {//1024*1024 representan 1 MB
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+    },
 });
 //Rep.VerReporteObjeto("POSTE-L24A41");

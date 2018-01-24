@@ -35,7 +35,7 @@ Ext.define("App.Config.Constantes", {
     UND_EJEC_OPER: 3,
     UND_EJEC_LLVV: 1,
     UND_EJEC_SUB: 4,
-    path: 'sgauth/',
+    path: 'sgauth-des/',
     rutaBackend: 'backend/',
     rutaBackendSGAUTH: 'api',
     endpoints: {

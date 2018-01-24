@@ -3,6 +3,9 @@
 namespace Elfec\SgauthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Elfec.usuarios
@@ -80,6 +83,29 @@ class usuarios
     private $idArea;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="cert_base64", type="text")
+     * @Exclude
+     */
+    private $certBase64;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cert_pwd_base64", type="text")
+     * @Exclude
+     */
+    private $certPwdBase64;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fch_cert_caducidad", type="datetime", nullable=true)
+     */
+    private $fchCertCaducidad;
+
+    /**
      * @var \areas
      *
      * @ORM\ManyToOne(targetEntity="areas")
@@ -89,6 +115,7 @@ class usuarios
      */
     private $area;
 
+    public $tieneCertificado;
 
     /**
      * Get idUsuario
@@ -305,5 +332,77 @@ class usuarios
     public function getArea()
     {
         return $this->area;
+    }
+
+    /**
+     * Set certBase64
+     *
+     * @param string $certBase64
+     *
+     * @return usuarios
+     */
+    public function setCertBase64($certBase64)
+    {
+        $this->certBase64 = $certBase64;
+
+        return $this;
+    }
+
+    /**
+     * Get certBase64
+     *
+     * @return string
+     */
+    public function getCertBase64()
+    {
+        return $this->certBase64;
+    }
+
+    /**
+     * Set certPwdBase64
+     *
+     * @param string $certPwdBase64
+     *
+     * @return usuarios
+     */
+    public function setCertPwdBase64($certPwdBase64)
+    {
+        $this->certPwdBase64 = $certPwdBase64;
+
+        return $this;
+    }
+
+    /**
+     * Get certPwdBase64
+     *
+     * @return string
+     */
+    public function getCertPwdBase64()
+    {
+        return $this->certPwdBase64;
+    }
+
+    /**
+     * Set fchCertCaducidad
+     *
+     * @param \DateTime $fchCertCaducidad
+     *
+     * @return usuarios
+     */
+    public function setFchCertCaducidad($fchCertCaducidad)
+    {
+        $this->fchCertCaducidad = $fchCertCaducidad;
+
+        return $this;
+    }
+
+    /**
+     * Get fchCertCaducidad
+     *
+     * @return \DateTime
+     */
+    public function getFchCertCaducidad()
+    {
+        return $this->fchCertCaducidad;
     }
 }

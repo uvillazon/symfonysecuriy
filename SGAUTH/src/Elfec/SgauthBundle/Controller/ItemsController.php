@@ -178,5 +178,29 @@ class ItemsController extends BaseController
         return $result;
     }
 
+    /**
+     * @Rest\Get("/certificado")
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Listas  Usuarios Paginados Por Aplicacion",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function getCertificadoPorUsuarioTokenAction(Request $request)
+    {
+
+
+        $Usertoken = $this->container->get("JWTUser");
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        return $servicio->obtenerCertificado($Usertoken->login);
+    }
+
 
 }

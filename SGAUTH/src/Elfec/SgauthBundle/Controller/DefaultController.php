@@ -25,14 +25,14 @@ class DefaultController extends Controller
 //        }
         return $this->render('ElfecSgauthBundle:Default:index.html.twig');
     }
-
-    /**
-     * @Route("/logon", name="logon")
-     */
-    public function logonAction()
-    {
-            return $this->render('ElfecSgauthBundle:Default:login.html.twig');
-    }
+//
+//    /**
+//     * @Route("/logon", name="logon")
+//     */
+//    public function logonAction()
+//    {
+//            return $this->render('ElfecSgauthBundle:Default:login.html.twig');
+//    }
 
     /**
      * @Route("/recuperacion/{codigoApp}", name="recuperacion")

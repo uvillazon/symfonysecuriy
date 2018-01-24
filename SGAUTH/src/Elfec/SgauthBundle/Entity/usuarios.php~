@@ -3,6 +3,9 @@
 namespace Elfec\SgauthBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Elfec.usuarios
@@ -78,6 +81,29 @@ class usuarios
      * @ORM\Column(name="id_area", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $idArea;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cert_base64", type="text")
+     * @Exclude
+     */
+    private $certBase64;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cert_pwd_base64", type="text")
+     * @Exclude
+     */
+    private $certPwdBase64;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fch_cert_caducidad", type="datetime", nullable=true)
+     */
+    private $fchCertCaducidad;
 
     /**
      * @var \areas
@@ -259,5 +285,51 @@ class usuarios
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * Set idArea
+     *
+     * @param string $idArea
+     * @return usuarios
+     */
+    public function setIdArea($idArea)
+    {
+        $this->idArea = $idArea;
+    
+        return $this;
+    }
+
+    /**
+     * Get idArea
+     *
+     * @return string 
+     */
+    public function getIdArea()
+    {
+        return $this->idArea;
+    }
+
+    /**
+     * Set area
+     *
+     * @param \Elfec\SgauthBundle\Entity\areas $area
+     * @return usuarios
+     */
+    public function setArea(\Elfec\SgauthBundle\Entity\areas $area = null)
+    {
+        $this->area = $area;
+    
+        return $this;
+    }
+
+    /**
+     * Get area
+     *
+     * @return \Elfec\SgauthBundle\Entity\areas 
+     */
+    public function getArea()
+    {
+        return $this->area;
     }
 }
