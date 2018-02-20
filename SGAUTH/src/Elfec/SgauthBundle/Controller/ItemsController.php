@@ -14,6 +14,34 @@ class ItemsController extends BaseController
 {
 
     /**
+     * @Rest\Get("/listas")
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Listas Paginados",
+     *   output = "Array",
+     *   authentication = true,
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found",
+     *     403 = "Returned when permission denied"
+     *   }
+     * )
+     *
+     */
+    public function getListasCabecerasAction(Request $request)
+    {
+        $Usertoken = $this->container->get("JWTUser");
+        $id_aplic = $Usertoken->id_aplic;
+        $paginacion = $this->obtenerPaginacion($request);
+        $servicio = $this->get('sgauthbundle.listas_service');
+        $array = $request->query;
+        $array->set('id_aplic', $id_aplic);
+        $result = $servicio->obtenerListasApiPaginados($paginacion, $array);
+        return $result;
+    }
+
+
+    /**
      * Obtener  Listas Items Paginados
      * formato de respuesta pagiandos
      * rows  : listas de objetos segun lo paginado, success : false o true  , total cantidad de registros encontrados

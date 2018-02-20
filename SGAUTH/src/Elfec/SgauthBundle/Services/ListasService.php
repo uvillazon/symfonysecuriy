@@ -55,6 +55,33 @@ class ListasService
 
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @param array $array
+     * @return ResultPaginacion
+     */
+    public function obtenerListasApiPaginados($paginacion, $array)
+    {
+        $result = new ResultPaginacion();
+        $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:listas');
+        $query = $repo->createQueryBuilder('lis');
+
+        if (!is_null($paginacion->contiene)) {
+            $query = $repo->consultaContiene($query, ["lista", "descripcion"], $paginacion->contiene);
+        }
+        $query = $repo->filtrarDatos($query, $array);
+//        var_dump($query->getDQL());
+        $result->total = $repo->total($query);
+        if (!$paginacion->isEmpty()) {
+            $query = $repo->obtenerElementosPaginados($query, $paginacion);
+        }
+
+        $result->rows = $query->getQuery()->getResult();
+        $result->success = true;
+        return $result;
+    }
+
+
+    /**
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param $array
      * @return ResultPaginacion
      */
@@ -157,7 +184,7 @@ class ListasService
             $rows = array();
             foreach ($query->getQuery()->getResult() as $item) {
                 array_push($rows, array(
-                    "id_lista"=> $item->getIdItem(),
+                    "id_lista" => $item->getIdItem(),
                     "codigo" => $item->getCodigo(),
                     "valor" => $item->getValor(),
                     "lista" => $item->getLista()->getLista(),

@@ -3,11 +3,11 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_driver: pdo_pgsql
-    database_host:     elflbd01
-    database_port:     5430
+    database_host:     elflbd02
+    database_port:     5433
     database_name: autenticacion
-    database_user: uvillazon
-    database_password: uvillazon
+    database_user: usr_autenticacion
+    database_password: aut.May16
 
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
