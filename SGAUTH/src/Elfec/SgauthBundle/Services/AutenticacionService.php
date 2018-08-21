@@ -36,7 +36,7 @@ class AutenticacionService
     public function generarTokenPorUsuarioApp($data, $header)
     {
 
-
+//var_dump($data);
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         if (is_null($data->get('codigoApp'))) {
             $result->msg = "Tiene que Ingresar un codigo de aplicacion";
@@ -54,7 +54,6 @@ class AutenticacionService
                 $result->success = false;
             } else {
                 $test = $this->testConnection($data->get('usuario'), $data->get('password'), $obj);
-//                var_dump($test);die();
                 if (is_numeric($test) && $data->get('codigoApp') != 'SISMAN') {
                     $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic(), $aplicacion);
                     if (is_numeric($usrTest)) {
@@ -179,6 +178,8 @@ class AutenticacionService
             "aplicacion" => $usr->getIdAplic()->getNombre(),
             "codigoApp" => $usr->getIdAplic()->getCodigo(),
             "id_aplic" => $usr->getIdAplic()->getIdAplic(),
+            "idempleado" => $usr->getIdUsuario()->getIdempleado(),
+            "idproveedor" => $usr->getIdUsuario()->getIdproveedor(),
             "area" => (is_null($usr->getIdUsuario()->getIdArea())) ? null : $usr->getIdUsuario()->getArea()->getNomArea()
         );
         if ($app->getCodigo() === "SGCST") {
@@ -294,8 +295,8 @@ class AutenticacionService
             $this->usrArray["dbConnect"] = $connectionParams;
 //            array_push($this->usrArray,$connectionParams);
             $result = 1;
-        } catch (\PDOException $ex) {
-//            var_dump($ex);
+        } catch (\Exception $ex) {
+//            var_dump($ex->getMessage());die();
             $result = "Error: autenticación de contraseña falló para el usuario :" . $usuario;
 //            $result = $ex->getMessage();
         }

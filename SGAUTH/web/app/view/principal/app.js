@@ -34,6 +34,8 @@ Ext.application({
         var isTokenExpired = token ? jwtService.isTokenExpired(token) : false;
         console.log(isTokenExpired);
         if (!isTokenExpired && token) {
+            toggleCSS.remove();
+
                 var panel = Ext.create('App.View.Principal.Principal', {
                     app : this
                 });

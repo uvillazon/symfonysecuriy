@@ -37,14 +37,24 @@ Ext.define("App.View.Perfiles.FormOpcionPerfil", {
         });
 
         me.store_opcion = Ext.create("App.Store.Opciones.Opciones");
+        me.store_opcion.setExtraParams({estado: 'ACTIVO'});
+
         me.cbx_opcion = Ext.create("App.Config.Componente.ComboAutoBase", {
             fieldLabel: 'Opcion',
             displayField: 'opcion',
             valueField: 'id_opc',
             name: 'id_opc',
+            matchFieldWidth: true,
             colspan: 2,
             width: 480,
-            store: me.store_opcion
+            store: me.store_opcion,
+            listConfig : {
+                loadingText: 'Buscando',
+                emptyText: 'No Existe Resultado',
+                getInnerTpl :  function () {
+                    return '<img data-qtip="{tooltip}", src="' + Constantes.obtenerHost() + '/Content/Iconos/{icono}.png" />{opcion}';
+                }
+            }
         });
 
         me.items = [
@@ -57,7 +67,7 @@ Ext.define("App.View.Perfiles.FormOpcionPerfil", {
     },
     cargarOpcionesPorAplicaciones: function (idAplic) {
         var me = this;
-        me.cbx_opcion.getStore().setExtraParams({id_aplic : idAplic});
+        me.cbx_opcion.getStore().setExtraParams({id_aplic: idAplic});
         me.cbx_opcion.getStore().load();
     }
 });

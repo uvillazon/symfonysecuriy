@@ -97,8 +97,12 @@ class UsuariosService
         $query = $repo->createQueryBuilder('usu');
         $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
-            $query = $repo->consultaContiene($query, ["estado"], $paginacion->contiene);
+            $query = $repo->contieneUsuario($query, ["login", "nombre", "email"], $paginacion->contiene);
+
         }
+//        if (!is_null($paginacion->contiene)) {
+//            $query = $repo->consultaContiene($query, ["estado"], $paginacion->contiene);
+//        }
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
             $query = $repo->obtenerElementosPaginados($query, $paginacion);
@@ -216,6 +220,44 @@ class UsuariosService
 
     }
 
+    public function borrarAppUsr($data, $login)
+    {
+        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
+        try {
+            $repo = $this->em->getRepository('ElfecSgauthBundle:appUsr');
+            $conection = $this->em->getConnection();
+            $st = $conection->prepare("SELECT elfec.borrar_app_usr (
+            :p_id_usuario::numeric,
+            :p_id_aplic::numeric,
+            :p_id_perfil::numeric,
+            :p_login_usr::VARCHAR);");
+            $st->bindValue(":p_id_usuario",$repo->getValueArray($data,"id_usuario",null));
+            $st->bindValue(":p_id_aplic", $repo->getValueArray($data,"id_aplic",null));
+            $st->bindValue(":p_id_perfil", $repo->getValueArray($data,"id_perfil",null));
+            $st->bindValue(":p_login_usr", $login);
+            $st->execute();
+            $response = $st->fetchAll();
+            if (count($response) > 0) {
+                if (is_numeric($response[0]["borrar_app_usr"])) {
+                    $result->success = true;
+                    $result->msg = "Proceso Ejectuado Correctamente";
+                    $result->id = $response[0]["borrar_app_usr"];
+                } else {
+                    $result->success = false;
+                    $result->msg = $response[0]["borrar_app_usr"];
+                }
+            } else {
+                $result->success = false;
+                $result->msg = "Ocurrio algun problema al Ejectuar la Funcion en Postgresql";
+            }
+        } catch (Exception $e) {
+            $result->success = false;
+            $result->msg = $e->getMessage();
+        }
+        return $result;
+
+    }
+
 
     //Rest Api For Other Aplicaction
     /**
@@ -228,13 +270,16 @@ class UsuariosService
 //                                                  var_dump($array);die();
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:appUsr');
-        $query = $repo->createQueryBuilder('app');
+        $query = $repo->createQueryBuilder('usu');
         if (!is_null($paginacion->contiene)) {
             $query = $repo->contieneUsuario($query, ["login", "nombre", "email"], $paginacion->contiene);
 
         }
         if (!is_null($array->get("perfil"))) {
             $query = $repo->filtrarPorPerfil($query, $array->get("perfil"));
+        }
+        if(!is_null($array->get("idproveedor"))){
+            $query = $repo->filtrarPorIdProveedor($query, $array->get("idproveedor"));
         }
 
         $query = $repo->filtrarDatos($query, $array);
@@ -261,7 +306,9 @@ class UsuariosService
                 "id_aplic" => $obj->getIdAplic()->getIdAplic(),
                 "perfil" => $obj->getIdPerfil()->getNombre(),
                 "codigo_app" => $obj->getIdAplic()->getCodigo(),
-                "area" => $obj->getIdUsuario()->getArea()
+                "area" => $obj->getIdUsuario()->getArea(),
+                "idproveedor" => $obj->getIdUsuario()->getIdproveedor(),
+                "idempleado" => $obj->getIdUsuario()->getIdempleado()
 
             ];
             array_push($rows, $row);
@@ -291,12 +338,12 @@ class UsuariosService
 //                $filter = "(|(sn=$person*)(givenname=$person*))";
                 $filter = "objectCategory=person";
                 $justthese = array("mail", "name", "samaccountname", "physicaldeliveryofficename");
-                $sr = ldap_search($ldap, $dn, $filter, $justthese);
+                $sr = ldap_search($ldap, $dn, $filter,$justthese);
                 $info = ldap_get_entries($ldap, $sr);
 //                var_dump($info);
 //                die();
                 for ($j = 0; $j < count($info) - 1; $j++) {
-//                    var_dump($info[$j]["name"]);
+//                    var_dump($info[$j]);
 //                    die();
                     $nombre = array_key_exists("name", $info[$j]) ? $info[$j]["name"][0] : "";
 //                    var_dump($nombre);

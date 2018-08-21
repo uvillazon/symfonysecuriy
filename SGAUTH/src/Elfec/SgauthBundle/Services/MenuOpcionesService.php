@@ -51,6 +51,7 @@ class MenuOpcionesService
                 "aplicacion" => $obj->getIdAplic()->getCodigo(),
                 "opcion" => $obj->getOpcion(),
                 "link" => $obj->getLink(),
+                "alias" => $obj->getAlias(),
                 "tooltip" => $obj->getTooltip(),
                 "icono" => $obj->getIcono(),
                 "estilo" => $obj->getEstilo(),
@@ -153,6 +154,7 @@ class MenuOpcionesService
             :p_id_aplic::NUMERIC,
             :p_opcion::VARCHAR ,
             :p_link::VARCHAR,
+            :p_alias::varchar,
             :p_tooltip::VARCHAR,
             :p_icono::VARCHAR,
             :p_estilo::VARCHAR,
@@ -165,6 +167,7 @@ class MenuOpcionesService
             $st->bindValue(":p_id_aplic", array_key_exists('id_aplic', $data) ? $data["id_aplic"] === '' ? 0 : $data["id_aplic"] : 0);
             $st->bindValue(":p_opcion", array_key_exists('opcion', $data) ? $data["opcion"] : null);
             $st->bindValue(":p_link", array_key_exists('link', $data) ? $data["link"] : null);
+            $st->bindValue(":p_alias", array_key_exists('alias', $data) ? $data["alias"] : null);
             $st->bindValue(":p_tooltip", array_key_exists('tooltip', $data) ? $data["tooltip"] : null);
             $st->bindValue(":p_icono", array_key_exists('icono', $data) ? $data["icono"] : null);
             $st->bindValue(":p_estilo", array_key_exists('estilo', $data) ? $data["estilo"] : null);
@@ -268,6 +271,7 @@ class MenuOpcionesService
                 "aplicacion" => $obj->getIdOpc()->getIdAplic()->getNombre(),
                 "opcion" => $obj->getIdOpc()->getOpcion(),
                 "link" => $obj->getIdOpc()->getLink(),
+                "alias" => $obj->getIdOpc()->getAlias(),
                 "tooltip" => $obj->getIdOpc()->getTooltip(),
                 "icono" => $obj->getIdOpc()->getIcono(),
                 "estilo" => $obj->getIdOpc()->getEstilo(),
@@ -395,28 +399,6 @@ class MenuOpcionesService
             $result->msg = $e->getMessage();
         }
         return $result;
-        //eliminacion con doctrine
-//        $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
-//        try{
-//            $repo = $this->em->getRepository('ElfecSgauthBundle:perfilesOpciones');
-//            $query = $repo->findOneBy(array("perfil"=>$data["id_perfil"],"opcion"=>$data["id_opc"]));
-//            if(!is_null($query)){
-//                $this->em->remove($query);
-//                $this->em->flush();
-//                $result->success = true;
-//                $result->msg = "Proceso Ejecutado Correctamente";
-//
-//            }
-//            else{
-//                $result->success = false;
-//                $result->msg = "No Exite el Registro";
-//            }
-//
-//        }catch (\Exception $e){
-//            $result->success = false;
-//            $result->msg = $e->getMessage();
-//        }
-//        return $result;
     }
 
     public function guardarBotonPerfil($data, $login)

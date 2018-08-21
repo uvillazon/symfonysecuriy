@@ -50,7 +50,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
                         me.cmpPrincipal.grid.getStore().load();
                         Ext.Msg.alert("Exito", res.msg);
                     }
-                    else{
+                    else {
                         Ext.Msg.alert("Error", res.msg);
 
                     }
@@ -72,10 +72,19 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         //
     },
     quitarUsrApp: function () {
-        Ext.Msg.alert("Aviso", "Se esta implementando esta opcion...");
+        var me = this;
+        Funciones.AjaxRequestGrid('usuarios', 'eliminars/usuariosapps', me.cmpPrincipal, 'Esta Seguro de Eliminar', {
+            id_perfil: me.recordApp.get('id_perfil'),
+            id_aplic: me.recordApp.get('id_aplic'),
+            id_usuario: me.recordApp.get('id_usuario')
+        }, me.getGridApp());
+
+        // console.log(me.recordApp);
+        // Ext.Msg.alert("Aviso", "Se esta implementando esta opcion...");
     },
     cargarEventos: function () {
         var me = this;
+
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
 
     },

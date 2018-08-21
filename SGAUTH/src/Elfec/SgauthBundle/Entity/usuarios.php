@@ -106,6 +106,20 @@ class usuarios
     private $fchCertCaducidad;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="idempleado", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $idempleado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="idproveedor", type="decimal", precision=10, scale=0, nullable=false)
+     */
+    private $idproveedor;
+
+    /**
      * @var \areas
      *
      * @ORM\ManyToOne(targetEntity="areas")
@@ -404,5 +418,53 @@ class usuarios
     public function getFchCertCaducidad()
     {
         return $this->fchCertCaducidad;
+    }
+
+    /**
+     * Set idempleado
+     *
+     * @param string $idempleado
+     *
+     * @return usuarios
+     */
+    public function setIdempleado($idempleado)
+    {
+        $this->idempleado = $idempleado;
+
+        return $this;
+    }
+
+    /**
+     * Get idempleado
+     *
+     * @return string
+     */
+    public function getIdempleado()
+    {
+        return $this->idempleado;
+    }
+
+    /**
+     * Set idproveedor
+     *
+     * @param string $idproveedor
+     *
+     * @return usuarios
+     */
+    public function setIdproveedor($idproveedor)
+    {
+        $this->idproveedor = $idproveedor;
+
+        return $this;
+    }
+
+    /**
+     * Get idproveedor
+     *
+     * @return string
+     */
+    public function getIdproveedor()
+    {
+        return $this->idproveedor;
     }
 }

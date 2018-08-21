@@ -9,6 +9,7 @@ Ext.define('App.Model.Opciones.Opciones', {
         { type: "string", name: "aplicacion" },
         { type: "string", name: "opcion" },
         { type: "string", name: "link" },
+        { type: "string", name: "alias" },
         { type: "string", name: "tooltip" },
         { type: "string", name: "icono" },
         { type: "string", name: "estilo" },

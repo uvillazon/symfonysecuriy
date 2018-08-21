@@ -47,6 +47,17 @@ Ext.define("App.View.Opciones.FormOpcion", {
             width: 480,
             mayus : false
         });
+
+        me.txt_alias = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: "Alias",
+            name: "alias",
+            colspan: 2,
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            allowBlank: false,
+            width: 480,
+            mayus : false
+        });
+
         me.txt_tooltip = Ext.create("App.Config.Componente.TextFieldBase", {
             fieldLabel: "Tooltip (detalle)",
             name: "tooltip",
@@ -98,6 +109,7 @@ Ext.define("App.View.Opciones.FormOpcion", {
             me.hid_id, me.hid_idPadre,me.hid_idApp,
             me.txt_nombre,
             me.txt_link,
+            me.txt_alias,
             me.txt_tooltip,
             me.txt_icono, me.txt_estilo,
             me.cbx_padre,

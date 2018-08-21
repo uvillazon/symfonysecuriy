@@ -46,10 +46,27 @@ class appUsrRepository extends BaseRepository
     public function filtrarPorPerfil($query, $perfil)
     {
         $alias = $query->getRootAlias();
-        $query->innerJoin($alias . '.idPerfil', 'a');
-        $query->andWhere('a.nombre LIKE :perfil');
+        $query->innerJoin($alias . '.idPerfil', 'per');
+        $query->andWhere('per.nombre LIKE :perfil');
         $query->setParameter("perfil", "%" . $perfil . "%");
         return $query;
 
     }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param int $idproveedor
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function filtrarPorIdProveedor($query, $idproveedor)
+    {
+        $alias = $query->getAllAliases()[0];
+        $query->innerJoin($alias . '.idPerfil', 'prov');
+        $query->andWhere('prov.idproveedor = :idproveedor');
+        $query->setParameter("idproveedor", $idproveedor);
+        return $query;
+
+    }
+
+//
 }
