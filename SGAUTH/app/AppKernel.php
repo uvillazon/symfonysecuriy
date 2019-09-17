@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Elfec\SgauthBundle\ElfecSgauthBundle(),
+            new Nzo\UrlEncryptorBundle\NzoUrlEncryptorBundle(),
             new Elfec\ErpBundle\ElfecErpBundle(),
         );
 
