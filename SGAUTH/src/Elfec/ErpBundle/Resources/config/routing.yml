@@ -1,0 +1,7 @@
+Empleados:
+    type:     rest
+    resource: "ElfecErpBundle:Empleados"
+
+Proveedores:
+    type:     rest
+    resource: "ElfecErpBundle:Proveedores"

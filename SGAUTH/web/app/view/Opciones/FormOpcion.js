@@ -77,6 +77,16 @@ Ext.define("App.View.Opciones.FormOpcion", {
             mayus : false
 
         });
+
+        me.txt_parametros = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: "Parametros",
+            name: "parametros",
+            colspan: 2,
+            width: 480,
+            mayus : false
+
+        });
+
         me.txt_orden = Ext.create("App.Config.Componente.NumberFieldBase", {
             fieldLabel: "Orden",
             name: "orden",
@@ -112,6 +122,7 @@ Ext.define("App.View.Opciones.FormOpcion", {
             me.txt_alias,
             me.txt_tooltip,
             me.txt_icono, me.txt_estilo,
+            me.txt_parametros,
             me.cbx_padre,
             me.txt_orden, me.cbx_estado
         ];

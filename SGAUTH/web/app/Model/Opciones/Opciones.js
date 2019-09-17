@@ -16,6 +16,7 @@ Ext.define('App.Model.Opciones.Opciones', {
         { type: "int", name: "id_padre" },
         { type: "string", name: "padre" },
         { type: "int", name: "orden" },
-        { type: "string", name: "estado" }
+        { type: "string", name: "estado" },
+        { type: "string", name: "parametros" }
     ]
 });

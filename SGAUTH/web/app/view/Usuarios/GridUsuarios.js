@@ -32,6 +32,8 @@ Ext.define("App.View.Usuarios.GridUsuarios", {
             {header: "Nombre", width: 150, sortable: true, dataIndex: "nombre"},
             {header: "Email", width: 150, sortable: true, dataIndex: "email"},
             {header: "Area", width: 150, sortable: true, dataIndex: "nom_area"},
+            {header: "Id Empleado", width: 80, sortable: true, dataIndex: "idempleado"},
+            {header: "Id Proveedor", width: 80, sortable: true, dataIndex: "idproveedor"},
             {
                 header: "Fecha Alta",
                 width: 90,

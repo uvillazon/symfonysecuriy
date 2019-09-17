@@ -1,0 +1,8 @@
+services:
+    erp_empleados_service:
+        class: Elfec\ErpBundle\Services\EmpleadosService
+        arguments: ["@doctrine.orm.erp_entity_manager"]
+
+    erp_proveedores_service:
+        class: Elfec\ErpBundle\Services\ProveedoresService
+        arguments: ["@doctrine.orm.erp_entity_manager"]

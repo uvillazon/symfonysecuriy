@@ -36,3 +36,7 @@ token:
     type:     rest
     prefix:   /login
     resource: Elfec\SgauthBundle\Controller\TokenController
+
+elfec_erp:
+    resource: "@ElfecErpBundle/Resources/config/routing.yml"
+    prefix:   /erp

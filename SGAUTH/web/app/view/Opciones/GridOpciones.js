@@ -26,6 +26,7 @@ Ext.define("App.View.Opciones.GridOpciones", {
             {header: "Tooltip", width: 200, sortable: true, dataIndex: "tooltip"},
             {header: "Nombre <br> Icon", width: 100, sortable: true, dataIndex: "icono"},
             {header: "Css", width: 100, sortable: true, dataIndex: "estilo"},
+            {header: "Parametros", width: 100, sortable: true, dataIndex: "parametros"},
             {header: "Orden", width: 70, sortable: true, dataIndex: "orden"},
             {header: "Padre", width: 100, sortable: true, dataIndex: "padre"},
             {header: "Estado", width: 90, sortable: true, dataIndex: "estado"}

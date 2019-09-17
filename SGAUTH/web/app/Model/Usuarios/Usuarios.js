@@ -9,6 +9,8 @@ Ext.define('App.Model.Usuarios.Usuarios', {
         {type: "date", name: "fch_baja"},
         {type: "string", name: "estado"},
         {type: "int", name: "id_area"},
+        {type: "int", name: "idempleado" , allowNull : true},
+        {type: "int", name: "idproveedor" , allowNull : true},
         {type: "boolean", name: "tiene_certificado"},
         {
 			type: "string",

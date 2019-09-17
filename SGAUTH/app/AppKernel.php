@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Elfec\SgauthBundle\ElfecSgauthBundle(),
             new Nzo\UrlEncryptorBundle\NzoUrlEncryptorBundle(),
+            new Elfec\ErpBundle\ElfecErpBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test','prod'))) {

@@ -32,10 +32,11 @@ class JWTListener implements ListenerInterface
     protected $authenticationManager;
     protected $secret = "developmentSessionSecret";
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager )
     {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationManager = $authenticationManager;
+
     }
 
     /**
