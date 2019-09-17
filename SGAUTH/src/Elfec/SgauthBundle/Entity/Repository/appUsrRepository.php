@@ -55,6 +55,22 @@ class appUsrRepository extends BaseRepository
 
     /**
      * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param string $perfil
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function filtrarPorLogin($query, $login)
+    {
+        $alias = $query->getRootAlias();
+        $query->innerJoin($alias . '.idUsuario', 's');
+        $query->andWhere('s.login = :login');
+        $query->setParameter("login", $login);
+        return $query;
+
+    }
+
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
      * @param int $idproveedor
      * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
      */

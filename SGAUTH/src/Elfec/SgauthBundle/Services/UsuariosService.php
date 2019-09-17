@@ -19,19 +19,23 @@ class UsuariosService
     protected $em;
     protected $emSgauth;
     protected $repoUsuariosAreas;
+    protected $erpProveedor;
+
     /**
      * @var RequestStack
      */
     protected $request;
 
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth, RequestStack $request)
+//    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth, RequestStack $request)
+    public function __construct(\Doctrine\ORM\EntityManager $em, \Doctrine\ORM\EntityManager $emSgauth, RequestStack $request, \Elfec\ErpBundle\Services\ProveedoresService $erpProv)
     {
 
         $this->em = $em;
         $this->emSgauth = $emSgauth;
         $this->repoUsuariosAreas = $em->getRepository("ElfecSgauthBundle:usuariosAreas");
         $this->request = $request;
+        $this->erpProveedor = $erpProv;
     }
 
 
@@ -113,7 +117,7 @@ class UsuariosService
          * @var \Elfec\SgauthBundle\Entity\appUsr $obj
          */
         foreach ($query->getQuery()->getResult() as $obj) {
-            $row = [
+            $row = array(
                 "id_usuario" => $obj->getIdUsuario()->getIdUsuario(),
                 "login" => $obj->getIdUsuario()->getLogin(),
                 "email" => $obj->getIdUsuario()->getEmail(),
@@ -127,7 +131,7 @@ class UsuariosService
                 "perfil" => $obj->getIdPerfil()->getNombre(),
                 "codigo_app" => $obj->getIdAplic()->getCodigo(),
                 "area" => $obj->getIdUsuario()->getArea()
-            ];
+            );
             array_push($rows, $row);
         }
 
@@ -152,6 +156,8 @@ class UsuariosService
             :p_fch_baja::DATE, 
             :p_estado::VARCHAR ,
             :p_id_area::numeric,
+            :p_idempleado::numeric,
+            :p_idproveedor::numeric,
             :p_login_usr::VARCHAR);");
             $st->bindValue(":p_id_usuario", ($data["id_usuario"] == '') ? 0 : $data["id_usuario"]);
             $st->bindValue(":p_login", strtolower($data["login"]));
@@ -160,7 +166,9 @@ class UsuariosService
             $st->bindValue(":p_email", $data["email"]);
             $st->bindValue(":p_fch_baja", NULL);
             $st->bindValue(":p_estado", $data["estado"]);
-            $st->bindValue(":p_id_area", array_key_exists("id_area", $data) ? $data["id_area"] : null);
+            $st->bindValue(":p_id_area", $repo->getValueArray($data, 'id_area', null));
+            $st->bindValue(":p_idproveedor", $repo->getValueArray($data, 'idproveedor', null));
+            $st->bindValue(":p_idempleado", $repo->getValueArray($data, 'idempleado', null));
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();
@@ -231,9 +239,9 @@ class UsuariosService
             :p_id_aplic::numeric,
             :p_id_perfil::numeric,
             :p_login_usr::VARCHAR);");
-            $st->bindValue(":p_id_usuario",$repo->getValueArray($data,"id_usuario",null));
-            $st->bindValue(":p_id_aplic", $repo->getValueArray($data,"id_aplic",null));
-            $st->bindValue(":p_id_perfil", $repo->getValueArray($data,"id_perfil",null));
+            $st->bindValue(":p_id_usuario", $repo->getValueArray($data, "id_usuario", null));
+            $st->bindValue(":p_id_aplic", $repo->getValueArray($data, "id_aplic", null));
+            $st->bindValue(":p_id_perfil", $repo->getValueArray($data, "id_perfil", null));
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();
@@ -272,13 +280,16 @@ class UsuariosService
         $repo = $this->emSgauth->getRepository('ElfecSgauthBundle:appUsr');
         $query = $repo->createQueryBuilder('usu');
         if (!is_null($paginacion->contiene)) {
-            $query = $repo->contieneUsuario($query, ["login", "nombre", "email"], $paginacion->contiene);
+            $query = $repo->contieneUsuario($query, array("login", "nombre", "email"), $paginacion->contiene);
 
         }
         if (!is_null($array->get("perfil"))) {
             $query = $repo->filtrarPorPerfil($query, $array->get("perfil"));
         }
-        if(!is_null($array->get("idproveedor"))){
+        if (!is_null($array->get("login"))) {
+            $query = $repo->filtrarPorLogin($query, $array->get("login"));
+        }
+        if (!is_null($array->get("idproveedor"))) {
             $query = $repo->filtrarPorIdProveedor($query, $array->get("idproveedor"));
         }
 
@@ -293,7 +304,7 @@ class UsuariosService
          * @var \Elfec\SgauthBundle\Entity\appUsr $obj
          */
         foreach ($query->getQuery()->getResult() as $obj) {
-            $row = [
+            $row = array(
                 "id_usuario" => $obj->getIdUsuario()->getIdUsuario(),
                 "login" => $obj->getIdUsuario()->getLogin(),
                 "email" => $obj->getIdUsuario()->getEmail(),
@@ -308,9 +319,10 @@ class UsuariosService
                 "codigo_app" => $obj->getIdAplic()->getCodigo(),
                 "area" => $obj->getIdUsuario()->getArea(),
                 "idproveedor" => $obj->getIdUsuario()->getIdproveedor(),
-                "idempleado" => $obj->getIdUsuario()->getIdempleado()
+                "idempleado" => $obj->getIdUsuario()->getIdempleado(),
+                "proveedor" => $this->erpProveedor->obtenerProveedorPorId($obj->getIdUsuario()->getIdproveedor())
 
-            ];
+            );
             array_push($rows, $row);
         }
 
@@ -333,35 +345,18 @@ class UsuariosService
             $usuarios = array();
             $i = 0;
             if ($bind) {
-//                $person = "Erika";
                 $dn = "OU=ELFEC,DC=elfec,DC=com";
-//                $filter = "(|(sn=$person*)(givenname=$person*))";
                 $filter = "objectCategory=person";
                 $justthese = array("mail", "name", "samaccountname", "physicaldeliveryofficename");
-                $sr = ldap_search($ldap, $dn, $filter,$justthese);
+                $sr = ldap_search($ldap, $dn, $filter, $justthese);
                 $info = ldap_get_entries($ldap, $sr);
-//                var_dump($info);
-//                die();
                 for ($j = 0; $j < count($info) - 1; $j++) {
-//                    var_dump($info[$j]);
-//                    die();
                     $nombre = array_key_exists("name", $info[$j]) ? $info[$j]["name"][0] : "";
-//                    var_dump($nombre);
-//                    die();
                     $mail = array_key_exists("mail", $info[$j]) ? $info[$j]["mail"][0] : "";
                     $login = array_key_exists("samaccountname", $info[$j]) ? $info[$j]["samaccountname"][0] : "";
                     $unidad = array_key_exists("physicaldeliveryofficename", $info[$j]) ? $info[$j]["physicaldeliveryofficename"][0] : "";
                     array_push($usuarios, array("nombre" => $nombre, "email" => $mail, "login" => $login, "unidad" => $unidad));
-//                    var_dump($usuarios);
-//                    if($j>103){
-//                        die();
-//
-//                    }
-
                 }
-//                var_dump($usuarios);
-//                die();
-
             }
             $result->rows = $usuarios;
             $result->total = count($usuarios);

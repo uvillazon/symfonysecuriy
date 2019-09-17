@@ -31,7 +31,7 @@ class MenuOpcionesService
         $repo = $this->em->getRepository('ElfecSgauthBundle:menuOpciones');
         $query = $repo->createQueryBuilder('men');
         if (!is_null($paginacion->contiene)) {
-            $query = $repo->consultaContiene($query, ["opcion", "tooltip", "estado"], $paginacion->contiene);
+            $query = $repo->consultaContiene($query, array("opcion", "tooltip", "estado"), $paginacion->contiene);
         }
         $query = $repo->filtrarDatos($query, $array);
 
@@ -45,12 +45,13 @@ class MenuOpcionesService
          * @var \Elfec\SgauthBundle\Entity\menuOpciones $obj
          */
         foreach ($query->getQuery()->getResult() as $obj) {
-            $row = [
+            $row = array(
                 "id_opc" => $obj->getIdOpc(),
                 "id_aplic" => $obj->getIdAplic()->getIdAplic(),
                 "aplicacion" => $obj->getIdAplic()->getCodigo(),
                 "opcion" => $obj->getOpcion(),
                 "link" => $obj->getLink(),
+                "parametros" => $obj->getParametros(),
                 "alias" => $obj->getAlias(),
                 "tooltip" => $obj->getTooltip(),
                 "icono" => $obj->getIcono(),
@@ -60,7 +61,7 @@ class MenuOpcionesService
                 "estado" => $obj->getEstado(),
                 "orden" => $obj->getOrden()
 
-            ];
+            );
             array_push($rows, $row);
         }
 
@@ -120,7 +121,7 @@ class MenuOpcionesService
          * @var \Elfec\SgauthBundle\Entity\botones $obj
          */
         foreach ($query->getQuery()->getResult() as $obj) {
-            $row = [
+            $row = array(
                 "id_opc" => $obj->getIdOpc(),
                 "opcion" => $obj->getMenuOpciones()->getOpcion(),
                 "id_boton" => $obj->getIdBoton(),
@@ -135,7 +136,7 @@ class MenuOpcionesService
                 "id_padre" => $obj->getIdPadre(),
                 "orden" => $obj->getOrden(),
                 "disabled" => $obj->getDisabled()
-            ];
+            );
             array_push($rows, $row);
         }
 
@@ -146,6 +147,7 @@ class MenuOpcionesService
 
     public function guardarOpcion($data, $login)
     {
+//        var_dump($data);
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
@@ -265,7 +267,7 @@ class MenuOpcionesService
          * @var \Elfec\SgauthBundle\Entity\perfilesOpciones $obj
          */
         foreach ($query->getQuery()->getResult() as $obj) {
-            $row = [
+            $row = array(
                 "id_opc" => $obj->getIdOpc()->getIdOpc(),
                 "id_aplic" => $obj->getIdOpc()->getIdAplic()->getIdAplic(),
                 "aplicacion" => $obj->getIdOpc()->getIdAplic()->getNombre(),
@@ -275,11 +277,12 @@ class MenuOpcionesService
                 "tooltip" => $obj->getIdOpc()->getTooltip(),
                 "icono" => $obj->getIdOpc()->getIcono(),
                 "estilo" => $obj->getIdOpc()->getEstilo(),
+                "parametros" => $obj->getIdOpc()->getParametros(),
                 "padre" => (is_null($obj->getIdOpc()->getIdPadre())) ? null : $obj->getIdOpc()->getIdPadre()->getOpcion(),
                 "estado" => $obj->getIdOpc()->getEstado(),
                 "orden" => $obj->getIdOpc()->getOrden()
 
-            ];
+            );
             array_push($rows, $row);
         }
 
@@ -313,7 +316,7 @@ class MenuOpcionesService
              * @var \Elfec\SgauthBundle\Entity\botones $btn
              */
             foreach ($obj->getBotones() as $btn) {
-                $array = [
+                $array = array(
                     "id_boton" => $btn->getIdBoton(),
                     "id_opc" => $btn->getIdOpc(),
                     "boton" => $btn->getBoton(),
@@ -327,7 +330,7 @@ class MenuOpcionesService
                     "padre" => (is_null($btn->getPadre())) ? null : $btn->getPadre()->getBoton(),
                     "estado" => $btn->getEstado(),
                     "disabled" => $btn->getDisabled()
-                ];
+                );
                 array_push($rows, $array);
             }
         }

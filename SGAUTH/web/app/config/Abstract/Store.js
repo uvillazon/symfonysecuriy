@@ -23,6 +23,7 @@ Ext.define("App.Config.Abstract.Store", {
     urlCreate: '',
     urlUpdate: '',
     urlDestroy: '',
+    backendUrl : true,
     // model : '',
     constructor: function (config) {
         var me = this;
@@ -38,10 +39,10 @@ Ext.define("App.Config.Abstract.Store", {
                 type: "rest",
                 headers: {'Authorization': "Bearer " + Constantes.TOKEN},
                 api: {
-                    read: Constantes.getEndpoint(me.url),
-                    create: Constantes.getEndpoint(me.urlCreate),
-                    update: Constantes.getEndpoint(me.urlUpdate),
-                    destroy: Constantes.getEndpoint(me.urlDestroy),
+                    read: me.backendUrl ?  Constantes.getEndpoint(me.url) : Constantes.obtenerHost()+""+me.url,
+                    create: me.backendUrl ? Constantes.getEndpoint(me.urlCreate) : Constantes.obtenerHost()+""+me.url,
+                    update:  me.backendUrl ?  Constantes.getEndpoint(me.urlUpdate) : Constantes.obtenerHost()+""+me.url,
+                    destroy:  me.backendUrl ?  Constantes.getEndpoint(me.urlDestroy) : Constantes.obtenerHost()+""+me.url
                 },
                 reader: {
                     type: "json",

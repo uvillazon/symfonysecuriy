@@ -99,11 +99,44 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             store: ['ACTIVO', 'INACTIVO'],
 
         });
+
+        me.store_empleado = Ext.create("App.Store.Erp.Empleados");
+        me.cbx_empleado = Ext.create("App.Config.Componente.ComboAutoBase", {
+            fieldLabel: 'Id Empleado',
+            displayField: 'idempleado',
+            valueField: 'idempleado',
+            name: 'idempleado',
+            store: me.store_empleado,
+            listConfig : {
+                loadingText: 'Buscando',
+                emptyText: 'No Existe Resultado',
+                getInnerTpl :  function () {
+                    return '<h4>{idempleado}</h4>  {nombre}';
+                }
+            }
+        });
+
+        me.store_proveedor = Ext.create("App.Store.Erp.Proveedores");
+        me.cbx_proveedor = Ext.create("App.Config.Componente.ComboAutoBase", {
+            fieldLabel: 'Id Proveedor',
+            displayField: 'idproveedor',
+            valueField: 'idproveedor',
+            name: 'idproveedor',
+            store: me.store_proveedor,
+            listConfig : {
+                loadingText: 'Buscando',
+                emptyText: 'No Existe Resultado',
+                getInnerTpl :  function () {
+                    return '<h4>{idproveedor}</h4>  {descripcion}';
+                }
+            }
+        });
         me.items = [
             me.txt_id,
             me.txt_nombre,
             me.txt_login, me.cbx_area,
             me.txt_email,
+            me.cbx_empleado , me.cbx_proveedor,
             me.cbx_estado,
         ];
 

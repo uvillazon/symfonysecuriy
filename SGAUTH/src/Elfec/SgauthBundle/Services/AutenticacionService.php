@@ -108,13 +108,11 @@ class AutenticacionService
     {
         $key = $app->getSecretKey();
         $connect = JWT::encode(JWT::encode($this->usrArray["dbConnect"], $key), $key);
-        $token = [
+        $token = array(
             "exp" => time() + $app->getTiempoValidoToken() * 3600,
-
             "key" => $connect
 
-        ];
-//        var_dump($data);
+        );
         $jwt = JWT::encode($token, $key);
         $result = array(
             "token" => $jwt,
@@ -183,21 +181,21 @@ class AutenticacionService
             "area" => (is_null($usr->getIdUsuario()->getIdArea())) ? null : $usr->getIdUsuario()->getArea()->getNomArea()
         );
         if ($app->getCodigo() === "SGCST") {
-            $token = [
+            $token = array(
                 "exp" => time() + $app->getTiempoValidoToken() * 3600,
 //                "menu" => $menus,
                 "usuario" => $usuario,
                 "areas" => $areas,
                 "key" => $connect
 
-            ];
+            );
         } else {
-            $token = [
+            $token = array(
                 "exp" => time() + $app->getTiempoValidoToken() * 3600,
                 "usuario" => $usuario,
                 "areas" => $areas,
                 "key" => $connect
-            ];
+            );
         }
         $token = !is_null($aplicacion) ? $this->pushArrayApp($aplicacion, $token) : $token;
         $jwt = JWT::encode($token, $key);
@@ -293,12 +291,9 @@ class AutenticacionService
             $conn->connect();
             $conn->close();
             $this->usrArray["dbConnect"] = $connectionParams;
-//            array_push($this->usrArray,$connectionParams);
             $result = 1;
         } catch (\Exception $ex) {
-//            var_dump($ex->getMessage());die();
-            $result = "Error: autenticación de contraseña falló para el usuario :" . $usuario;
-//            $result = $ex->getMessage();
+            $result = sprintf("Error : %s => autenticación de contraseña falló para el usuario : %s", $ex->getMessage(), $usuario);
         }
         return $result;
     }

@@ -56,6 +56,16 @@ doctrine:
                 user:     "%database_user%"
                 password: "%database_password%"
                 charset:  UTF8
+            erp:
+                driver:   oci8
+                host:     192.168.60.62
+                port:     1531
+                dbname:   DEPROD
+                user:     UVILLAZONT
+                password: febrero2012
+                service : true
+                charset:  UTF8
+                logging:  true
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -74,6 +84,10 @@ doctrine:
                 connection: sgauth
                 mappings:
                     ElfecSgauthBundle: ~
+            erp:
+                connection: erp
+                mappings:
+                    ElfecErpBundle: ~
 #        auto_generate_proxy_classes: "%kernel.debug%"
 #        naming_strategy: doctrine.orm.naming_strategy.underscore
 #        auto_mapping: true

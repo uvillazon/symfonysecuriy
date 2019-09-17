@@ -1,11 +1,11 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_pgsql
-    database_host: elflbd02
-    database_port: 5433
+    database_host: elflbd01
+    database_port: 5430
     database_name: autenticacion
-    database_user: usr_autenticacion
-    database_password: aut.May16
+    database_user: uvillazon
+    database_password: uvillazon
     mailer_transport: mail
     mailer_host: elfmex01.elfec.com
     mailer_user: sisman@elfec.bo
