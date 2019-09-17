@@ -26,7 +26,7 @@
         "gedmo/doctrine-extensions": "2.4.*",
         "hashids/hashids": "^1.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "jaspersoft/rest-client": "v2.0.0",
+        "jaspersoft/rest-client": "^2.0",
         "jmikola/geojson": "^1.0",
         "jms/serializer-bundle": "^1.1",
         "lilweb/ldap-bundle": "0.1.0",
