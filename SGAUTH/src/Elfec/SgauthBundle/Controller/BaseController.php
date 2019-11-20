@@ -18,6 +18,8 @@ use FOS\RestBundle\Controller\FOSRestController;
 class BaseController extends Controller
 {
 
+    protected $nameArray = "data";
+
 //    protected $request;
 //    public function __construct(){
 //
@@ -76,6 +78,29 @@ class BaseController extends Controller
 //        $array->set("id_aplic", $AppToke->id_aplic);
 
         return $array;
+
+    }
+
+    /**
+     * @param Request $request
+     * @param bool $many
+     * @return mixed
+     */
+    public function arrayToFormPost(Request $request, $arrayId = null, $many = false)
+    {
+        $data = $request->request->all();
+
+        if (!$many) {
+            $array = array_key_exists($this->nameArray, $data) ? $data[$this->nameArray][0] : $data;
+            if ($arrayId == null) {
+                return $array;
+            }
+            $arrayMerge = array_merge($array, $arrayId);
+            return $arrayMerge;
+        } else {
+            $array = array_key_exists($this->nameArray, $data) ? $data[$this->nameArray] : $data;
+            return $array;
+        }
 
     }
 

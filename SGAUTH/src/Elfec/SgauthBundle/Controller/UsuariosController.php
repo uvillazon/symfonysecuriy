@@ -101,7 +101,8 @@ class UsuariosController extends BaseController
     public function postUsuariosAction(Request $request)
     {
 
-        $login = "SHC";
+        $Usertoken = $this->container->get("JWTUser");
+        $login = $Usertoken->login;
         $data = $request->request->all();
         $servicio = $this->get('sgauthbundle.usuarios_service');
         $result = $servicio->guardarUsuario($data, $login);

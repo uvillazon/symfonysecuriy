@@ -194,14 +194,19 @@ Ext.define('App.controller.Perfiles.Perfiles', {
     },
     winAgregarApp: function () {
         var me = this;
-        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
-        var form = Ext.create("App.View.Perfiles.FormAppPerfil", {botones: false});
-        form.getForm().loadRecord(me.record);
-        win.add(form);
-        win.show();
-        win.btn_guardar.on('click', function () {
-            Funciones.AjaxRequestWin('perfiles', 'aplicaciones', win, form, me.getGridAplicacion(), 'Esta Seguro de guardar los datos', null, win);
-        });
+        if (Constantes.APLICACION.codigo === "SGAUTH") {
+            var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+            var form = Ext.create("App.View.Perfiles.FormAppPerfil", {botones: false});
+            form.getForm().loadRecord(me.record);
+            win.add(form);
+            win.show();
+            win.btn_guardar.on('click', function () {
+                Funciones.AjaxRequestWin('perfiles', 'aplicaciones', win, form, me.getGridAplicacion(), 'Esta Seguro de guardar los datos', null, win);
+            });
+        }
+        else{
+            Ext.Msg.alert("Advertencia","Opción habilitada para la administración de la aplicación SGAUTH");
+        }
         //App.View.Perfiles.FormBotonPerfil"
     },
 })

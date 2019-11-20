@@ -22,7 +22,8 @@ Ext.define("App.View.Usuarios.GridAplicacionesPorUsuario", {
             { header: "Nombre<br>Aplicacion", width: 200, sortable: true, dataIndex: "aplicacion" },
             { header: "Perfil", width: 100, sortable: true, dataIndex: "perfil" },
             { header: "Fecha Alta", width: 90, sortable: true, dataIndex: "fch_alta", renderer: Ext.util.Format.dateRenderer('d/m/Y') },
-            { header: "Estado", width: 90, sortable: true, dataIndex: "estado" }
+            { header: "Estado", width: 90, sortable: true, dataIndex: "estado" },
+            { header: "Fecha Baja", width: 90, sortable: true, dataIndex: "fch_baja", renderer: Ext.util.Format.dateRenderer('d/m/Y') }
         ];
 
         this.callParent(arguments);

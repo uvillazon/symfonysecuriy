@@ -34,6 +34,7 @@ class appUsr
      */
     private $estado;
 
+
     /**
      * @var \usuarios
      *
@@ -61,7 +62,9 @@ class appUsr
     /**
      * @var \perfiles
      *
-     * @ORM\ManyToOne(targetEntity="perfiles")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="perfiles")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_perfil", referencedColumnName="id_perfil")
      * })
@@ -71,140 +74,24 @@ class appUsr
 
 
     /**
-     * Set fchAlta
+     * @var string
      *
-     * @param \DateTime $fchAlta
-     * @return appUsr
+     * @ORM\Column(name="id_usuario", type="decimal", precision=10, scale=0, nullable=false)
      */
-    public function setFchAlta($fchAlta)
-    {
-        $this->fchAlta = $fchAlta;
-
-        return $this;
-    }
+    private $usuario;
 
     /**
-     * Get fchAlta
+     * @var string
      *
-     * @return \DateTime 
+     * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
      */
-    public function getFchAlta()
-    {
-        return $this->fchAlta;
-    }
+    private $aplicacion;
 
     /**
-     * Set fchBaja
+     * @var string
      *
-     * @param \DateTime $fchBaja
-     * @return appUsr
+     * @ORM\Column(name="id_perfil", type="decimal", precision=10, scale=0, nullable=false)
      */
-    public function setFchBaja($fchBaja)
-    {
-        $this->fchBaja = $fchBaja;
+    private $perfil;
 
-        return $this;
-    }
-
-    /**
-     * Get fchBaja
-     *
-     * @return \DateTime 
-     */
-    public function getFchBaja()
-    {
-        return $this->fchBaja;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param string $estado
-     * @return appUsr
-     */
-    public function setEstado($estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return string 
-     */
-    public function getEstado()
-    {
-        return $this->estado;
-    }
-
-    /**
-     * Set idUsuario
-     *
-     * @param \Elfec\SgauthBundle\Entity\usuarios $idUsuario
-     * @return appUsr
-     */
-    public function setIdUsuario(\Elfec\SgauthBundle\Entity\usuarios $idUsuario)
-    {
-        $this->idUsuario = $idUsuario;
-
-        return $this;
-    }
-
-    /**
-     * Get idUsuario
-     *
-     * @return \Elfec\SgauthBundle\Entity\usuarios 
-     */
-    public function getIdUsuario()
-    {
-        return $this->idUsuario;
-    }
-
-    /**
-     * Set idAplic
-     *
-     * @param \Elfec\SgauthBundle\Entity\aplicaciones $idAplic
-     * @return appUsr
-     */
-    public function setIdAplic(\Elfec\SgauthBundle\Entity\aplicaciones $idAplic)
-    {
-        $this->idAplic = $idAplic;
-
-        return $this;
-    }
-
-    /**
-     * Get idAplic
-     *
-     * @return \Elfec\SgauthBundle\Entity\aplicaciones 
-     */
-    public function getIdAplic()
-    {
-        return $this->idAplic;
-    }
-
-    /**
-     * Set idPerfil
-     *
-     * @param \Elfec\SgauthBundle\Entity\perfiles $idPerfil
-     * @return appUsr
-     */
-    public function setIdPerfil(\Elfec\SgauthBundle\Entity\perfiles $idPerfil = null)
-    {
-        $this->idPerfil = $idPerfil;
-
-        return $this;
-    }
-
-    /**
-     * Get idPerfil
-     *
-     * @return \Elfec\SgauthBundle\Entity\perfiles 
-     */
-    public function getIdPerfil()
-    {
-        return $this->idPerfil;
-    }
 }

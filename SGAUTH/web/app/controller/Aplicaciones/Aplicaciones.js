@@ -30,7 +30,6 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
         me.cmpPrincipal.grid.getSelectionModel().on('selectionchange', me.cargarDatosGrid, this);
 
 
-
     },
     cargarDatosGrid: function (selModel, selections) {
         var me = this;
@@ -51,11 +50,14 @@ Ext.define('App.controller.Aplicaciones.Aplicaciones', {
     },
     winCrearApp: function (btn) {
         var me = this;
-        var win = Ext.create("App.Config.Abstract.Window", { botones: true, destruirWin: true });
-        var form = Ext.create("App.View.Aplicaciones.FormAplicacion",{botones : false});
+        if (btn.getItemId() === "btn_crear_app" &&  !(Constantes.APLICACION.codigo === "SGAUTH")) {
+            return Ext.Msg.alert("Advertencia","Opción habilitada para la administración de la aplicación SGAUTH");
+        }
+        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+        var form = Ext.create("App.View.Aplicaciones.FormAplicacion", {botones: false});
         win.add(form);
         win.show();
-        if(btn.getItemId() === "btn_editar_app"){
+        if (btn.getItemId() === "btn_editar_app") {
             form.getForm().loadRecord(me.record);
         }
         win.btn_guardar.on('click', function () {

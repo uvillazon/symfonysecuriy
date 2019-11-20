@@ -9,6 +9,8 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Elfec\SgauthBundle\Entity\aplicaciones;
+use Elfec\SgauthBundle\Entity\appUsr;
 use Elfec\SgauthBundle\Entity\usuarios;
 use Elfec\SgauthBundle\Model\RespuestaSP;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -52,7 +54,7 @@ class UsuariosService
         $query = $repo->createQueryBuilder('usu');
         $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
-            $query = $repo->consultaContiene($query, ["login", "nombre", "email", "estado"], $paginacion->contiene);
+            $query = $repo->consultaContiene($query, array("login", "nombre", "email", "estado"), $paginacion->contiene);
         }
         $result->total = $repo->total($query);
         if (!$paginacion->isEmpty()) {
@@ -101,7 +103,7 @@ class UsuariosService
         $query = $repo->createQueryBuilder('usu');
         $query = $repo->filtrarDatos($query, $array);
         if (!is_null($paginacion->contiene)) {
-            $query = $repo->contieneUsuario($query, ["login", "nombre", "email"], $paginacion->contiene);
+            $query = $repo->contieneUsuario($query, array("login", "nombre", "email"), $paginacion->contiene);
 
         }
 //        if (!is_null($paginacion->contiene)) {
@@ -158,6 +160,7 @@ class UsuariosService
             :p_id_area::numeric,
             :p_idempleado::numeric,
             :p_idproveedor::numeric,
+            :p_telefono::varchar,
             :p_login_usr::VARCHAR);");
             $st->bindValue(":p_id_usuario", ($data["id_usuario"] == '') ? 0 : $data["id_usuario"]);
             $st->bindValue(":p_login", strtolower($data["login"]));
@@ -169,6 +172,7 @@ class UsuariosService
             $st->bindValue(":p_id_area", $repo->getValueArray($data, 'id_area', null));
             $st->bindValue(":p_idproveedor", $repo->getValueArray($data, 'idproveedor', null));
             $st->bindValue(":p_idempleado", $repo->getValueArray($data, 'idempleado', null));
+            $st->bindValue(":p_telefono", $repo->getValueArray($data, 'telefono', null));
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();
@@ -198,11 +202,22 @@ class UsuariosService
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
             $conection = $this->em->getConnection();
-            $st = $conection->prepare("SELECT elfec.grabar_perfil_usr(:p_id_usuario::NUMERIC,:p_id_aplic::NUMERIC,:p_id_perfil::NUMERIC ,:p_fch_baja::DATE, :p_estado::VARCHAR ,:p_login_usr::VARCHAR);");
+            $st = $conection->prepare("SELECT elfec.grabar_perfil_usr(
+                :p_id_usuario::NUMERIC,
+                :p_id_aplic::NUMERIC,
+                :p_id_perfil::NUMERIC,
+                :p_operacion::varchar,
+                :p_fch_baja::DATE, 
+                :p_estado::VARCHAR ,
+                :p_login_usr::VARCHAR);");
             $st->bindValue(":p_id_usuario", ($data["id_usuario"] == '') ? 0 : $data["id_usuario"]);
             $st->bindValue(":p_id_aplic", $data["id_aplic"]);
             $st->bindValue(":p_id_perfil", $data["id_perfil"]);
-            $st->bindValue(":p_fch_baja", NULL);
+            $st->bindValue(":p_operacion", $data["operacion"]);
+            $fechaBaja = array_key_exists('fch_baja', $data) ? $data["fch_baja"] : null;
+            $fechaBaja = empty($fechaBaja) ? null : $fechaBaja;
+
+            $st->bindValue(":p_fch_baja", $fechaBaja);
             $st->bindValue(":p_estado", $data["estado"]);
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
@@ -441,6 +456,38 @@ class UsuariosService
         } catch (\Exception $e) {
             return new RespuestaSP(false, $e->getMessage());
         }
+    }
+
+    public function obtenerPerfilesPorUsuariosApp($data)
+    {
+        /**
+         * @var usuarios $usuario
+         * @var aplicaciones $aplicacion
+         * @var appUsr $item
+         */
+        $repo = $this->emSgauth->getRepository("ElfecSgauthBundle:appUsr");
+        $parametros = $repo->verificarSiExistenCampos(array("usuario", "codigoApp"), $data);
+        if (!$parametros->success) {
+            return $parametros;
+        }
+        $usuario = $this->em->getRepository("ElfecSgauthBundle:usuarios")->findOneBy(array("login" => $data["usuario"]));
+        if (empty($usuario)) {
+            return new RespuestaSP(false, "No existe ese usuario");
+        }
+        $aplicacion = $this->em->getRepository("ElfecSgauthBundle:aplicaciones")->findOneBy(array("codigo" => $data["codigoApp"]));
+        if (empty($aplicacion)) {
+            return new RespuestaSP(false, "No existe la aplicacion");
+        }
+        $appUsr = $repo->findBy(array("usuario" => $usuario->getIdUsuario(), "aplicacion" => $aplicacion->getIdAplic(), "estado" => "ACTIVO"));
+        if (count($appUsr) > 1) {
+            $rows = array();
+            foreach ($appUsr as $item) {
+                array_push($rows, $item->getIdPerfil());
+            }
+            return new RespuestaSP(true, "proceso ejecutado correctamente", $rows);
+        }
+        return new RespuestaSP(false, "No existe perfiles asociados al usuario");
+
     }
 
 }

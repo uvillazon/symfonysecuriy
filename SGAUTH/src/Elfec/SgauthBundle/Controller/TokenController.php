@@ -70,11 +70,16 @@ class TokenController extends BaseController
             $servicio = $this->get('sgauthbundle.autenticacion_service');
             $array = $request->query;
             $array1 = $request->request->all();
-//        var_dump($array1);
+
             array_key_exists('id_aplic', $array1) ? $array->set('id_aplic', $array1['id_aplic']) : null;
             $array->set("codigoApp", $array1["codigoApp"]);
             $array->set("usuario", $array1['username']);
             $array->set("password", $array1['password']);
+            $array->set("host", $request->getHost());
+            $array->set("ip", $request->getClientIp());
+            $array->set("cliente", $request->getHttpHost());
+//            $array->set("procede", $array1['procede']);
+            $array->set("id_perfil", array_key_exists('id_perfil', $array1) ? $array1['id_perfil'] : null);
 //        var_dump($array);
             $header = $request->headers;
             $result = $servicio->generarTokenPorUsuarioApp($array, $header);

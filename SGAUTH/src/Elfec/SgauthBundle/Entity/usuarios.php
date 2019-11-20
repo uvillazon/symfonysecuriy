@@ -120,6 +120,13 @@ class usuarios
     private $idproveedor;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=80, nullable=true)
+     */
+    private $telefono;
+
+    /**
      * @var \areas
      *
      * @ORM\ManyToOne(targetEntity="areas")
@@ -466,5 +473,29 @@ class usuarios
     public function getIdproveedor()
     {
         return $this->idproveedor;
+    }
+
+    /**
+     * Set telefono
+     *
+     * @param string $telefono
+     *
+     * @return usuarios
+     */
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+
+        return $this;
+    }
+
+    /**
+     * Get telefono
+     *
+     * @return string
+     */
+    public function getTelefono()
+    {
+        return $this->telefono;
     }
 }

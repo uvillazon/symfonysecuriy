@@ -11,6 +11,7 @@ namespace Elfec\SgauthBundle\Services;
 
 use Doctrine\ORM\Tools\Export\ExportException;
 use Elfec\SgauthBundle\ElfecSgauthBundle;
+use Elfec\SgauthBundle\Entity\AccesosApp;
 use Elfec\SgauthBundle\Entity\aplicaciones;
 use Elfec\SgauthBundle\Entity\appUsr;
 use Elfec\SgauthBundle\Entity\menuOpciones;
@@ -19,6 +20,8 @@ use Elfec\SgauthBundle\Entity\usuarios;
 use Elfec\SgauthBundle\Entity\usuariosAreas;
 use Exception;
 use Firebase\JWT\JWT;
+use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 class AutenticacionService
 {
@@ -33,10 +36,14 @@ class AutenticacionService
     }
 
 
+    /**
+     * @param ParameterBag $data
+     * @param HeaderBag $header
+     * @return \Elfec\SgauthBundle\Model\RespuestaSP
+     */
     public function generarTokenPorUsuarioApp($data, $header)
     {
 
-//var_dump($data);
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         if (is_null($data->get('codigoApp'))) {
             $result->msg = "Tiene que Ingresar un codigo de aplicacion";
@@ -47,15 +54,14 @@ class AutenticacionService
 
             $obj = $managerApp->findOneBy(array('codigo' => $codigoApp));
             $aplicacion = !is_null($data->get('id_aplic')) ? $managerApp->find($data->get('id_aplic')) : null;
-
-//            var_dump($aplicacion);
             if (is_null($obj)) {
                 $result->msg = "Codigo de Apliacion  no existe";
                 $result->success = false;
             } else {
                 $test = $this->testConnection($data->get('usuario'), $data->get('password'), $obj);
                 if (is_numeric($test) && $data->get('codigoApp') != 'SISMAN') {
-                    $usrTest = $this->esUsuarioAppActivo($data->get('usuario'), $obj->getIdAplic(), $aplicacion);
+//                    $id_perfil = $data->
+                    $usrTest = $this->esUsuarioAppActivo($data, $obj->getIdAplic(), $aplicacion);
                     if (is_numeric($usrTest)) {
                         $result->msg = "Proceso Ejecutado Correctamente";
                         $result->success = true;
@@ -75,6 +81,27 @@ class AutenticacionService
                 }
 
             }
+        }
+        /**
+         * @var AccesosApp $ultimoAcceso
+         */
+        if ($result->success) {
+            $ultimoAcceso = $this->em->getRepository("ElfecSgauthBundle:AccesosApp")->findOneBy(array("idUsuario" => $this->idUsr, "idAplic" => $obj->getIdAplic()), array("fechaReg" => "DESC"));
+            if (!empty($ultimoAcceso)) {
+                $result->data["ultimo_acceso"] = $ultimoAcceso;
+            } else {
+                $result->data["ultimo_acceso"] = array("fecha_reg" => new \DateTime());
+            }
+            $acceso = new AccesosApp();
+            $acceso->setFechaReg(new \DateTime());
+            $acceso->setCliente($header->get('user-agent'));
+            $acceso->setIp($data->get('ip'));
+            $acceso->setOrigen($header->get('origin'));
+            $acceso->setAplicaciones($obj);
+            $acceso->setUsuarios($this->em->getRepository("ElfecSgauthBundle:usuarios")->find($this->idUsr));
+            $acceso->setPerfiles($this->em->getRepository('ElfecSgauthBundle:perfiles')->find($result->data["usuario"]["id_perfil"]));
+            $this->em->persist($acceso);
+            $this->em->flush();
         }
         return $result;
     }
@@ -210,19 +237,22 @@ class AutenticacionService
 
 
     /**
-     * @param $usuario
+     * @param ParameterBag $data
      * @param $idApp
      * @param aplicaciones $aplicacion
      * @return string
      */
-    private function esUsuarioAppActivo($usuario, $idApp, $aplicacion)
+    private function esUsuarioAppActivo($data, $idApp, $aplicacion)
     {
+        $usuario = $data->get('usuario');
+//        var_dump($usuario);
         $repoUsr = $this->em->getRepository('ElfecSgauthBundle:usuarios');
         $repoPerfilApp = $this->em->getRepository('ElfecSgauthBundle:perfilesAplicaciones');
 //        $servicioPerfil = $this->get('sgauthbundle.perfiles_service');
 //        $apps = $servicioPerfil->obtenerAplicacionesPorPerfil($Usertoken->id_perfil);
         /**
          * @var usuarios $usr
+         * @var appUsr $usrApp
          */
         $usr = $repoUsr->findOneBy(array('login' => $usuario));
         $result = "";
@@ -231,11 +261,18 @@ class AutenticacionService
         } else {
             if ($usr->getEstado() == "ACTIVO") {
                 $repoUsrApp = $this->em->getRepository('ElfecSgauthBundle:appUsr');
-                /**
-                 * @var appUsr $usrApp
-                 */
-                $usrApp = $repoUsrApp->findOneBy(array('usuario' => $usr->getIdUsuario(), 'aplicacion' => $idApp));
-//                var_dump($usrApp->getEstado());
+
+                $usrApps = $repoUsrApp->findBy(array('usuario' => $usr->getIdUsuario(), 'aplicacion' => $idApp, "estado" => "ACTIVO"));
+                if (count($usrApps) > 1) {
+                    if (empty($data->get("id_perfil"))) {
+                        return sprintf("el usuario: %s cuenta con varios perfiles. seleccione un pefil", $usuario);
+                    } else {
+                        $usrApp = $repoUsrApp->findOneBy(array('usuario' => $usr->getIdUsuario(), 'aplicacion' => $idApp, 'perfil' => $data->get('id_perfil'), "estado" => "ACTIVO"));
+                    }
+
+                } else {
+                    $usrApp = $repoUsrApp->findOneBy(array('usuario' => $usr->getIdUsuario(), 'aplicacion' => $idApp, "estado" => "ACTIVO"));
+                }
                 if (is_null($usrApp)) {
                     $result = sprintf("el usuario: %s No tiene permiso para acceder a la Aplicacion", $usuario);
                 } else {

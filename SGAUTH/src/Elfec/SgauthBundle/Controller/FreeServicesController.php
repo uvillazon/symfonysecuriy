@@ -72,9 +72,10 @@ class FreeServicesController extends BaseController
      * @param $nomArea
      * @return RespuestaSP
      */
-    public function getAreaPorNombreAction($nomArea){
+    public function getAreaPorNombreAction($nomArea)
+    {
         $servicio = $this->get('sgauthbundle.areas_service');
-        return $servicio->obtenerAreaPorNombre($nomArea,false);
+        return $servicio->obtenerAreaPorNombre($nomArea, false);
     }
 
     /**
@@ -88,6 +89,19 @@ class FreeServicesController extends BaseController
         $servicio = $this->get('sgauthbundle.usuarios_service');
         $array = $request->query;
         $result = $servicio->obtenerUsuariosActiveDirectory($paginacion, $array, false);
+        return $result;
+    }
+
+    /**
+     * @param Request $request
+     * @Rest\Post("/perfiles/app")
+     * @return ResultPaginacion
+     */
+    public function postPerfilesAplicacionesAction(Request $request)
+    {
+        $servicio = $this->get('sgauthbundle.usuarios_service');
+        $data = $this->arrayToFormPost($request);
+        $result = $servicio->obtenerPerfilesPorUsuariosApp($data);
         return $result;
     }
 }

@@ -23,7 +23,13 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
 
         me.hid_id_app = Ext.widget('hiddenfield', {
             name: 'id_aplic',
-            value : Constantes.APLICACION.id_aplic,
+            value: Constantes.APLICACION.id_aplic,
+
+        });
+
+        me.hid_operacion = Ext.widget('hiddenfield', {
+            name: 'operacion',
+            value: 'ALTA',
 
         });
 
@@ -44,7 +50,7 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             fieldLabel: "Em@il",
             name: "email",
             readOnly: true,
-            labelWidth : 70
+            labelWidth: 70
         });
 
         me.txt_aplicacion = Ext.create("App.Config.Componente.TextFieldBase", {
@@ -52,7 +58,7 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             name: "aplicacion",
             readOnly: true,
             colspan: 2,
-            value : Constantes.APLICACION.aplicacion,
+            value: Constantes.APLICACION.aplicacion,
             width: 480,
         });
 
@@ -77,11 +83,19 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             afterLabelTextTpl: Constantes.REQUERIDO,
             allowBlank: false,
             value: 'ACTIVO',
-            colspan: 2,
+            colspan: 1,
             store: ['ACTIVO', 'INACTIVO'],
 
         });
+
+        me.dat_fecha_baja = Ext.create("App.Config.Componente.DateFieldBase", {
+            fieldLabel: "Fecha Baja",
+            name: "fch_baja",
+            readOnly: true,
+            hidden: false
+        });
         me.items = [
+            me.hid_operacion,
             me.hid_id_usuario,
             me.hid_id_app,
             me.txt_nombre,
@@ -89,6 +103,7 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
             me.txt_aplicacion,
             me.cbx_perfil,
             me.cbx_estado,
+            me.dat_fecha_baja
         ];
 
 
@@ -96,6 +111,32 @@ Ext.define("App.View.Usuarios.FormUsrApp", {
     cargarEventos: function () {
         var me = this;
 
-    }
+        me.cbx_estado.on('select', function (cbx, record) {
+            if (cbx.getValue() === 'INACTIVO') {
+                var date = new Date();
+                me.dat_fecha_baja.setValue(date);
+            }
+            else {
+                me.dat_fecha_baja.setValue(null);
+            }
+        });
+    },
 
+    cargarDatosEdicion: function (record) {
+        var me = this;
+        console.log(record);
+        me.getForm().loadRecord(record);
+        me.hid_operacion.setValue("EDITAR");
+        me.cbx_perfil.getStore().setExtraParams({mostrar_todos: "SI", id_aplic: record.get('id_aplic')});
+        me.cbx_perfil.getStore().load({
+            callback: function (records, operation, success) {
+                Ext.each(records, function (rec) {
+                    if (rec.get('id_perfil') == record.get('id_perfil')) {
+                        me.cbx_perfil.select(rec);
+                        return me.cbx_perfil.setReadOnly(true);
+                    }
+                });
+            }
+        });
+    }
 });

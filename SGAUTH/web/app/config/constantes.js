@@ -73,7 +73,6 @@ Ext.define("App.Config.Constantes", {
         Ext.Msg.alert("Entrooo");
     },
     CargarLocalStorage: function () {
-        console.log('CargarLocalStorage');
         try {
             this.USUARIO = JSON.parse(window.localStorage["usuario_sgauth"]);
             this.MENU = JSON.parse(window.localStorage["menu_sgauth"]);
@@ -87,7 +86,7 @@ Ext.define("App.Config.Constantes", {
         }
     },
     obtenerHost: function () {
-        if (window.location.hostname == 'localhost') {
+        if (window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1') {
             var host = window.location.origin + '/';
         }
         else {
@@ -96,8 +95,7 @@ Ext.define("App.Config.Constantes", {
         return host;
     },
     CargarHost: function () {
-        console.log('CargarHost');
-        if (window.location.hostname == 'localhost') {
+        if (window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1') {
             this.HOST = window.location.origin + '/' + this.rutaBackend;
         }
         else {
@@ -106,7 +104,7 @@ Ext.define("App.Config.Constantes", {
     },
     CargarHostSinSeguridad: function () {
         // console.dir(window.location);
-        if (window.location.hostname == 'localhost') {
+        if (window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1') {
             this.HOST_TOKEN = window.location.origin + '/';
         }
         else {
@@ -115,7 +113,7 @@ Ext.define("App.Config.Constantes", {
     },
     obtenerHostManualUsuario: function () {
         var urlDoc = 'ManualUsuario/SGAUTH.html';
-        if (window.location.hostname == 'localhost') {
+        if (window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1') {
             return window.location.origin + '/' + urlDoc;
         }
         else {

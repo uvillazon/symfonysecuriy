@@ -43,6 +43,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             name: 'nombre',
             colspan: 2,
             width: 480,
+            anyMatch : true,
             store: me.store_usuarioAd,
             textoTpl: function () {
                 return '<h4>{codigo}</h4>  {nombre}';
@@ -86,6 +87,16 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             // allowBlank: false,
             width: 480,
             vtype: 'email',
+            colspan: 2
+
+        });
+
+        me.txt_telefono = Ext.create("App.Config.Componente.TextFieldBase", {
+            fieldLabel: "Telefonos",
+            name: "telefono",
+            // afterLabelTextTpl: Constantes.REQUERIDO,
+            // allowBlank: false,
+            width: 480,
             colspan: 2
 
         });
@@ -136,6 +147,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             me.txt_nombre,
             me.txt_login, me.cbx_area,
             me.txt_email,
+            me.txt_telefono,
             me.cbx_empleado , me.cbx_proveedor,
             me.cbx_estado,
         ];

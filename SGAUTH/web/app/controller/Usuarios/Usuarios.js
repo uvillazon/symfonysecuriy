@@ -21,6 +21,9 @@ Ext.define('App.controller.Usuarios.Usuarios', {
             'button[itemId=btn_UsrApp]': {
                 click: me.winCrearUsrApp
             },
+            'button[itemId=btn_Edit_UsrApp]': {
+                click: me.winEditUsrApp
+            },
             'button[itemId=btn_QuitarUsrApp]': {
                 click: me.quitarUsrApp
             },
@@ -93,6 +96,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         disabled = selections.length === 0;
         me.recordApp = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_QuitarUsrApp', me.cmpPrincipal, disabled);
+        Funciones.DisabledButton('btn_Edit_UsrApp', me.cmpPrincipal, disabled);
     },
     cargarDatosGrid: function (selModel, selections) {
         var me = this;
@@ -105,7 +109,8 @@ Ext.define('App.controller.Usuarios.Usuarios', {
             me.cmpPrincipal.form.CargarDatos(me.record);
             me.cmpPrincipal.gridAplicaciones.getStore().setExtraParams({
                 id_usuario: me.record.get("id_usuario"),
-                mostrar_todos: "SI"
+                mostrar_todos: "SI",
+                // mostrar_todos: Constantes.APLICACION.codigo === "SGAUTH" ? "SI" : "NO"
             });
             me.cmpPrincipal.gridAplicaciones.getStore().load();
         }
@@ -118,7 +123,6 @@ Ext.define('App.controller.Usuarios.Usuarios', {
     winCrearUsuairo: function (btn) {
         var me = this;
         var btn12 = Ext.ComponentQuery.query('#btn_crearUsuario');
-        console.dir(btn12);
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
         var form = Ext.create("App.View.Usuarios.FormUsuario", {botones: false});
         win.add(form);
@@ -135,7 +139,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
         var form = Ext.create("App.View.Usuarios.FormUsrApp", {botones: false});
-        console.dir(form);
+        form.cbx_estado.setReadOnly(true);
         win.add(form);
         win.show();
         form.getForm().loadRecord(me.record);
@@ -143,23 +147,20 @@ Ext.define('App.controller.Usuarios.Usuarios', {
             Funciones.AjaxRequestWin('usuarios', 'usuariosapps', win, form, me.getGridApp(), 'Esta Seguro de guardar el Usuarios', null, win);
         });
 
+    },
+    winEditUsrApp: function () {
+        var me = this;
+        var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
+        var form = Ext.create("App.View.Usuarios.FormUsrApp", {
+            botones: false,
+            title: 'Edicion de Datos Usuario por aplicacion'
+        });
+        win.add(form);
+        win.show();
+        form.cargarDatosEdicion(me.recordApp);
+        win.btn_guardar.on('click', function () {
+            Funciones.AjaxRequestWin('usuarios', 'usuariosapps', win, form, me.getGridApp(), 'Esta Seguro de guardar el Usuarios', null, win);
+        });
     }
-
-    ///**
-    // * Created by uvillazon on 30/07/2015.
-    // */
-    //Ext.define('App.controller.Usuarios.Usuarios', {
-    //    extend: 'App.Config.Abstract.Controller',
-    //    classPrincipal: 'App.View.Usuarios.Principal',
-    //    idCmpBotton: 'cmpButton',
-    //    init: function () {
-    //        var me = this;
-    //        me.cargarEventos();
-    //        this.callParent();
-    //    },
-    //    cargarEventos: function(){
-    //
-    //    }
-
 })
 ;

@@ -9,6 +9,7 @@
 namespace Elfec\SgauthBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Elfec\SgauthBundle\Model\RespuestaSP;
 
 class BaseRepository extends EntityRepository
 {
@@ -306,4 +307,27 @@ class BaseRepository extends EntityRepository
             $val);
         return $val1;
     }
+
+
+    public function verificarSiExistenCampos($array, $data)
+    {
+        $result = new RespuestaSP();
+        $msg = "";
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $value = $this->getValueArray($data, $array[$i], null);
+                if (empty($value)) {
+                    $msg = ($msg == "") ? "No Existen los campos " . $array[$i] : sprintf("%s , %s", $msg, $array[$i]);
+                }
+            }
+            if (!empty($msg)) {
+                return new RespuestaSP(false, $msg);
+            }
+
+        } catch (\Exception $e) {
+            return new RespuestaSP(false, $e->getMessage());
+        }
+        return $result;
+    }
+
 }
