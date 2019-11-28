@@ -1,73 +1,28 @@
-﻿var ALERT_TITLE = "ATENCION!";
-var ALERT_BUTTON_TEXT = "Aceptar";
-var adv = getQueryParam('advertencia');
-if (adv == null) {
-    createCustomAlert('AL INGRESAR A ESTE SISTEMA, USTED SE COMPROMETE A CUMPLIR CON LO ESTABLECIDO EN LA POLITICA DE  SEGURIDAD DE  INFORMACIÓN DE LA EMPRESA  Y CERTIFICA SER EL USUARIO DE INGRESO');
-}
-// console.log(adv);
-if (document.getElementById && adv == null) {
-    // window.alert = function (txt) {
-    //     // createCustomAlert(txt);
-    // }
-}
-function getQueryParam(name) {
-    var regex = RegExp('[?&]' + name + '=([^&]*)');
+﻿/**
+ * This file includes the required ext-all js and css files based upon "theme" and "direction"
+ * url parameters.  It first searches for these parameters on the page url, and if they
+ * are not found there, it looks for them on the script tag src query string.
+ * For example, to include the neptune flavor of ext from an index page in a subdirectory
+ * of extjs/examples/:
+ * <script type="text/javascript" src="../../examples/shared/include-ext.js?theme=neptune"></script>
+ */
+(function () {
+    var cantLS = localStorage.length;
+    var pathLib = "http://elflwb03/sgauth/lib/socket";
+    var scriptEls = document.getElementsByTagName('script');
+    var path = scriptEls[scriptEls.length - 1].src;
+    var codigoApp = getQueryParam('codigoApp');
+    console.log(codigoApp);
 
-    var match = regex.exec(location.search) || regex.exec(document.documentURI);
-    return match && decodeURIComponent(match[1]);
-}
-function createCustomAlert(txt) {
-    d = document;
-
-
-    if (d.getElementById("modalContainer")) return;
-
-    mObj = d.getElementsByTagName("body")[0].appendChild(d.createElement("div"));
-    mObj.id = "modalContainer";
-    mObj.style.height = d.documentElement.scrollHeight + "px";
-
-    mHeaderObj = mObj.appendChild(d.createElement("div"));
-    mHeaderObj.id = "modalHeaderContainer";
-    mHeaderObj.style.visiblity = "visible";
-
-    logoObj = mHeaderObj.appendChild(d.createElement("div"));
-    logoObj.id = "logo_advertencia";
-    logoObj.style.visiblity = "visible";
-
-    alertObj = mObj.appendChild(d.createElement("div"));
-    // alertObj = mHeaderObj.appendChild(d.createElement("div"));
-    alertObj.id = "alertBox";
-    if (d.all && !window.opera) alertObj.style.top = document.documentElement.scrollTop + "px";
-    // console.log(d.documentElement.scrollWidth);
-    // console.log(alertObj.offsetWidth);
-
-    alertObj.style.left = (d.documentElement.scrollWidth - alertObj.offsetWidth) / 2 + "px";
-    alertObj.style.visiblity = "visible";
-
-    h1 = alertObj.appendChild(d.createElement("h1"));
-    h1.appendChild(d.createTextNode(ALERT_TITLE));
-
-    msg = alertObj.appendChild(d.createElement("p"));
-    //msg.appendChild(d.createTextNode(txt));
-    msg.innerHTML = txt;
-
-    btn = alertObj.appendChild(d.createElement("a"));
-    btn.id = "closeBtn";
-    btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
-    btn.href = "#";
-    btn.focus();
-    btn.onclick = function () {
-        removeCustomAlert();
-        return false;
+    function getQueryParam(name) {
+        var regex = RegExp('[?&]' + name + '=([^&]*)');
+        var match = regex.exec(location.search) || regex.exec(path);
+        return match && decodeURIComponent(match[1]);
     }
 
-    alertObj.style.display = "block";
+    document.write('<link rel="stylesheet" type="text/css" href="http://elflwb03/sgauth/Content/advertencia/autenticacion.css"/>');
+    document.write('<script type="text/javascript" src="' + pathLib + '/autobahn.min.js"></script>');
+    document.write('<script type="text/javascript" src="' + pathLib + '/gos_web_socket_client.js"></script>');
+    document.write('<script type="text/javascript" src="' + pathLib + '/timeout.js?codigoApp=' + codigoApp + '"></script>');
 
-}
-
-function removeCustomAlert() {
-    document.getElementsByTagName("body")[0].removeChild(document.getElementById("modalContainer"));
-}
-function ful() {
-    alert('Alert this pages');
-}
+})();

@@ -40,6 +40,7 @@ Ext.define("App.View.Aplicaciones.GridAplicaciones", {
             {header: "Host", width: 90, sortable: true, dataIndex: "app_host"},
             {header: "Secret Key", width: 90, sortable: true, dataIndex: "secret_key"},
             {header: "Duracion <br>Token(Hrs)", width: 90, sortable: true, dataIndex: "tiempo_valido_token"},
+            {header: "Sessiones <br>Permitidas", width: 90, sortable: true, dataIndex: "cant_sesiones_permitidas"},
 
             {header: "Estado", width: 90, sortable: true, dataIndex: "estado"}
         ];

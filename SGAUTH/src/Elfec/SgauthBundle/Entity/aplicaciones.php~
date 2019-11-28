@@ -18,7 +18,6 @@ class aplicaciones
      *
      * @ORM\Column(name="id_aplic", type="decimal", precision=10, scale=0, nullable=false)
      * @ORM\Id
-     
      */
     private $idAplic;
 
@@ -106,12 +105,18 @@ class aplicaciones
      */
     private $tiempoValidoToken;
 
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="cant_sesiones_permitidas", type="integer")
+     */
+    private $cantSesionesPermitidas;
 
 
     /**
      * Get idAplic
      *
-     * @return string 
+     * @return string
      */
     public function getIdAplic()
     {
@@ -134,7 +139,7 @@ class aplicaciones
     /**
      * Get codigo
      *
-     * @return string 
+     * @return string
      */
     public function getCodigo()
     {
@@ -157,7 +162,7 @@ class aplicaciones
     /**
      * Get nombre
      *
-     * @return string 
+     * @return string
      */
     public function getNombre()
     {
@@ -180,7 +185,7 @@ class aplicaciones
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -203,7 +208,7 @@ class aplicaciones
     /**
      * Get fchAlta
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getFchAlta()
     {
@@ -226,7 +231,7 @@ class aplicaciones
     /**
      * Get bdPrinc
      *
-     * @return string 
+     * @return string
      */
     public function getBdPrinc()
     {
@@ -249,7 +254,7 @@ class aplicaciones
     /**
      * Get estado
      *
-     * @return string 
+     * @return string
      */
     public function getEstado()
     {
@@ -272,7 +277,7 @@ class aplicaciones
     /**
      * Get bdPort
      *
-     * @return string 
+     * @return string
      */
     public function getBdPort()
     {
@@ -295,7 +300,7 @@ class aplicaciones
     /**
      * Get bdHost
      *
-     * @return string 
+     * @return string
      */
     public function getBdHost()
     {
@@ -318,7 +323,7 @@ class aplicaciones
     /**
      * Get bdDrive
      *
-     * @return string 
+     * @return string
      */
     public function getBdDrive()
     {
@@ -369,5 +374,41 @@ class aplicaciones
     public function getSecretKey()
     {
         return $this->secretKey;
+    }
+
+    /**
+     * Set idAplic
+     *
+     * @param string $idAplic
+     * @return aplicaciones
+     */
+    public function setIdAplic($idAplic)
+    {
+        $this->idAplic = $idAplic;
+
+        return $this;
+    }
+
+    /**
+     * Set tiempoValidoToken
+     *
+     * @param string $tiempoValidoToken
+     * @return aplicaciones
+     */
+    public function setTiempoValidoToken($tiempoValidoToken)
+    {
+        $this->tiempoValidoToken = $tiempoValidoToken;
+
+        return $this;
+    }
+
+    /**
+     * Get tiempoValidoToken
+     *
+     * @return string
+     */
+    public function getTiempoValidoToken()
+    {
+        return $this->tiempoValidoToken;
     }
 }

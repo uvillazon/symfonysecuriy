@@ -28,7 +28,7 @@ class AplicacionesService
         $repo = $this->em->getRepository('ElfecSgauthBundle:aplicaciones');
         $query = $repo->createQueryBuilder('app');
         if(!is_null($paginacion->contiene)){
-            $query = $repo->consultaContiene($query,["nombre","descripcion","codigo"],$paginacion->contiene);
+            $query = $repo->consultaContiene($query,array("nombre","descripcion","codigo"),$paginacion->contiene);
         }
         $query = $repo->filtrarDatos($query,$array);
         if (is_array($array->get("aplicaciones")) && count($array->get("aplicaciones")) > 0) {

@@ -131,6 +131,18 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
         });
 
 
+        me.num_sessiones_permitidas = Ext.create("App.Config.Componente.NumberFieldBase", {
+            fieldLabel: 'Sessiones Permitidas',
+            name: 'cant_sesiones_permitidas',
+            afterLabelTextTpl: Constantes.REQUERIDO,
+            decimalSeparator: '.',
+            colspan : 2,
+            allowDecimals: false,
+            allowBlank: false
+
+        });
+
+
         me.items = [
             me.txt_id,
             me.txt_codigo,
@@ -142,6 +154,7 @@ Ext.define("App.View.Aplicaciones.FormAplicacion", {
             me.cbx_bd_driver,
             me.txt_host,
             me.num_tiempo_token,
+            me.num_sessiones_permitidas,
             me.txt_secret,
             me.cbx_estado
         ];

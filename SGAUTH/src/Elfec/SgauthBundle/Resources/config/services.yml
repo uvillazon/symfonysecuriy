@@ -63,3 +63,10 @@ services:
     sgauthbundle.areas_service:
             class: Elfec\SgauthBundle\Services\AreasService
             arguments: ["@doctrine.orm.entity_manager" ,"@doctrine.orm.sgauth_entity_manager"]
+
+  #   servicio para Areas
+    web_sockect_service:
+      class: Elfec\SgauthBundle\Services\WebSocketService
+      arguments: ["@doctrine.orm.sgauth_entity_manager"]
+      tags:
+        - { name: gos_web_socket.topic }

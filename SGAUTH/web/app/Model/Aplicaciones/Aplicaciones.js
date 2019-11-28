@@ -16,6 +16,7 @@ Ext.define('App.Model.Aplicaciones.Aplicaciones', {
         { type: "string", name: "bd_drive" },
         { type: "string", name: "app_host" },
         { type: "string", name: "secret_key" },
-        { type: "float", name: "tiempo_valido_token" }
+        { type: "float", name: "tiempo_valido_token" },
+        { type: "int", name: "cant_sesiones_permitidas" }
     ]
 });

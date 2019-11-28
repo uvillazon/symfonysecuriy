@@ -1,20 +1,20 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_pgsql
-    database_host: elflbd02
-    database_port: 5433
+    database_host: elflbd01
+    database_port: 5432
     database_name: autenticacion
-    database_user: usr_autenticacion
-    database_password: aut.May16
+    database_user: uvillazon
+    database_password: uvillazon
     database_eprod_host: ERP_BILLING
     database_eprod_port: 1525
     database_eprod_dbname: EPROD
     database_eprod_user: USRP_SGO
     database_eprod_password: Lfc2018
     gos_web_socket_server_port: 1339
-    gos_web_socket_server_host_ip: 192.168.30.215
+    gos_web_socket_server_host_ip: 192.168.43.85
     gos_web_socket_pusher_port: 1339
-    gos_web_socket_server_host: elflwb01
+    gos_web_socket_server_host: elfec1156
     mailer_transport: mail
     mailer_host: elfmex01.elfec.com
     mailer_user: sisman@elfec.bo

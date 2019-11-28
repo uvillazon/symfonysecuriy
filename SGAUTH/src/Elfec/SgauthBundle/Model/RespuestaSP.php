@@ -15,11 +15,16 @@ class RespuestaSP
     public $msg;
     public $id;
     public $data;
-    public function __construct($success = true, $msg = "Proceso Ejectuado Correctamente", $data = null, $id = null)
+    public $code;
+    public $sessionId;
+
+    public function __construct($success = true, $msg = "Proceso Ejectuado Correctamente", $data = null, $id = null, $code = 200,$sessionId = null)
     {
         $this->success = $success;
         $this->msg = $msg;
         $this->id = $id;
         $this->data = $data;
+        $this->code = $code;
+        $this->sessionId = $sessionId;
     }
 }

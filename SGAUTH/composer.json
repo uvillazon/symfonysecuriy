@@ -36,6 +36,7 @@
         "nilportugues/jsonapi-bundle": "^1.5",
         "nzo/url-encryptor-bundle": "^4.2",
         "oro/doctrine-extensions": "^1.0.13",
+        "gos/web-socket-bundle": "^1.8",
         "phpoffice/phpexcel": "^1.8",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",

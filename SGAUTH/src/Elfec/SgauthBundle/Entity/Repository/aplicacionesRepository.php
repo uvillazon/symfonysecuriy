@@ -31,6 +31,7 @@ class aplicacionesRepository extends BaseRepository
   :p_app_host::varchar,
   :p_secret_key::varchar,
   :p_tiempo_valido_token::numeric,
+  :p_cant_sesiones_permitidas::numeric,
   :p_login_usr::varchar);");
             $st->bindValue(":p_id_aplic",  array_key_exists('id_aplic', $data) ? $data["id_aplic"] === '' ? 0 : $data["id_aplic"] : 0);
             $st->bindValue(":p_codigo", array_key_exists('codigo', $data) ? $data["codigo"] : null);
@@ -44,6 +45,7 @@ class aplicacionesRepository extends BaseRepository
             $st->bindValue(":p_app_host", array_key_exists('app_host', $data) ? $data["app_host"] : null);
             $st->bindValue(":p_secret_key", array_key_exists('secret_key', $data) ? $data["secret_key"] : null);
             $st->bindValue(":p_tiempo_valido_token", array_key_exists('tiempo_valido_token', $data) ? $data["tiempo_valido_token"] : null);
+            $st->bindValue(":p_cant_sesiones_permitidas", array_key_exists('cant_sesiones_permitidas', $data) ? $data["cant_sesiones_permitidas"] : null);
             $st->bindValue(":p_login_usr", $login);
             $st->execute();
             $response = $st->fetchAll();

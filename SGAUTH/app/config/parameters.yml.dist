@@ -9,6 +9,24 @@ parameters:
     database_user: usr_autenticacion
     database_password: aut.May16
 
+
+    # Conexiones a base de datos ORACLE EPROD
+    database_eprod_host: ERP_BILLING
+    database_eprod_port: 1525
+    database_eprod_dbname: EPROD
+    database_eprod_user: USRP_SGO
+    database_eprod_password: Lfc2018
+
+
+
+    #Configuracion de WEBSOCKET
+    #Puerto debe permitir entradas y salidas en el servidor
+    gos_web_socket_server_port: 1339
+    gos_web_socket_server_host_ip: 192.168.30.215
+
+    gos_web_socket_pusher_port: 1339
+    gos_web_socket_server_host: elflwb01
+
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
