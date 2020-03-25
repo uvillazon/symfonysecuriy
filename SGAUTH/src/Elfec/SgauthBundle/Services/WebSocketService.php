@@ -69,6 +69,7 @@ class WebSocketService implements TopicInterface, PushableTopicInterface
         var_dump("onPublish => autenticacion");
         var_dump($event);
         var_dump($connection->WAMP->sessionId);
+
         $res = $this->em->getRepository("ElfecSgauthBundle:Sessiones")->actualizarSession($connection->WAMP->sessionId, $event);
         $topic->broadcast($res);
 //        $topic->broadcast(

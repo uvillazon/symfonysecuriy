@@ -2,8 +2,13 @@
     var ALERT_TITLE = "ATENCION!";
     var ALERT_BUTTON_TEXT = "Aceptar";
     var SEGURIDAD_BUTTON_TEXT = "Reintentar";
+    var URL_SOCKET = "ws://elflwb03:1339";
     var MSG = "AL INGRESAR A ESTE SISTEMA, USTED SE COMPROMETE A CUMPLIR CON LO ESTABLECIDO EN LA POLITICA DE  SEGURIDAD DE  INFORMACIÓN DE LA EMPRESA  Y CERTIFICA SER EL USUARIO DE INGRESO";
     var cantLS = localStorage.length;
+
+    console.log("=========================================================");
+    console.log(window.location.href);
+    console.log("=========================================================");
     if (cantLS > 0) {
         if (esValidaElToken()) {
             console.log("procede a controlar los inicios de session");
@@ -57,7 +62,7 @@
     }
 
     function initSockect() {
-        var websocket = WS.connect("ws://elfec1156:1339");
+        var websocket = WS.connect(URL_SOCKET);
 
         websocket.on("socket/connect", function (session) {
             session.subscribe("websocket/autenticacion", function (uri, payload) {
@@ -71,7 +76,6 @@
                         createCustomAlert(payload.msg);
                     }
                 }
-                // createCustomAlert("entroo");
             });
             session.publish("websocket/autenticacion", {token: getToken(), codigoApp: getQueryParam('codigoApp')});
         });
@@ -79,9 +83,20 @@
 
     function getToken() {
         var token = "";
+        console.log("sessionStorage ===================================>");
+        // console.log(sessionStorage);
         Object.keys(localStorage).forEach(function (key) {
             var keyValue = key.toUpperCase();
-            if (keyValue.search("TOKEN") > -1) {
+            console.log(keyValue);
+            var href = "";
+            if (getQueryParam('codigoApp') === 'SGCST') {
+                href = window.location.origin + "/";
+            } else {
+                href = window.location.href.split('#')[0];
+            }
+            href = href.toUpperCase();
+            console.log(href + "TOKEN");
+            if (keyValue.search(href + "TOKEN") > -1 || keyValue.search(href + "JWT") > -1) {
                 token = localStorage[key];
                 return token;
             }
@@ -173,7 +188,10 @@
 
     function getQueryParam(name) {
         var scriptEls = document.getElementsByTagName('script');
+        console.log(scriptEls);
         var path = scriptEls[scriptEls.length - 1].src;
+        console.log(path);
+        console.log("================================>");
         var regex = RegExp('[?&]' + name + '=([^&]*)');
 
         var match = regex.exec(location.search) || regex.exec(path);

@@ -116,14 +116,47 @@ class BaseRepository extends EntityRepository
      */
     public function obtenerElementosPaginados($query, $paginacion)
     {
-        $alias = $query->getRootAlias();
-        $this->configPaginacion($paginacion);
-//        var_dump($paginacion);
-        $fieldMapping = $this->getClassMetadata()->getFieldForColumn($paginacion->sort);
-        $order = sprintf("%s.%s", $alias, $fieldMapping);
-        $query->addOrderBy($order, $paginacion->dir)->setFirstResult($paginacion->start)->setMaxResults($paginacion->limit);
+        $alias = $query->getRootAliases()[0];
+        $query = $this->ordenarPor($query, $paginacion);
+        $query->setFirstResult($paginacion->start)->setMaxResults($paginacion->limit);
         return $query;
 
+
+    }
+
+    /**
+     * @param \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder $query
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @return \Doctrine\ORM\Query|\Doctrine\ORM\QueryBuilder
+     */
+    public function ordenarPor($query, $paginacion)
+    {
+        $alias = $query->getRootAliases()[0];
+        if ($paginacion->multiSort) {
+            $objectSort = json_decode($paginacion->sort, true);
+            foreach ($objectSort as $objet) {
+                $direccion = $this->getValueArray($objet, $this->sortDirection, "ASC");
+                $propiedad = $this->getValueArray($objet, $this->sortProperty, $this->getClassMetadata()->getIdentifier()[0]);
+                try {
+                    $fieldMapping = $this->getClassMetadata()->getFieldForColumn($propiedad);
+                } catch (\Exception $e) {
+                    $fieldMapping = $this->getClassMetadata()->getIdentifier()[0];
+                }
+                $order = sprintf("%s.%s", $alias, $fieldMapping);
+                $query->addOrderBy($order, $direccion);
+            }
+        } else {
+            $this->configPaginacion($paginacion);
+            try {
+                $fieldMapping = $this->getClassMetadata()->getFieldForColumn($paginacion->sort);
+            } catch (\Exception $e) {
+                $fieldMapping = $this->getClassMetadata()->getIdentifier()[0];
+            }
+            $order = sprintf("%s.%s", $alias, $fieldMapping);
+            $query->addOrderBy($order, $paginacion->dir);
+
+        }
+        return $query;
     }
 
     /**

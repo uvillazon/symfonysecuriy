@@ -8,7 +8,7 @@
  */
 (function () {
     var cantLS = localStorage.length;
-    var pathLib = "http://elflwb03/sgauth/lib/socket";
+    var pathLib = "http://elflwb01/sgauth/lib/socket";
     var scriptEls = document.getElementsByTagName('script');
     var path = scriptEls[scriptEls.length - 1].src;
     var codigoApp = getQueryParam('codigoApp');
@@ -20,7 +20,7 @@
         return match && decodeURIComponent(match[1]);
     }
 
-    document.write('<link rel="stylesheet" type="text/css" href="http://elflwb03/sgauth/Content/advertencia/autenticacion.css"/>');
+    document.write('<link rel="stylesheet" type="text/css" href="http://elflwb01/sgauth/Content/advertencia/autenticacion.css"/>');
     document.write('<script type="text/javascript" src="' + pathLib + '/autobahn.min.js"></script>');
     document.write('<script type="text/javascript" src="' + pathLib + '/gos_web_socket_client.js"></script>');
     document.write('<script type="text/javascript" src="' + pathLib + '/timeout.js?codigoApp=' + codigoApp + '"></script>');

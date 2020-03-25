@@ -18,7 +18,7 @@ Ext.define('App.Model.Directorios.Destinatarios', {
     proxy: {
         type: 'rest',
         url : Constantes.HOST + 'directorios/destGrupos'   ,
-        headers: {'Authorization': "Bearer "+window.localStorage.token },
+        headers: {'Authorization': "Bearer "+Constantes.TOKEN },
     }
 });
 

@@ -58,8 +58,8 @@ class JWTListener implements ListenerInterface
         } else {
             try {
 //            $encoder = str_replace("Bearer ", "", $request->headers->get('Authorization'));
-
-                $decoded = JWT::decode($encoder, $this->secret, array('HS256'));
+//var_dump($encoder);die();
+                $decoded = JWT::decode( trim($encoder), $this->secret, array('HS256'));
 //                var_dump($decoded);die();
 //                var_dump($decoded);
                 $token = new JWTUserToken();

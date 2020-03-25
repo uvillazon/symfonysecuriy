@@ -32,9 +32,8 @@ Ext.define("App.View.Usuarios.FormUsuario", {
         //me.hid_perfil = Ext.widget('hiddenfield', {
         //    name: 'ID_PERFIL',
         //});
-
-        me.store_usuarioAd = Ext.create("App.Store.Usuarios.UsuariosAD").load();
-        me.txt_nombre = Ext.create("App.Config.Componente.ComboBase", {
+        me.store_usuarioAd = Ext.create("App.Store.Usuarios.UsuariosAD");
+        me.txt_nombre = Ext.create("App.Config.Componente.ComboAutoBase", {
             fieldLabel: 'Nombres',
             displayField: 'nombre',
             valueField: 'nombre',
@@ -49,6 +48,28 @@ Ext.define("App.View.Usuarios.FormUsuario", {
                 return '<h4>{codigo}</h4>  {nombre}';
             }
         });
+
+        me.rg_filtro = Ext.create('Ext.form.RadioGroup',{
+            fieldLabel: 'Buscar Por',
+            bodyPadding: 10,
+            columns: 2,
+            colspan: 2,
+            width: 480,
+            items: [
+                { boxLabel: 'Nombre y Apellido', name: 'condicion', inputValue: 'cn' ,checked: true},
+                { boxLabel: 'Login', name: 'condicion', inputValue: 'samaccountname'}
+            ],
+            listeners : {
+                change  : function (rg,newValue , oldValue) {
+                    me.store_usuarioAd.setExtraParams(newValue);
+                    me.txt_nombre.reset();
+                    // me.store_usuarioAd.load();
+                    // console.log(newValue);
+                    // console.log(oldValue);
+                }
+            }
+        });
+
         // me.txt_nombre = Ext.create("App.Config.Componente.TextFieldBase", {
         //     fieldLabel: "Nombre Completo",
         //     name: "nombre",
@@ -144,6 +165,7 @@ Ext.define("App.View.Usuarios.FormUsuario", {
         });
         me.items = [
             me.txt_id,
+            me.rg_filtro,
             me.txt_nombre,
             me.txt_login, me.cbx_area,
             me.txt_email,

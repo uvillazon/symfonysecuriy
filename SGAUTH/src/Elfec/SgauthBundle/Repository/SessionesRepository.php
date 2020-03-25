@@ -49,7 +49,9 @@ class SessionesRepository extends BaseRepository
              * @var aplicaciones $app
              */
 
+            $this->_em->beginTransaction();
             $app = $this->_em->getRepository("ElfecSgauthBundle:aplicaciones")->findOneBy(array("codigo" => $array["codigoApp"]));
+            $this->_em->commit();
             if (empty($app)) {
                 return new RespuestaSP(false, "El codigoApp no existe en el sistema de autenticacion. por favor consulta con TI", null, null, 400, $sessionId);
             }
@@ -63,11 +65,13 @@ class SessionesRepository extends BaseRepository
             $this->_em->persist($session);
             $this->_em->flush();
             $sessiones = $this->findBy(array("aplicId" => $decoded->usuario->id_aplic, "usuarioId" => $decoded->usuario->id_usuario));
+            var_dump(count($sessiones));
+            var_dump($app->getCantSesionesPermitidas());
             if (count($sessiones) > $app->getCantSesionesPermitidas()) {
                 $this->_em->remove($session);
                 $this->_em->flush();
 
-                return new RespuestaSP(false, "Ha excedido la cantidad de sesiones permitida. Consulte con T.I. para la ampliación", null, null, 400, $sessionId);
+                return new RespuestaSP(false, "Ha excedido la cantidad de sesiones permitidas.", null, null, 400, $sessionId);
             }
             return new RespuestaSP(true, "proceso ejecutado correctamente", $session, null, 200, $sessionId);
 

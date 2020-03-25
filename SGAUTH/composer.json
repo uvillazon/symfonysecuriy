@@ -45,6 +45,7 @@
         "symfony/symfony": "2.8.*",
         "tiesa/ldap": "dev-master",
         "twig/twig": "^1.0||^2.0",
+        "adldap2/adldap2": "^10.0",
         "willdurand/hateoas": "^2.11"
     },
     "require-dev": {

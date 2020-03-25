@@ -67,7 +67,7 @@ Ext.onReady(function () {
                                 waitTitle: 'Conectando',
                                 waitMsg: 'Verificando credenciales...',
                                 success: function (form,action) {
-                                    window.localStorage.setItem("token_sgauth",action.result.data.token);
+                                    window.localStorage.setItem("token",action.result.data.token);
                                     window.localStorage.setItem("usuario_sgauth",JSON.stringify(action.result.data.usuario));
                                     window.localStorage.setItem("menu_sgauth",JSON.stringify(action.result.data.menu));
                                     window.localStorage.setItem("aplicacion_sgauth",JSON.stringify(action.result.data.aplicacion));
@@ -134,7 +134,7 @@ Ext.onReady(function () {
                     // you define as redirect. 
 
                     success: function (form,action) {
-                        window.localStorage.setItem("token_sgauth",action.result.data.token);
+                        window.localStorage.setItem("token",action.result.data.token);
                         window.localStorage.setItem("usuario_sgauth",JSON.stringify(action.result.data.usuario));
                         window.localStorage.setItem("menu_sgauth",JSON.stringify(action.result.data.menu));
                         window.localStorage.setItem("aplicacion_sgauth",JSON.stringify(action.result.data.aplicacion));

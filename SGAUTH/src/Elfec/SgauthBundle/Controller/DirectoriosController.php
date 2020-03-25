@@ -237,7 +237,9 @@ class DirectoriosController extends BaseController
      * )
      */
     public function deleteDestinatariosGruposDireccionesAction($id){
+//        var_dump($id);
         $Usertoken = $this->container->get("JWTUser");
+//        var_dump($Usertoken);
         $login = $Usertoken->login;
 
         $servicio = $this->get('sgauthbundle.directorios_service');

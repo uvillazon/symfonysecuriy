@@ -14,7 +14,7 @@ Ext.define("App.Config.Funciones", {
     nameReport: '',
     paramsReport: '',
     //token: "",
-    token: {'Authorization': "Bearer " + window.localStorage.token_sgauth},
+    token: {'Authorization': "Bearer " + window.localStorage.getItem('token')},
     constructor: function (config) {
         if (config == null) {
             config = {};
@@ -26,8 +26,7 @@ Ext.define("App.Config.Funciones", {
     Fecha: function (value, record) {
         if (value == null) {
             return null;
-        }
-        else {
+        } else {
             var milli = value.replace(/\/Date\((-?\d+)\)\//, '$1');
             var d = new Date(parseInt(milli));
             return d;
@@ -42,8 +41,7 @@ Ext.define("App.Config.Funciones", {
             if (o.hidden == true || Funciones.EsComponenteNombre(o, array)) {
                 o.setDisabled(false);
                 o.setReadOnly(false);
-            }
-            else {
+            } else {
                 o.setDisabled(true);
                 o.setReadOnly(false);
             }
@@ -56,15 +54,13 @@ Ext.define("App.Config.Funciones", {
                     if (o.isHidden() == false) {
                         if (Funciones.EsComponenteBoton(o, array) == false) {
                             o.setDisabled(true);
-                        }
-                        else {
+                        } else {
                             o.setDisabled(false);
                         }
                     }
                 });
             }
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     },
@@ -74,8 +70,7 @@ Ext.define("App.Config.Funciones", {
         Ext.each(els, function (o) {
             if (Funciones.EsComponenteNombre(o, array)) {
                 o.setReadOnly(false);
-            }
-            else {
+            } else {
                 o.setReadOnly(true);
             }
 
@@ -87,8 +82,7 @@ Ext.define("App.Config.Funciones", {
                     o.setDisabled(true);
                 }
             });
-        }
-        catch (e) {
+        } catch (e) {
             Console.log(e)
         }
     },
@@ -102,12 +96,10 @@ Ext.define("App.Config.Funciones", {
                 if (readOnly) {
                     o.setReadOnly(readOnly);
                     o.setDisabled(false);
-                }
-                else {
+                } else {
                     o.setDisabled(true);
                 }
-            }
-            else {
+            } else {
                 o.setDisabled(false);
             }
 
@@ -117,16 +109,14 @@ Ext.define("App.Config.Funciones", {
             Ext.each(btn, function (o) {
                 if (Funciones.EsComponenteBoton(o, array) == false) {
                     o.setDisabled(false);
-                }
-                else {
+                } else {
                     o.setDisabled(true);
                 }
                 //if (o.isDisabled() == true) {
                 //    o.setDisabled(false);
                 //}
             });
-        }
-        catch (e) {
+        } catch (e) {
             Console.log(e)
         }
     },
@@ -175,8 +165,7 @@ Ext.define("App.Config.Funciones", {
         });
         try {
             menu.add(boton);
-        }
-        catch (e) {
+        } catch (e) {
             return boton;
         }
     },
@@ -215,16 +204,14 @@ Ext.define("App.Config.Funciones", {
                             if (grid != null) {
                                 try {
                                     grid.getStore().load();
-                                }
-                                catch (err) {
+                                } catch (err) {
                                     grid.load();
                                 }
                             }
                             if (win != null) {
                                 try {
                                     win.destruirWin ? win.close() : win.hide();
-                                }
-                                catch (err) {
+                                } catch (err) {
                                     win.hide();
                                 }
 
@@ -239,8 +226,7 @@ Ext.define("App.Config.Funciones", {
                 }
             });
 
-        }
-        else {
+        } else {
             Ext.MessageBox.alert('Error', "Falta Parametros. Revisar Formulario.");
         }
     },
@@ -267,8 +253,7 @@ Ext.define("App.Config.Funciones", {
                             if (grid != null) {
                                 try {
                                     grid.getStore().load();
-                                }
-                                catch (err) {
+                                } catch (err) {
                                     grid.load();
                                 }
                             }
@@ -290,8 +275,7 @@ Ext.define("App.Config.Funciones", {
                 }
             });
 
-        }
-        else {
+        } else {
             Ext.MessageBox.alert('Error', "Falta Parametros. Revisar Formulario.");
         }
     },
@@ -329,8 +313,7 @@ Ext.define("App.Config.Funciones", {
                 }
             });
 
-        }
-        else {
+        } else {
             Ext.MessageBox.alert('Error', "Falta Parametros. Revisar Formulario.");
         }
     },
@@ -361,8 +344,7 @@ Ext.define("App.Config.Funciones", {
                 }
             });
 
-        }
-        else {
+        } else {
             Ext.MessageBox.alert('Error', "Falta Parametros. Revisar Formulario.");
         }
     },
@@ -377,11 +359,9 @@ Ext.define("App.Config.Funciones", {
         for (x in cadena) {
             if (x == 0) {
                 separador = cadena[x];
-            }
-            else if (x == 1) {
+            } else if (x == 1) {
                 result = record.get(cadena[x]);
-            }
-            else {
+            } else {
                 result = result + "" + separador + "" + record.get(cadena[x]);
             }
         }
@@ -390,8 +370,7 @@ Ext.define("App.Config.Funciones", {
     MaterialesCSS: function (v, record) {
         if (record.get('IDSTATUS') == 0) {
             return "MatInactivosCSS";
-        }
-        else {
+        } else {
             return "";
         }
     },
@@ -414,16 +393,14 @@ Ext.define("App.Config.Funciones", {
                         if (cmpArray != null) {
                             Funciones.loadResultCmpArray(cmpArray, str.Result);
                         }
-                    }
-                    catch (e) {
+                    } catch (e) {
                         Funciones.loadRecordCmp(cmp, str.Result);
                         if (cmpArray != null) {
                             Funciones.loadResultCmpArray(cmpArray, str.Result);
                         }
                     }
                     //return true;
-                }
-                else {
+                } else {
                     if (cmpArray != null) {
                         Funciones.resetCmpArray(cmpArray);
                     }
@@ -449,8 +426,7 @@ Ext.define("App.Config.Funciones", {
                 var str = Ext.JSON.decode(response.responseText);
                 if (str.success == true) {
                     Funciones.loadResultCmpArray(cmpArray, str.Result);
-                }
-                else {
+                } else {
                     Funciones.resetCmpArray(cmpArray);
                     if (win != null) {
                         win.show();
@@ -477,17 +453,14 @@ Ext.define("App.Config.Funciones", {
                             if (grid != null && win != null) {
                                 grid.getStore().load();
                                 destruirwin == null ? win.hide() : win.close();
-                            }
-                            else if (grid != null && win == null) {
+                            } else if (grid != null && win == null) {
                                 grid.getStore().load();
-                            }
-                            else if (grid == null && win != null) {
+                            } else if (grid == null && win != null) {
                                 //win.hide();
                                 destruirwin == null || !win.destruirwin ? win.hide() : win.close();
                             }
                             Ext.MessageBox.alert('Exito', str.msg);
-                        }
-                        else {
+                        } else {
                             Ext.MessageBox.alert('Error', str.msg);
                         }
                     },
@@ -512,19 +485,16 @@ Ext.define("App.Config.Funciones", {
                                 for (i = 0; i < winArray.length; i++) {
                                     destruirwin == null ? winArray[i].hide() : winArray[i].close();
                                 }
-                            }
-                            else if (grid != null && win == null) {
+                            } else if (grid != null && win == null) {
                                 grid.getStore().load();
-                            }
-                            else if (grid == null && winArray != null) {
+                            } else if (grid == null && winArray != null) {
                                 for (i = 0; i < winArray.length; i++) {
                                     destruirwin == null ? winArray[i].hide() : winArray[i].close();
                                 }
                                 //destruirwin == null ? win.hide() : win.close();
                             }
                             Ext.MessageBox.alert('Exito', str.msg);
-                        }
-                        else {
+                        } else {
                             Ext.MessageBox.alert('Error', str.msg);
                         }
                     },
@@ -546,18 +516,15 @@ Ext.define("App.Config.Funciones", {
                     if (grid != null && win != null) {
                         grid.getStore().load();
                         win.hide();
-                    }
-                    else if (grid != null && win == null) {
+                    } else if (grid != null && win == null) {
                         grid.getStore().load();
-                    }
-                    else if (grid == null && win != null) {
+                    } else if (grid == null && win != null) {
                         win.hide();
                     }
                     if (showExito == null) {
                         Ext.MessageBox.alert('Exito', str.msg);
                     }
-                }
-                else {
+                } else {
                     Ext.MessageBox.alert('Error', str.msg);
                 }
             },
@@ -578,18 +545,15 @@ Ext.define("App.Config.Funciones", {
                     if (grid != null && win != null) {
                         grid.getStore().load();
                         win.hide();
-                    }
-                    else if (grid != null && win == null) {
+                    } else if (grid != null && win == null) {
                         grid.getStore().load();
-                    }
-                    else if (grid == null && win != null) {
+                    } else if (grid == null && win != null) {
                         win.hide();
                     }
                     if (showExito == null) {
                         // Ext.MessageBox.alert('Exito', str.msg);
                     }
-                }
-                else {
+                } else {
                     Ext.MessageBox.alert('Error', str.msg);
                 }
             },
@@ -615,8 +579,7 @@ Ext.define("App.Config.Funciones", {
                                 //grid.getStore().load();
                             }
                             Ext.MessageBox.alert('Exito', str.msg);
-                        }
-                        else {
+                        } else {
                             Ext.MessageBox.alert('Error', str.msg);
                         }
                     },
@@ -633,8 +596,7 @@ Ext.define("App.Config.Funciones", {
             });
             recordsToSend = Ext.JSON.encode(recordsToSend);
             return recordsToSend;
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -769,8 +731,7 @@ Ext.define("App.Config.Funciones", {
                         record.set(recordName, name[recordName]);
                         record.set(recordId, name[recordId]);
                     });
-                }
-                else {
+                } else {
                     if (win != null) {
                         win.show();
                     }
@@ -794,16 +755,14 @@ Ext.define("App.Config.Funciones", {
                             try {
                                 record.set(recordArray[i], name[recordArray[i]]);
                                 //return false;
-                            }
-                            catch (e) {
+                            } catch (e) {
                                 console.log(e);
                             }
                             //alert(recordArray[i]);
                             //alert(name);
                         }
                     });
-                }
-                else {
+                } else {
                     if (win != null) {
                         win.show();
                     }
@@ -900,8 +859,7 @@ Ext.define("App.Config.Funciones", {
     DisabledButton: function (id, component, disabled) {
         try {
             component.down('#' + id).setDisabled(disabled);
-        }
-        catch (e) {
+        } catch (e) {
 
         }
     },
@@ -921,13 +879,11 @@ Ext.define("App.Config.Funciones", {
         try {
             if (hidden) {
                 component.down('#' + id).hide();
-            }
-            else {
+            } else {
                 component.down('#' + id).show();
             }
 
-        }
-        catch (e) {
+        } catch (e) {
 
         }
     },
@@ -990,8 +946,7 @@ Ext.define("App.Config.Funciones", {
         if (!fn.isEmpty(val)) {
             return '<a id="' + val + '"class="href_css" href="#" onClick="Rep.VerReporteObjeto(this.id)">' + val + '</a>';
 
-        }
-        else {
+        } else {
             return "";
         }
         //<a class="test" id="test" href="#" onClick="Ext.get('componentid').openwindow();"></a>
@@ -1000,8 +955,7 @@ Ext.define("App.Config.Funciones", {
         if (!fn.isEmpty(val)) {
             return '<a id="' + val + '"class="href_cssSM" href="#" onClick="Rep.VerSMPorId(this.id)">' + val + '</a>';
 
-        }
-        else {
+        } else {
             return "";
         }
     },
@@ -1065,15 +1019,13 @@ Ext.define("App.Config.Funciones", {
         form.getForm().getFields().each(function (field) {
             if (field.rendered && field.isFileUpload()) {
                 formData.append('archivo', field.extractFileInput().files[0]);
-            }
-            else {
+            } else {
                 // console.log(field.xtype + '  -  ' + field.getValue());
                 if (!Ext.isEmpty(field.getValue())) {
                     if (field.xtype == 'datefield') {
                         console.log(field);
                         formData.append(field.getName(), Ext.Date.format(field.getValue(), 'Y-m-d'));
-                    }
-                    else {
+                    } else {
                         formData.append(field.getName(), field.getValue());
                     }
 
@@ -1090,7 +1042,7 @@ Ext.define("App.Config.Funciones", {
                 url: Constantes.HOST + '' + accion + '',
                 type: method,
                 beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', "Bearer " + window.localStorage.token_sgauth);
+                    xhr.setRequestHeader('Authorization', "Bearer " + window.localStorage.getItem('token'));
                 },
                 xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
@@ -1099,7 +1051,7 @@ Ext.define("App.Config.Funciones", {
                 success: function (data) {
                     deferred.resolve(data);
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
                     // alert("Status: " + textStatus); alert("Error: " + errorThrown);
                     deferred.reject(errorThrown);
                 },
@@ -1113,8 +1065,7 @@ Ext.define("App.Config.Funciones", {
                 contentType: false,
                 processData: false
             }, 'json');
-        }
-        else {
+        } else {
             //caso validar el tamaño del archivo
             tamArchivo = validUpload.hasOwnProperty('maxSize') ? validUpload.maxSize : null;
             if (tamArchivo != null)
@@ -1131,16 +1082,13 @@ Ext.define("App.Config.Funciones", {
                 var size = form.get('archivo').size;
                 if (size > (maxSize * 1024 * 1024)) {//1024*1024 representan 1 MB
                     return false;
-                }
-                else {
+                } else {
                     return true;
                 }
-            }
-            else {
+            } else {
                 return true;
             }
-        }
-        else {
+        } else {
             return true;
         }
     },

@@ -283,6 +283,7 @@ class UsuariosService
 
 
     //Rest Api For Other Aplicaction
+
     /**
      * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
      * @param array $array
@@ -346,7 +347,74 @@ class UsuariosService
         return $result;
     }
 
-    public function obtenerUsuariosActiveDirectory()
+
+    /**
+     * @param \Elfec\SgauthBundle\Model\PaginacionModel $paginacion
+     * @return \Elfec\CommonBundle\Model\ResultPaginacion
+     * @throws \Exception
+     */
+    public function obtenerUsuariosActiveDirectory($paginacion)
+    {
+//        var_dump($paginacion);
+
+        $ad = new \Adldap\Adldap();
+        $config = array(
+            // An array of your LDAP hosts. You can use either
+            // the host name or the IP address of your host.
+            'hosts' => array('elffls01.elfec.com'),
+
+            // The base distinguished name of your domain to perform searches upon.
+            'base_dn' => 'OU=ELFEC,DC=elfec,DC=com',
+
+            // The account to use for querying / modifying LDAP records. This
+            // does not need to be an admin account. This can also
+            // be a full distinguished name of the user account.
+            'username' => 'sisman@elfec.com',
+            'password' => 'Agto.2013E'
+        );
+        $ad->addProvider($config);
+        $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
+        try {
+            $provider = $ad->connect();
+            $filter = '(objectCategory=person)';
+            $search = $provider->search()->rawFilter($filter);
+            if (!is_null($paginacion->contiene)) {
+                if (!empty($paginacion->condicion)) {
+                    $search->whereContains($paginacion->condicion, $paginacion->contiene);
+                } else {
+                    $search->whereContains('cn', $paginacion->contiene);
+                }
+            }
+            $paginator = $search->paginate($paginacion->limit, $paginacion->page);
+            $result->total = $paginator->count();
+            /**
+             * @var \Adldap\Models\User $item
+             */
+            $rows = array();
+            foreach ($paginator as $item) {
+//                var_dump($item);
+                $row = array(
+                    "nombre" => $item->getName(),
+                    "fecha_expiracion" => $item->expirationDate(),
+                    "descripcion" => $item->getDescription(),
+                    "login" => $item->getFirstAttribute('samaccountname'),
+                    "mail" => $item->getFirstAttribute('mail'),
+                    "e  mail" => $item->getFirstAttribute('mail'),
+                    "tumb" => base64_encode($item->getThumbnail()),
+                    "is_active" => $item->isActive(),
+                    "is_expired" => $item->isExpired()
+                );
+                array_push($rows, $row);
+            }
+            $result->rows = $rows;
+        } catch (\Exception $e) {
+            $result->success = false;
+            $result->msg = $e->getMessage();
+        }
+        return $result;
+    }
+
+    public function obtenerUsuariosActiveDirectoryOld()
     {
         $result = new \Elfec\SgauthBundle\Model\ResultPaginacion();
         try {

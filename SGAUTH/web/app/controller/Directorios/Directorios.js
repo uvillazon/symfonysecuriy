@@ -126,15 +126,25 @@ Ext.define('App.controller.Directorios.Directorios', {
         var me = this;
         Ext.MessageBox.confirm('Confirmacion?', "Esta Seguro de Eliminar", function (btn) {
             if (btn == 'yes') {
-                me.recordGrupoDest.erase();
+                me.recordGrupoDest.erase({
+                    failure: function (record, operation) {
+                        console.log(operation);
+                        Ext.MessageBox.alert('Error', "Ocurrio algun error consulte con TI");
+                    },
+                    success: function (record, operation) {
+                        console.log(operation);
+                        Ext.MessageBox.alert('Exito', "proceso ejecutado correctamente");
+                        // do something if the erase succeeded
+                    }
+
+                });
+
+                // console.dir(me.recordGrupoDest);
+                // Funciones.AjaxRequestGrid('directorios', 'destGrupos', me.cmpPrincipal, 'Esta Seguro de Eliminar', {
+                //     id_lista: me.record.get('id_lista')
+                // }, me.cmpPrincipal.grid);
             }
+
         });
-
-        // console.dir(me.recordGrupoDest);
-        // Funciones.AjaxRequestGrid('directorios', 'destGrupos', me.cmpPrincipal, 'Esta Seguro de Eliminar', {
-        //     id_lista: me.record.get('id_lista')
-        // }, me.cmpPrincipal.grid);
     }
-
-})
-;
+});

@@ -127,6 +127,13 @@ class usuarios
     private $telefono;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="base_tropico", type="boolean", nullable=false)
+     */
+    private $baseTropico;
+
+    /**
      * @var \areas
      *
      * @ORM\ManyToOne(targetEntity="areas")
@@ -497,5 +504,29 @@ class usuarios
     public function getTelefono()
     {
         return $this->telefono;
+    }
+
+    /**
+     * Set baseTropico
+     *
+     * @param boolean $baseTropico
+     *
+     * @return usuarios
+     */
+    public function setBaseTropico($baseTropico)
+    {
+        $this->baseTropico = $baseTropico;
+
+        return $this;
+    }
+
+    /**
+     * Get baseTropico
+     *
+     * @return boolean
+     */
+    public function getBaseTropico()
+    {
+        return $this->baseTropico;
     }
 }

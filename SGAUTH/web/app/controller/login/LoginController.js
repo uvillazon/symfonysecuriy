@@ -13,13 +13,16 @@ Ext.define('App.controller.Login.LoginController', {
         return loginService.login(credenciales).then({
             success: function (res) {
                 console.log(res);
+                console.log(localStorageService);
+                // alert("entroo");
                 localStorageService.set("token", res.data.token);
                 localStorageService.set("user", res.data.usuario);
                 localStorageService.set("menu", res.data.menu);
-                window.localStorage.setItem("token_sgauth", res.data.token);
+                window.localStorage.setItem("token", res.data.token);
                 window.localStorage.setItem("usuario_sgauth", JSON.stringify(res.data.usuario));
                 window.localStorage.setItem("menu_sgauth", JSON.stringify(res.data.menu));
                 window.localStorage.setItem("aplicacion_sgauth", JSON.stringify(res.data.aplicacion));
+                // window.sessionStorage.setItem("token",res.data.token);
                 // window.location = Constantes.obtenerHost();
                 // window.location.reload();
                 _this.getView().close();
