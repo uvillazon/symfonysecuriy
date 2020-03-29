@@ -20,6 +20,7 @@ class PaginacionModel
     public $contiene;
     public $startDate;
     public $endDate;
+    public $multiSort = false;
 
     /**
      * @return bool
@@ -33,5 +34,22 @@ class PaginacionModel
             }
         }
         return $result;
+    }
+    public function conIntervaloFecha()
+    {
+        $result = true;
+        if (empty($this->startDate) || empty($this->endDate)) {
+            $result = false;
+        } else {
+            $result = true;
+        }
+//        var_dump($this);
+        return $result;
+    }
+
+    public function setIntervaloDeFecha($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
     }
 }

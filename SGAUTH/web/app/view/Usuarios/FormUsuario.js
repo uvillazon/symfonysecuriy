@@ -7,6 +7,28 @@ Ext.define("App.View.Usuarios.FormUsuario", {
     cargarStores: true,
     //Observar el ultimo comentario de la transicion de ESTADO
     verObservacion: true,
+    listeners: {
+        boxready: 'onBoxready'
+    },
+    config: {
+        usuario: null
+    },
+    onBoxready: function () {
+        var me = this;
+
+        console.log('onBoxready FormUsuario');
+        console.log(me.getUsuario());
+        if(Ext.isEmpty(me.getUsuario()))
+        {
+            me.rg_baseTropico.setDisabled(true);
+        }
+        else{
+            if(Ext.isEmpty(me.getUsuario().get('idproveedor'))){
+                me.rg_baseTropico.setDisabled(true);
+            }
+        }
+
+    },
     initComponent: function () {
         var me = this;
         me.CargarComponentes();
@@ -19,6 +41,14 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             console.dir(rec);
             me.txt_login.setValue(rec.get('login'));
             me.txt_email.setValue(rec.get('email'));
+        });
+        me.cbx_proveedor.on('select',function () {
+            me.rg_baseTropico.setDisabled(false);
+        });
+        me.cbx_proveedor.on('change',function (cbx,newValue,oldValue) {
+            if(Ext.isEmpty(newValue)){
+                me.rg_baseTropico.setDisabled(true);
+            }
         });
 
     },
@@ -42,25 +72,25 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             name: 'nombre',
             colspan: 2,
             width: 480,
-            anyMatch : true,
+            anyMatch: true,
             store: me.store_usuarioAd,
             textoTpl: function () {
                 return '<h4>{codigo}</h4>  {nombre}';
             }
         });
 
-        me.rg_filtro = Ext.create('Ext.form.RadioGroup',{
+        me.rg_filtro = Ext.create('Ext.form.RadioGroup', {
             fieldLabel: 'Buscar Por',
             bodyPadding: 10,
             columns: 2,
             colspan: 2,
             width: 480,
             items: [
-                { boxLabel: 'Nombre y Apellido', name: 'condicion', inputValue: 'cn' ,checked: true},
-                { boxLabel: 'Login', name: 'condicion', inputValue: 'samaccountname'}
+                {boxLabel: 'Nombre y Apellido', name: 'condicion', inputValue: 'cn', checked: true},
+                {boxLabel: 'Login', name: 'condicion', inputValue: 'samaccountname'}
             ],
-            listeners : {
-                change  : function (rg,newValue , oldValue) {
+            listeners: {
+                change: function (rg, newValue, oldValue) {
                     me.store_usuarioAd.setExtraParams(newValue);
                     me.txt_nombre.reset();
                     // me.store_usuarioAd.load();
@@ -70,6 +100,23 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             }
         });
 
+        me.rg_baseTropico = Ext.create('Ext.form.RadioGroup', {
+            fieldLabel: 'Proveedor con base en TROPICO',
+            bodyPadding: 10,
+            columns: 2,
+            colspan: 2,
+            width: 480,
+            items: [
+                {boxLabel: 'SI', name: 'base_tropico', inputValue: 'true'},
+                {boxLabel: 'NO', name: 'base_tropico', inputValue: 'false', checked: true}
+            ],
+            // listeners : {
+            //     change  : function (rg,newValue , oldValue) {
+            //         me.store_usuarioAd.setExtraParams(newValue);
+            //         me.txt_nombre.reset();\
+            //     }
+            // }
+        });
         // me.txt_nombre = Ext.create("App.Config.Componente.TextFieldBase", {
         //     fieldLabel: "Nombre Completo",
         //     name: "nombre",
@@ -139,10 +186,10 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             valueField: 'idempleado',
             name: 'idempleado',
             store: me.store_empleado,
-            listConfig : {
+            listConfig: {
                 loadingText: 'Buscando',
                 emptyText: 'No Existe Resultado',
-                getInnerTpl :  function () {
+                getInnerTpl: function () {
                     return '<h4>{idempleado}</h4>  {nombre}';
                 }
             }
@@ -155,10 +202,10 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             valueField: 'idproveedor',
             name: 'idproveedor',
             store: me.store_proveedor,
-            listConfig : {
+            listConfig: {
                 loadingText: 'Buscando',
                 emptyText: 'No Existe Resultado',
-                getInnerTpl :  function () {
+                getInnerTpl: function () {
                     return '<h4>{idproveedor}</h4>  {descripcion}';
                 }
             }
@@ -170,7 +217,8 @@ Ext.define("App.View.Usuarios.FormUsuario", {
             me.txt_login, me.cbx_area,
             me.txt_email,
             me.txt_telefono,
-            me.cbx_empleado , me.cbx_proveedor,
+            me.cbx_empleado, me.cbx_proveedor,
+            me.rg_baseTropico,
             me.cbx_estado,
         ];
 

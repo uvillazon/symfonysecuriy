@@ -124,7 +124,7 @@ Ext.define('App.controller.Usuarios.Usuarios', {
         var me = this;
         var btn12 = Ext.ComponentQuery.query('#btn_crearUsuario');
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
-        var form = Ext.create("App.View.Usuarios.FormUsuario", {botones: false});
+        var form = Ext.create("App.View.Usuarios.FormUsuario", {botones: false , usuario : btn.getItemId() === "btn_editarUsuario" ? me.record : null});
         win.add(form);
         win.show();
         if (btn.getItemId() === "btn_editarUsuario") {
