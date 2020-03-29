@@ -3,9 +3,7 @@
 <head>
 	<title>Perfiles</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 4.9.2.132">
-	<meta name="keywords" content="">
-	
+    <meta name="generator" content="HelpNDoc Personal Edition 3.6.0.345">
 	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
@@ -21,36 +19,23 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/hnd.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function()
+		if (top.frames.length == 0)
 		{
-			if (top.frames.length == 0)
-			{
-				var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
-				top.location.href = "SGAUTH.html?" + sTopicUrl;
-			}
-			else
-			{
-				var bTocSelected = false;
-				(function waitForTOC()
-				{
-					if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
-					{
-						top.FrameTOC.SelectTocItem("Perfiles2");
-						bTocSelected = true;
-					}
-					if (!bTocSelected) setTimeout(function() { waitForTOC(); }, 300);
-				})();
-			}
-		});
+			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+			top.location.href = "SGAUTH.html?" + sTopicUrl;
+		}
+		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+		{
+			top.FrameTOC.SelectTocItem("Perfiles2");
+		}
 	</script>
-	
-	</head>
+</head>
 
 <body>
 
-<div id="topic_header">
+	<div id="topic_header">
 			<div id="topic_header_content">
-				<h1 id="topic_header_text">Perfiles</h1>
+				<h1>Perfiles</h1>
 				
 				<div id="topic_breadcrumb">
 					<a href="Administracion.html">Administracion</a> &rsaquo;&rsaquo; </div>
@@ -67,40 +52,38 @@
 		</div>
 	<div id="topic_content">
 		
-<p></p>
-<p class="rvps3"><span class="rvts8">Se ingresa mediante:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem115.png"></p>
-<p class="rvps3"><span class="rvts8">Posee las siguientes secciones:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem148.png"></p>
-<p class="rvps3"><span class="rvts11">1:</span><span class="rvts8"> Opciones del Adm. Perfiles como ser: Crear Perfil, Editar Perfil, Adm. Opciones, Adm. Botones y Adm Aplicaciones.</span></p>
-<p class="rvps3"><span class="rvts11">2:</span><span class="rvts8"> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. Tambien opcion de impresion filtro por app:</span></p>
-<p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts8">Para visualizar los historicos mediante </span><img alt="" style="padding : 1px;" src="lib/NewItem150.png"><span class="rvts8"> se debe seleccionar un registro de usuario inicialmente caso contrario:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem149.png"></p>
-<p class="rvps3"><span class="rvts8">Una vez seleccionado el usuario se visualizara:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem151.png"></p>
-<p class="rvps3"><span class="rvts8">Para visualizar los historicos de las asociaciones del menu del perfil mediante </span><img alt="" style="padding : 1px;" src="lib/NewItem152.png"><span class="rvts8"> se debe seleccionar un registro de usuario inicialmente caso contrario:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem149.png"></p>
-<p class="rvps3"><span class="rvts8">Una vez seleccionado el usuario se visualizara:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem153.png"></p>
-<p class="rvps3"><span class="rvts11">3:</span><span class="rvts8"> Sección del grid, donde se muestran todos los perfiles existentes en la Base de Datos, con la opciones:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem42.png"><span class="rvts8">Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem43.png"><span class="rvts8">Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem154.png"></p>
-<p class="rvps3"><span class="rvts8">Solo se debe hacer click en la columna que se desea ordenar.</span></p>
-<p class="rvps3"><span class="rvts11">4:</span><span class="rvts8"> Paginacion del grid.</span></p>
-<p class="rvps3"><span class="rvts11">5:</span><span class="rvts8"> Formulario de perfil, donde se visualizan mas detalles del perfil. (Campos con asterisco son obligatorios)</span></p>
-<p class="rvps3"><span class="rvts11">6:</span><span class="rvts8"> Grid relacion opciones, &nbsp;contiene dos tabs.</span></p>
-<p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts11">Contiene Secciones,</span><span class="rvts8"> como:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem155.png"></p>
-<p class="rvps3"><span class="rvts8">Se visualiza las diferentes opciones de menu para cada perfil.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem156.png"></p>
-<p class="rvps3"><span class="rvts8">Se visualiza los botones por opcion de menu.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem157.png"></p>
-<p class="rvps3"><span class="rvts8">Se visualiza las aplicaciones relacionadas, esta opcion solo se presenta para el administrador del sistema de autorizacion.</span></p>
-<p></p>
-<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/feature-tour/iphone-website-generation">Easily create iPhone documentation</a></p>
+<p class="rvps3">Se ingresa mediante:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem115.png"/></p>
+<p class="rvps3">Posee las siguientes secciones:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem148.png"/></p>
+<p class="rvps3"><span class="rvts10">1:</span> Opciones del Adm. Perfiles como ser: Crear Perfil, Editar Perfil, Adm. Opciones, Adm. Botones y Adm Aplicaciones.</p>
+<p class="rvps3"><span class="rvts10">2:</span> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. Tambien opcion de impresion filtro por app:</p>
+<p class="rvps3"><br/></p>
+<p class="rvps3">Para visualizar los historicos mediante <img alt="" style="padding : 1px;" src="lib/NewItem150.png"/> se debe seleccionar un registro de usuario inicialmente caso contrario:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem149.png"/></p>
+<p class="rvps3">Una vez seleccionado el usuario se visualizara:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem151.png"/></p>
+<p class="rvps3">Para visualizar los historicos de las asociaciones del menu del perfil mediante <img alt="" style="padding : 1px;" src="lib/NewItem152.png"/> se debe seleccionar un registro de usuario inicialmente caso contrario:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem149.png"/></p>
+<p class="rvps3">Una vez seleccionado el usuario se visualizara:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem153.png"/></p>
+<p class="rvps3"><span class="rvts10">3:</span> Sección del grid, donde se muestran todos los perfiles existentes en la Base de Datos, con la opciones:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem42.png"/>Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem43.png"/>Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem154.png"/></p>
+<p class="rvps3">Solo se debe hacer click en la columna que se desea ordenar.</p>
+<p class="rvps3"><span class="rvts10">4:</span> Paginacion del grid.</p>
+<p class="rvps3"><span class="rvts10">5:</span> Formulario de perfil, donde se visualizan mas detalles del perfil. (Campos con asterisco son obligatorios)</p>
+<p class="rvps3"><span class="rvts10">6:</span> Grid relacion opciones, &nbsp;contiene dos tabs.</p>
+<p class="rvps3"><br/></p>
+<p class="rvps3"><span class="rvts10">Contiene Secciones,</span> como:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem155.png"/></p>
+<p class="rvps3">Se visualiza las diferentes opciones de menu para cada perfil.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem156.png"/></p>
+<p class="rvps3">Se visualiza los botones por opcion de menu.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem157.png"/></p>
+<p class="rvps3">Se visualiza las aplicaciones relacionadas, esta opcion solo se presenta para el administrador del sistema de autorizacion.</p>
+<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/help-authoring-tool">Easy to use tool to create HTML Help files and Help web sites</a></p>
 </div>
 	
 	<div id="topic_footer">

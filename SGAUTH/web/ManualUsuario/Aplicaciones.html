@@ -3,9 +3,7 @@
 <head>
 	<title>Aplicaciones</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 4.9.2.132">
-	<meta name="keywords" content="">
-	
+    <meta name="generator" content="HelpNDoc Personal Edition 3.6.0.345">
 	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
 	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
@@ -21,36 +19,23 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/hnd.js"></script>
 	<script type="text/javascript">
-		$(document).ready(function()
+		if (top.frames.length == 0)
 		{
-			if (top.frames.length == 0)
-			{
-				var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
-				top.location.href = "SGAUTH.html?" + sTopicUrl;
-			}
-			else
-			{
-				var bTocSelected = false;
-				(function waitForTOC()
-				{
-					if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
-					{
-						top.FrameTOC.SelectTocItem("Aplicaciones");
-						bTocSelected = true;
-					}
-					if (!bTocSelected) setTimeout(function() { waitForTOC(); }, 300);
-				})();
-			}
-		});
+			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+			top.location.href = "SGAUTH.html?" + sTopicUrl;
+		}
+		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+		{
+			top.FrameTOC.SelectTocItem("Aplicaciones");
+		}
 	</script>
-	
-	</head>
+</head>
 
 <body>
 
-<div id="topic_header">
+	<div id="topic_header">
 			<div id="topic_header_content">
-				<h1 id="topic_header_text">Aplicaciones</h1>
+				<h1>Aplicaciones</h1>
 				
 				<div id="topic_breadcrumb">
 					<a href="Administracion.html">Administracion</a> &rsaquo;&rsaquo; </div>
@@ -67,23 +52,21 @@
 		</div>
 	<div id="topic_content">
 		
-<p></p>
-<p class="rvps3"><span class="rvts8">Se ingresa mediante:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem114.png"></p>
-<p class="rvps3"><span class="rvts8">Posee las siguientes secciones:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem141.png"></p>
-<p class="rvps3"><span class="rvts11">1:</span><span class="rvts8"> Sección de Opciones, donde se se encuentra las opciones de administracion del modulo como ser Crear y Editar.</span></p>
-<p class="rvps3"><span class="rvts11">2:</span><span class="rvts8"> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. </span></p>
-<p class="rvps3"><span class="rvts8"><br/></span></p>
-<p class="rvps3"><span class="rvts11">3:</span><span class="rvts8"> Sección del grid, donde se muestran todas las aplicaciones existentes en la Base de Datos, con la opciones:</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem42.png"><span class="rvts8">Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem43.png"><span class="rvts8">Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</span></p>
-<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem142.png"></p>
-<p class="rvps3"><span class="rvts11">4:</span><span class="rvts8"> Paginacion del grid.</span></p>
-<p class="rvps3"><span class="rvts11">5:</span><span class="rvts8"> Formulario de aplicaciones, donde se visualizan mas detalles de la aplicacion. (Campos con asterisco son obligatorios)</span></p>
-<p class="rvps3"><span class="rvts11">6:</span><span class="rvts8"> Grid relacion usuario con las aplicaciones, se visualiza de acuerdo a la aplicacion seleccionada los usuarios que tienen acceso.</span></p>
-<p></p>
-<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/create-epub-ebooks">Produce electronic books easily</a></p>
+<p class="rvps3">Se ingresa mediante:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem114.png"/></p>
+<p class="rvps3">Posee las siguientes secciones:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem141.png"/></p>
+<p class="rvps3"><span class="rvts10">1:</span> Sección de Opciones, donde se se encuentra las opciones de administracion del modulo como ser Crear y Editar.</p>
+<p class="rvps3"><span class="rvts10">2:</span> Sección de busqueda, donde se introducen los criterios para realizar busqueda en el contenido del grid. </p>
+<p class="rvps3"><br/></p>
+<p class="rvps3"><span class="rvts10">3:</span> Sección del grid, donde se muestran todas las aplicaciones existentes en la Base de Datos, con la opciones:</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem42.png"/>Ordenar de forma ASC el grid de acuerdo a este campo seleccionado.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem43.png"/>Ordenar de forma DESC el grid de acuerdo a este campo seleccionado.</p>
+<p class="rvps3"><img alt="" style="padding : 1px;" src="lib/NewItem142.png"/></p>
+<p class="rvps3"><span class="rvts10">4:</span> Paginacion del grid.</p>
+<p class="rvps3"><span class="rvts10">5:</span> Formulario de aplicaciones, donde se visualizan mas detalles de la aplicacion. (Campos con asterisco son obligatorios)</p>
+<p class="rvps3"><span class="rvts10">6:</span> Grid relacion usuario con las aplicaciones, se visualiza de acuerdo a la aplicacion seleccionada los usuarios que tienen acceso.</p>
+<p class="rvps2"><span class="rvts6">Created with the Personal Edition of HelpNDoc: </span><a class="rvts7" href="http://www.helpndoc.com/feature-tour/create-ebooks-for-amazon-kindle">Free Kindle producer</a></p>
 </div>
 	
 	<div id="topic_footer">
