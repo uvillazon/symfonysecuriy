@@ -49,39 +49,21 @@ a.rvts7, span.rvts7 /* Font Style */
 }
 span.rvts8
 {
+ font-weight: bold;
 }
 span.rvts9
 {
- font-weight: bold;
+ color: #ff0000;
 }
 span.rvts10
 {
+ font-weight: bold;
  color: #ff0000;
 }
 span.rvts11
 {
- font-weight: bold;
- color: #ff0000;
-}
-span.rvts12
-{
- font-weight: bold;
- color: #0000ff;
-}
-span.rvts13
-{
- font-weight: bold;
- color: #000080;
-}
-span.rvts14
-{
- font-style: italic;
- color: #800000;
-}
-a.rvts15, span.rvts15
-{
- color: #008000;
- text-decoration: underline;
+ font-size: 11pt;
+ font-family: 'calibri';
 }
 /* ========== Para Styles ========== */
 p,ul,ol /* Paragraph Style */
@@ -108,8 +90,4 @@ p,ul,ol /* Paragraph Style */
 }
 .rvps3
 {
-}
-.rvps4
-{
- text-align: center;
 }
