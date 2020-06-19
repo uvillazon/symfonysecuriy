@@ -9,6 +9,10 @@
 namespace Elfec\SgauthBundle\Services;
 
 
+use Elfec\SgauthBundle\Entity\aplicaciones;
+use Elfec\SgauthBundle\Entity\recuperacionCnt;
+use Elfec\SgauthBundle\Model\RespuestaSP;
+
 class RecuperacionService
 {
     protected $em;
@@ -85,20 +89,55 @@ class RecuperacionService
 
     }
 
+    public function enviarAbm($data)
+    {
+        //token duracion hasta 05/04/3161 12:43:33 -> pre produccion
+        $token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjM3NTkyNTI3NDEzLCJ1c3VhcmlvIjp7ImxvZ2luIjoidXZpbGxhem9uIiwibm9tYnJlIjoiVUJBTERPIFZJTExBWk9OIFZJTExDQSIsInBlcmZpbCI6IkFETUlOSVNUUkFET1IiLCJpZF9wZXJmaWwiOiI3NSIsImlkX3VzdWFyaW8iOiI2IiwiZW1haWwiOiJ1YmFsZG8udmlsbGF6b25AZWxmZWMuYm8iLCJlc3RhZG8iOiJBQ1RJVk8iLCJhcGxpY2FjaW9uIjoiR0VTVElPTiBERSBJTVBSRVNJT05FUyBERSBGT1JNVUxBUklPUyIsImNvZGlnb0FwcCI6IkdFU19BQk0iLCJpZF9hcGxpYyI6IjIzIiwiaWRlbXBsZWFkbyI6IjQ1NiIsImlkcHJvdmVlZG9yIjoiMTIzIiwiYXJlYSI6IkxBQk9SQVRPUklPIn0sImFyZWFzIjpbXSwia2V5IjoiZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LkltVjVTakJsV0VGcFQybEtTMVl4VVdsTVEwcG9Za2RqYVU5cFNrbFZla2t4VG1sS09TNWxlVXByV1cwMWFHSlhWV2xQYVVwdVdsaE9hRmx0TUdsTVEwb3hZekpXZVVscWIybGtXRnB3WWtkNGFHVnRPWFZKYVhkcFkwZEdlbU16WkhaamJWRnBUMmxLTVdSdGJITmlSMFkyWWpJMGFVeERTbTlpTTA0d1NXcHZhVnBYZUcxaVIwcHJUVVJGYVV4RFNuZGlNMG93U1dwdmFVNVVVWHBOYVVselNXMVNlV0ZZV214amFVazJTVzVDYTJJeE9YZGFNMDU0WWtOSmMwbHVUbXhqYmxwd1dUSlZhVTl1VW5sa1YxWTVMbXRMUmt4cFJXUjVjVTE2U1ZvdExUWjBiMEZIWkdoWE1qYzJaMDFYZURCUlRXVkJUVmxNVkhKMldHTWkuVFdsaFpwblVjb0NfMER4UU9EYWpfNjZHVTRZbVNlZTNHNFhSeFUzaEJjZyJ9.4JbSor690DQLBTuH5SBVAk0A81yVqqjGKf26kWfzLkw';
+        $api = "http://elflwb03/ges_abm-backend-des/api/actualizacion/password";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $api);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+            array(
+                'Authorization: Bearer ' . $token
+            ));
+//        curl_setopt($ch, CURLOPT_USERPWD, sprintf("%s:%s", $this->configReportes["user"], $this->configReportes["password"]));
+        $apiResponse = curl_exec($ch);
+        curl_close($ch);
+        return new RespuestaSP();
+    }
+
     public function cambiar_password($data)
     {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         try {
+//            $this->enviarAbm($data);
             $decrypt = $this->nzo->decrypt($data["codigo"]);
             $array = explode('|', $decrypt);
             $data["usuario"] = $array[2];
             $data["codigo"] = $array[0];
-//        var_dump($decrypt);die();
+//            var_dump($data);
+//            die();
             $repo = $this->em->getRepository('ElfecSgauthBundle:recuperacionCnt');
             $result = $repo->cambiar_password($data);
+            if ($result->success) {
+                /**
+                 * @var recuperacionCnt $recuperacionCnt
+                 * @var aplicaciones $aplicacion
+                 */
+                $recuperacionCnt = $repo->find($data['codigo']);
+                $aplicacion = $this->em->getRepository('ElfecSgauthBundle:aplicaciones')->find($recuperacionCnt->getIdAplic());
+                $array = array(
+                    "codigoApp" => $aplicacion->getCodigo(),
+                    "usuario" => $data["usuario"],
+                    "password" => $data['password']
+                );
+                $this->enviarAbm($array);
+            }
         } catch (\Exception $e) {
             $result->success = false;
-//            var_dump($e->getTraceAsString());
             $result->msg = "El codigo no corresponde para cambiar el password.";
         }
         return $result;
@@ -114,7 +153,8 @@ class RecuperacionService
 
     }
 
-    public function cambiarPasswordPorAplicacion($data){
+    public function cambiarPasswordPorAplicacion($data)
+    {
         $result = new \Elfec\SgauthBundle\Model\RespuestaSP();
         $repo = $this->em->getRepository('ElfecSgauthBundle:recuperacionCnt');
         $result = $repo->cambiarPasswordPorAplicacion($data);
