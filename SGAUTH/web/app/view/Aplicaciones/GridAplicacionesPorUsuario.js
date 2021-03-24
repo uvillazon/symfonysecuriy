@@ -4,6 +4,7 @@
 Ext.define("App.View.Aplicaciones.GridAplicacionesPorUsuario", {
     extend: "App.Config.Abstract.Grid",
     title: 'Usuario Por Aplicacion',
+    alias: 'widget.gridUsuariosApp',
     imprimir: true,
     criterios: true,
     busqueda : true,

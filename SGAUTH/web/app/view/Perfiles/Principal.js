@@ -5,7 +5,8 @@ Ext.define("App.View.Perfiles.Principal", {
     extend: "App.Config.Abstract.PanelPrincipal",
     requires: [
         "App.View.Opciones.GridBotones",
-        "App.View.Opciones.GridOpciones"
+        "App.View.Opciones.GridOpciones",
+        "App.View.Aplicaciones.GridAplicacionesPorUsuario"
     ],
     initComponent: function () {
         var me = this;
@@ -59,6 +60,15 @@ Ext.define("App.View.Perfiles.Principal", {
         );
         var tabPanel = Ext.create('Ext.tab.Panel', {
             items: [
+                {
+                    xtype: 'gridUsuariosApp',
+                    itemId: 'gridUsuarioPerfil',
+                    title:'Usuarios Por Perfil',
+                    cargarStore: false,
+                    busqueda: true,
+                    reportesHistoricoEstados: true,
+                    imprimir: true
+                },
                 {
                     xtype: 'gridOpciones',
                     itemId: 'gridOpcionesPerfil',

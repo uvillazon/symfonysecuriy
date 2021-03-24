@@ -9,11 +9,12 @@
 (function () {
     var cantLS = localStorage.length;
     var pathLib = "http://elflwb01/sgauth/lib/socket";
+    // var pathLib = "http://localhost:8000/lib/socket";
     var scriptEls = document.getElementsByTagName('script');
     var path = scriptEls[scriptEls.length - 1].src;
     var codigoApp = getQueryParam('codigoApp');
     console.log(codigoApp);
-
+    console.log('path',path);
     function getQueryParam(name) {
         var regex = RegExp('[?&]' + name + '=([^&]*)');
         var match = regex.exec(location.search) || regex.exec(path);

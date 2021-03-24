@@ -399,7 +399,7 @@ class UsuariosService
                     "descripcion" => $item->getDescription(),
                     "login" => $item->getFirstAttribute('samaccountname'),
                     "mail" => $item->getFirstAttribute('mail'),
-                    "e  mail" => $item->getFirstAttribute('mail'),
+                    "email" => $item->getFirstAttribute('mail'),
                     "tumb" => base64_encode($item->getThumbnail()),
                     "is_active" => $item->isActive(),
                     "is_expired" => $item->isExpired()

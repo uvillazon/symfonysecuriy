@@ -14,6 +14,9 @@ Ext.define('App.controller.Perfiles.Perfiles', {
     }, {
         ref: 'gridAplicacion',
         selector: '#gridAplicacionPerfil'
+    }, {
+        ref: 'gridUsuarios',
+        selector: '#gridUsuarioPerfil'
     }
     ],
     init: function () {
@@ -87,8 +90,10 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             me.getGridBotones().getStore().load();
             me.getGridAplicacion().getStore().setExtraParams({id_perfil: me.record.get("id_perfil")});
             me.getGridAplicacion().getStore().load();
-        }
-        else {
+            console.log('gridUsuarios',me.getGridUsuarios());
+            me.getGridUsuarios().getStore().setExtraParams({id_perfil: me.record.get("id_perfil")});
+            me.getGridUsuarios().getStore().load();
+        } else {
             me.cmpPrincipal.form.getForm().reset();
             me.getGridOpciones().getStore().setExtraParams({id_perfil: 0});
             me.getGridOpciones().getStore().load();
@@ -96,6 +101,8 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             me.getGridBotones().getStore().load();
             me.getGridAplicacion().getStore().setExtraParams({id_perfil: 0});
             me.getGridAplicacion().getStore().load();
+            me.getGridUsuarios().getStore().setExtraParams({id_perfil: 0});
+            me.getGridUsuarios().getStore().load();
         }
     }
     ,
@@ -122,8 +129,7 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         Funciones.DisabledButton('btn_quitarOpcion', me.cmpPrincipal, disabled);
         if (!disabled) {
             me.getGridBotones().getStore().filter('id_opc', me.opcion.get('id_opc'));
-        }
-        else {
+        } else {
             me.getGridBotones().getStore().clearFilter();
         }
     },
@@ -134,6 +140,7 @@ Ext.define('App.controller.Perfiles.Perfiles', {
         me.boton = !disabled ? selections[0] : null;
         Funciones.DisabledButton('btn_quitarBoton', me.cmpPrincipal, disabled);
     },
+
     winAgregarOpcion: function () {
         var me = this;
         var win = Ext.create("App.Config.Abstract.Window", {botones: true, destruirWin: true});
@@ -203,9 +210,8 @@ Ext.define('App.controller.Perfiles.Perfiles', {
             win.btn_guardar.on('click', function () {
                 Funciones.AjaxRequestWin('perfiles', 'aplicaciones', win, form, me.getGridAplicacion(), 'Esta Seguro de guardar los datos', null, win);
             });
-        }
-        else{
-            Ext.Msg.alert("Advertencia","Opción habilitada para la administración de la aplicación SGAUTH");
+        } else {
+            Ext.Msg.alert("Advertencia", "Opción habilitada para la administración de la aplicación SGAUTH");
         }
         //App.View.Perfiles.FormBotonPerfil"
     },

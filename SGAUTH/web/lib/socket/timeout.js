@@ -2,19 +2,17 @@
     var ALERT_TITLE = "ATENCION!";
     var ALERT_BUTTON_TEXT = "Aceptar";
     var SEGURIDAD_BUTTON_TEXT = "Reintentar";
-    var URL_SOCKET = "ws://elflwb03:1339";
+    var URL_SOCKET = "ws://elflwb01:1339";
     var MSG = "AL INGRESAR A ESTE SISTEMA, USTED SE COMPROMETE A CUMPLIR CON LO ESTABLECIDO EN LA POLITICA DE  SEGURIDAD DE  INFORMACIÓN DE LA EMPRESA  Y CERTIFICA SER EL USUARIO DE INGRESO";
     var cantLS = localStorage.length;
 
-    console.log("=========================================================");
-    console.log(window.location.href);
-    console.log("=========================================================");
+
     if (cantLS > 0) {
         if (esValidaElToken()) {
-            console.log("procede a controlar los inicios de session");
+            // console.log("procede a controlar los inicios de session");
             initSockect();
         } else {
-            console.log("Procede a mostrar la pagina de mensaje de seguridad");
+            // console.log("Procede a mostrar la pagina de mensaje de seguridad");
             crearVentanaSeguridad(MSG);
         }
     } else {
@@ -64,30 +62,33 @@
     function initSockect() {
         var websocket = WS.connect(URL_SOCKET);
 
+        // console.log('queryparams',getQueryParam('codigoApp'));
+        var codigoApp = getQueryParam('codigoApp');
         websocket.on("socket/connect", function (session) {
             session.subscribe("websocket/autenticacion", function (uri, payload) {
-                console.log(payload);
-                console.log(session._session_id);
-                console.log(payload.sessionId);
+                // console.log(payload);
+                // console.log(session._session_id);
+                // console.log(payload.sessionId);
                 if (session._session_id == payload.sessionId) {
-                    console.log(payload.msg)
-                    console.log(payload.success);
+                    // console.log(payload.msg)
+                    // console.log(payload.success);
                     if (!payload.success) {
                         createCustomAlert(payload.msg);
                     }
                 }
             });
-            session.publish("websocket/autenticacion", {token: getToken(), codigoApp: getQueryParam('codigoApp')});
+            session.publish("websocket/autenticacion", {token : getToken(), codigoApp: codigoApp});
+            // session.publish("websocket/autenticacion", {token : getToken(), codigoApp: getQueryParam('codigoApp')});
         });
     }
 
     function getToken() {
         var token = "";
-        console.log("sessionStorage ===================================>");
+        // console.log("sessionStorage ===================================>");
         // console.log(sessionStorage);
         Object.keys(localStorage).forEach(function (key) {
             var keyValue = key.toUpperCase();
-            console.log(keyValue);
+            // console.log(keyValue);
             var href = "";
             if (getQueryParam('codigoApp') === 'SGCST') {
                 href = window.location.origin + "/";
@@ -95,7 +96,7 @@
                 href = window.location.href.split('#')[0];
             }
             href = href.toUpperCase();
-            console.log(href + "TOKEN");
+            // console.log(href + "TOKEN");
             if (keyValue.search(href + "TOKEN") > -1 || keyValue.search(href + "JWT") > -1) {
                 token = localStorage[key];
                 return token;
@@ -107,7 +108,7 @@
     function esValidaElToken() {
         var token = getToken();
         if (isEmpty(token)) {
-            console.log("no existe el campo Token");
+            // console.log("no existe el campo Token");
             return false;
         } else {
             if (isTokenExpired(token)) {
@@ -119,9 +120,9 @@
     }
 
     function isTokenExpired(token, offsetSeconds) {
-        console.log("isTokenExpired");
+        // console.log("isTokenExpired");
         var d = getTokenExpirationDate(token);
-        console.log(d);
+        // console.log(d);
         offsetSeconds = offsetSeconds || 0;
         if (d === null) {
             return false;
@@ -188,10 +189,10 @@
 
     function getQueryParam(name) {
         var scriptEls = document.getElementsByTagName('script');
-        console.log(scriptEls);
+        // console.log(scriptEls);
         var path = scriptEls[scriptEls.length - 1].src;
-        console.log(path);
-        console.log("================================>");
+        // console.log(path);
+        // console.log("================================>");
         var regex = RegExp('[?&]' + name + '=([^&]*)');
 
         var match = regex.exec(location.search) || regex.exec(path);

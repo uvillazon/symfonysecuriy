@@ -59,7 +59,8 @@ Ext.define("App.View.Listas.FormItem", {
                 decimalSeparator: '.',
                 allowDecimals: true,
                 allowBlank: false,
-                maxLength: me.data.get("tam_limite")
+                maxLength: me.data.get("tam_limite"),
+                decimalPrecision: me.data.get("tam_limite")-2,
 
             });
         }
